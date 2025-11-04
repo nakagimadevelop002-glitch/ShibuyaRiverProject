@@ -1,0 +1,168 @@
+fileFormatVersion: 2
+guid: e853fb42a21c14ae587e7d50b1415a18
+timeCreated: 1468546696
+licenseType: Store
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: AnalFin.002
+    100002: AnalFin.1
+    100004: AnalFin.3
+    100006: AngelfishLOD0
+    100008: AngelfishLOD1
+    100010: //RootNode
+    100012: DorsalFin.002
+    100014: DorsalFin.003
+    100016: DorsalFin.004
+    100018: DorsalFin.005
+    100020: DorsalFin.1
+    100022: DorsalFin.2
+    100024: DorsalFin.3
+    100026: Eye_L
+    100028: Eye_R
+    100030: Head
+    100032: Jaw
+    100034: Jaw.1_L
+    100036: Jaw.1_R
+    100038: Jaw.2_L
+    100040: Jaw.2_R
+    100042: PectoralFin.1_L
+    100044: PectoralFin.1_R
+    100046: PectoralFin.2_L
+    100048: PectoralFin.2_R
+    100050: PectoralFin.3_L
+    100052: PectoralFin.3_L.001
+    100054: PectoralFin.3_R
+    100056: PectoralFin.3_R.001
+    100058: PelvicFin_L
+    100060: PelvicFin_L.001
+    100062: PelvicFin_L.002
+    100064: PelvicFin_R
+    100066: PelvicFin_R.001
+    100068: PelvicFin_R.002
+    100070: RootNode
+    100072: Spine.003
+    100074: Spine.004
+    100076: Spine.005
+    100078: Spine.010
+    100080: Spine.1
+    100082: TailFin.002
+    100084: TailFin.003
+    100086: TailFin.004
+    100088: TailFin.005
+    100090: TailFin.006
+    100092: TailFin.007
+    100094: TailFin.008
+    100096: TailFin.1
+    400000: AnalFin.002
+    400002: AnalFin.1
+    400004: AnalFin.3
+    400006: AngelfishLOD0
+    400008: AngelfishLOD1
+    400010: //RootNode
+    400012: DorsalFin.002
+    400014: DorsalFin.003
+    400016: DorsalFin.004
+    400018: DorsalFin.005
+    400020: DorsalFin.1
+    400022: DorsalFin.2
+    400024: DorsalFin.3
+    400026: Eye_L
+    400028: Eye_R
+    400030: Head
+    400032: Jaw
+    400034: Jaw.1_L
+    400036: Jaw.1_R
+    400038: Jaw.2_L
+    400040: Jaw.2_R
+    400042: PectoralFin.1_L
+    400044: PectoralFin.1_R
+    400046: PectoralFin.2_L
+    400048: PectoralFin.2_R
+    400050: PectoralFin.3_L
+    400052: PectoralFin.3_L.001
+    400054: PectoralFin.3_R
+    400056: PectoralFin.3_R.001
+    400058: PelvicFin_L
+    400060: PelvicFin_L.001
+    400062: PelvicFin_L.002
+    400064: PelvicFin_R
+    400066: PelvicFin_R.001
+    400068: PelvicFin_R.002
+    400070: RootNode
+    400072: Spine.003
+    400074: Spine.004
+    400076: Spine.005
+    400078: Spine.010
+    400080: Spine.1
+    400082: TailFin.002
+    400084: TailFin.003
+    400086: TailFin.004
+    400088: TailFin.005
+    400090: TailFin.006
+    400092: TailFin.007
+    400094: TailFin.008
+    400096: TailFin.1
+    4300000: AngelfishLOD0
+    4300002: AngelfishLOD1
+    9500000: //RootNode
+    13700000: AngelfishLOD0
+    13700002: AngelfishLOD1
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: RootNode
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

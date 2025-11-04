@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Eel
+  m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: Eel1
+    m_Weight: 0
+  - m_Path: Root
+    m_Weight: 0
+  - m_Path: Root/Body1
+    m_Weight: 0
+  - m_Path: Root/Body1/Body1.001
+    m_Weight: 0
+  - m_Path: Root/Body1/Body1.001/Body2
+    m_Weight: 0
+  - m_Path: Root/Body1/Body1.001/Body2/Body2.001
+    m_Weight: 0
+  - m_Path: Root/Body1/Body1.001/Body2/Body2.001/Body3
+    m_Weight: 0
+  - m_Path: Root/Body1/Body1.001/Body2/Body2.001/Body3/Body3.001
+    m_Weight: 0
+  - m_Path: Root/Body1/Body1.001/Body2/Body2.001/Body3/Body3.001/Body4
+    m_Weight: 0
+  - m_Path: Root/Body1/Body1.001/Body2/Body2.001/Body3/Body3.001/Body4/Body4.001
+    m_Weight: 0
+  - m_Path: Root/Body1/Body1.001/Body2/Body2.001/Body3/Body3.001/Body4/Body4.001/Body5
+    m_Weight: 0
+  - m_Path: Root/Body1/Body1.001/Body2/Body2.001/Body3/Body3.001/Body4/Body4.001/Body5/Body5.001
+    m_Weight: 0
+  - m_Path: Root/Body1/Body1.001/Body2/Body2.001/Body3/Body3.001/Body4/Body4.001/Body5/Body5.001/Body6
+    m_Weight: 0
+  - m_Path: Root/Body1/Body1.001/Body2/Body2.001/Body3/Body3.001/Body4/Body4.001/Body5/Body5.001/Body6/Body6.001
+    m_Weight: 0
+  - m_Path: Root/Body1/Body1.001/Body2/Body2.001/Body3/Body3.001/Body4/Body4.001/Body5/Body5.001/Body6/Body6.001/Tail1_1
+    m_Weight: 0
+  - m_Path: Root/Body1/Body1.001/Body2/Body2.001/Body3/Body3.001/Body4/Body4.001/Body5/Body5.001/Body6/Body6.001/Tail1_1/Tail1_2
+    m_Weight: 0
+  - m_Path: Root/Body1/Body1.001/Body2/Body2.001/Body3/Body3.001/Body4/Body4.001/Body5/Body5.001/Body6/Body6.001/Tail1_1/Tail1_2/Tail1_3
+    m_Weight: 0
+  - m_Path: Root/Body1/Body1.001/Body2/Body2.001/Body3/Body3.001/Body4/Body4.001/Body5/Body5.001/Body6/Body6.001/Tail2_1
+    m_Weight: 0
+  - m_Path: Root/Body1/Body1.001/Body2/Body2.001/Body3/Body3.001/Body4/Body4.001/Body5/Body5.001/Body6/Body6.001/Tail2_1/Tail2_2
+    m_Weight: 0
+  - m_Path: Root/Body1/Body1.001/Body2/Body2.001/Body3/Body3.001/Body4/Body4.001/Body5/Body5.001/Body6/Body6.001/Tail2_1/Tail2_2/Tail2_3
+    m_Weight: 0
+  - m_Path: Root/Body1/Body1.001/Body2/Body2.001/Body3/Body3.001/Body4/Body4.001/Body5/Body5.001/Body6/Body6.001/Tail3_1
+    m_Weight: 0
+  - m_Path: Root/Body1/Body1.001/Body2/Body2.001/Body3/Body3.001/Body4/Body4.001/Body5/Body5.001/Body6/Body6.001/Tail3_1/Tail3_2
+    m_Weight: 0
+  - m_Path: Root/Body1/Body1.001/Body2/Body2.001/Body3/Body3.001/Body4/Body4.001/Body5/Body5.001/Body6/Body6.001/Tail3_1/Tail3_2/Tail3_3
+    m_Weight: 0
+  - m_Path: Root/Body1/Body1.001/Body2/Body2.001/Body3/Body3.001/Body4/Body4.001/Body5/Body5.001/Body6/Body6.001/Tail4_1
+    m_Weight: 0
+  - m_Path: Root/Body1/Body1.001/Body2/Body2.001/Body3/Body3.001/Body4/Body4.001/Body5/Body5.001/Body6/Body6.001/Tail4_1/Tail4_2
+    m_Weight: 0
+  - m_Path: Root/Body1/Body1.001/Body2/Body2.001/Body3/Body3.001/Body4/Body4.001/Body5/Body5.001/Body6/Body6.001/Tail4_1/Tail4_2/Tail4_3
+    m_Weight: 0
+  - m_Path: Root/Body1/Body1.001/Body2/Body2.001/Body3/Body3.001/Body4/Body4.001/Body5/Body5.001/Body6/Body6.001/Tail5_1
+    m_Weight: 0
+  - m_Path: Root/Body1/Body1.001/Body2/Body2.001/Body3/Body3.001/Body4/Body4.001/Body5/Body5.001/Body6/Body6.001/Tail5_1/Tail5_2
+    m_Weight: 0
+  - m_Path: Root/Body1/Body1.001/Body2/Body2.001/Body3/Body3.001/Body4/Body4.001/Body5/Body5.001/Body6/Body6.001/Tail5_1/Tail5_2/Tail5_3
+    m_Weight: 0
+  - m_Path: Root/Head
+    m_Weight: 0
+  - m_Path: Root/Head/BodyHeadMiddle
+    m_Weight: 0
+  - m_Path: Root/Head/HeadUpper
+    m_Weight: 0
+  - m_Path: Root/Head/LowerMouth
+    m_Weight: 1
+  - m_Path: Root/Head/PectoralFin1_L
+    m_Weight: 1
+  - m_Path: Root/Head/PectoralFin1_L/PectoralFin2_L
+    m_Weight: 1
+  - m_Path: Root/Head/PectoralFin1_L/PectoralFin2_L/PectoralFin3_L
+    m_Weight: 1
+  - m_Path: Root/Head/PectoralFin1_R
+    m_Weight: 1
+  - m_Path: Root/Head/PectoralFin1_R/PectoralFin2_R
+    m_Weight: 1
+  - m_Path: Root/Head/PectoralFin1_R/PectoralFin2_R/PectoralFin3_R
+    m_Weight: 1
+  - m_Path: Root/Head/UpperMouth
+    m_Weight: 1

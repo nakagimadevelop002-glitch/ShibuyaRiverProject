@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HairPorcupine
+  m_Shader: {fileID: 4800000, guid: b2b893f23aa3cca45893c5c8c061df2f, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AlphaMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 1, y: 0}
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 2, y: 2}
+        m_Offset: {x: 0, y: 0}
+    - _FurMap:
+        m_Texture: {fileID: 2800000, guid: 3fbac55958e1c1e4da98775d6688b713, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 2800000, guid: e0a62416f4c506d4798f004b12d84fc3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AlphaCutout: 1
+    - _AppendMoreFins: 0
+    - _Density: 10
+    - _DrawOrigPolygon: 0
+    - _FaceNormalFactor: 0
+    - _FaceViewProdThresh: 1
+    - _FinJointNum: 1
+    - _FinLength: 0.517
+    - _Metallic: 0
+    - _NormalFactor: 0.196
+    - _NormalScale: 1
+    - _Occlusion: 0.5
+    - _RandomDirection: 1
+    - _RimLightIntensity: 0.871
+    - _RimLightPower: 4
+    - _ShadowExtraBias: -0.3
+    - _Smoothness: 0
+    - _TessFactor: 3
+    - _TessMaxDist: 1.2
+    - _TessMinDist: 0.1
+    m_Colors:
+    - _AmbientColor: {r: 0.2264151, g: 0.18588273, b: 0.14631541, a: 1}
+    - _BaseColor: {r: 1, g: 0.8817788, b: 0.6745283, a: 1}
+    - _BaseMove: {r: 0, g: 5, b: -5, a: 0.51}
+    - _WindFreq: {r: 0, g: 0, b: 0, a: 0}
+    - _WindMove: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []

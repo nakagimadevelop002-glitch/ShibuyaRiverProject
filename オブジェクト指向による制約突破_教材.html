@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>オブジェクト指向による制約突破 - FadingMovementSMB実装事例</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Yu Gothic', 'Meiryo', sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        header .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .keywords {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .keyword {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            backdrop-filter: blur(10px);
+        }
+
+        nav {
+            background: #f8f9fa;
+            padding: 30px 40px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        nav h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        nav ol {
+            list-style: none;
+            counter-reset: toc-counter;
+        }
+
+        nav li {
+            counter-increment: toc-counter;
+            margin: 10px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        nav li::before {
+            content: counter(toc-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #667eea;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        nav a {
+            color: #333;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #667eea;
+        }
+
+        main {
+            padding: 40px;
+        }
+
+        section {
+            margin-bottom: 60px;
+        }
+
+        h2 {
+            color: #667eea;
+            font-size: 2em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        h3 {
+            color: #764ba2;
+            font-size: 1.5em;
+            margin: 30px 0 15px 0;
+        }
+
+        h4 {
+            color: #555;
+            font-size: 1.2em;
+            margin: 20px 0 10px 0;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border-left: 5px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .highlight-box.success {
+            background: linear-gradient(135deg, #11998e15 0%, #38ef7d15 100%);
+            border-left-color: #11998e;
+        }
+
+        .highlight-box.error {
+            background: linear-gradient(135deg, #eb3349e15 0%, #f4573315 100%);
+            border-left-color: #eb3349;
+        }
+
+        .highlight-box.warning {
+            background: linear-gradient(135deg, #f093fb15 0%, #f5576c15 100%);
+            border-left-color: #f093fb;
+        }
+
+        .highlight-box p:first-child {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .inline-code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            color: #eb3349;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+        }
+
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .comparison-card {
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .comparison-card.bad {
+            background: linear-gradient(135deg, #eb334915 0%, #f4573315 100%);
+            border: 2px solid #eb3349;
+        }
+
+        .comparison-card.good {
+            background: linear-gradient(135deg, #11998e15 0%, #38ef7d15 100%);
+            border: 2px solid #11998e;
+        }
+
+        .comparison-card h4 {
+            margin-top: 0;
+        }
+
+        .flow-diagram {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-family: monospace;
+            line-height: 2;
+        }
+
+        .flow-step {
+            padding: 10px;
+            margin: 5px 0;
+            background: white;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+        }
+
+        .checkmark {
+            color: #11998e;
+            font-weight: bold;
+        }
+
+        .crossmark {
+            color: #eb3349;
+            font-weight: bold;
+        }
+
+        footer {
+            background: #2d2d2d;
+            color: white;
+            padding: 30px 40px;
+            text-align: center;
+        }
+
+        .lesson-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-left: 5px solid #764ba2;
+        }
+
+        .lesson-number {
+            display: inline-block;
+            background: #764ba2;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        blockquote {
+            background: linear-gradient(135deg, #ffecd215 0%, #fcb69f15 100%);
+            border-left: 5px solid #ffecd2;
+            padding: 20px;
+            margin: 20px 0;
+            font-style: italic;
+            font-size: 1.1em;
+            border-radius: 8px;
+        }
+
+        .character-dialog {
+            display: flex;
+            align-items: flex-start;
+            margin: 20px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .character-dialog.left {
+            flex-direction: row;
+        }
+
+        .character-dialog.right {
+            flex-direction: row-reverse;
+        }
+
+        .character-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4em;
+            flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .character-avatar.smb {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .character-avatar.executor {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        }
+
+        .character-avatar.animator {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .character-content {
+            flex: 1;
+            padding: 0 20px;
+        }
+
+        .character-name {
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .character-name.smb {
+            color: #667eea;
+        }
+
+        .character-name.executor {
+            color: #11998e;
+        }
+
+        .character-name.animator {
+            color: #f093fb;
+        }
+
+        .character-bubble {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-radius: 12px;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        .character-dialog.left .character-bubble::before {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 20px;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 10px 10px 10px 0;
+            border-color: transparent #f8f9fa transparent transparent;
+        }
+
+        .character-dialog.right .character-bubble::before {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: 20px;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent #f8f9fa;
+        }
+
+        .story-section {
+            background: linear-gradient(135deg, #667eea10 0%, #764ba210 100%);
+            padding: 40px;
+            border-radius: 12px;
+            margin: 40px 0;
+        }
+
+        .story-title {
+            text-align: center;
+            font-size: 2em;
+            color: #667eea;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .team-illustration {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 40px 0;
+            padding: 30px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .team-member {
+            text-align: center;
+            flex: 1;
+            padding: 20px;
+        }
+
+        .team-avatar {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .team-role {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin: 10px 0;
+        }
+
+        .team-description {
+            font-size: 0.9em;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .philosophy-quote {
+            text-align: center;
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #667eea;
+            margin: 40px 0;
+            padding: 30px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            main {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>オブジェクト指向による制約突破</h1>
+            <div class="subtitle">FadingMovementSMB実装事例</div>
+            <div class="keywords">
+                <span class="keyword">StateMachineBehaviour</span>
+                <span class="keyword">Coroutine</span>
+                <span class="keyword">シングルトンパターン</span>
+                <span class="keyword">責任の分離</span>
+                <span class="keyword">ライフサイクル管理</span>
+            </div>
+        </header>
+
+        <nav>
+            <h2>目次</h2>
+            <ol>
+                <li><a href="#section1">要件定義</a></li>
+                <li><a href="#section2">直面した技術的制約</a></li>
+                <li><a href="#section3">失敗したアプローチ</a></li>
+                <li><a href="#section4">オブジェクト指向による解決</a></li>
+                <li><a href="#section5">実装</a></li>
+                <li><a href="#section6">実装のポイント</a></li>
+                <li><a href="#section7">動作フロー</a></li>
+                <li><a href="#section8">成果</a></li>
+                <li><a href="#section9">学ぶべき教訓</a></li>
+                <li><a href="#section10">比較: 従来手法 vs オブジェクト指向手法</a></li>
+                <li><a href="#section11">まとめ</a></li>
+            </ol>
+        </nav>
+
+        <main>
+            <section id="section1">
+                <h2>1. 要件定義</h2>
+
+                <h3>実現したい動作</h3>
+                <ol>
+                    <li>魚が避難地点へ移動しながら半透明になる（AsylumSwim State）</li>
+                    <li>元の位置へ戻りながら不透明になる（ComeBackSwim State）</li>
+                    <li><strong>移動時間は指定秒数で保証</strong>（State滞在時間に依存しない）</li>
+                    <li>Apply Root Motion = ONを維持（180度回転アニメーション用）</li>
+                    <li>Animatorパラメータを追加したくない</li>
+                </ol>
+
+                <h3>技術要件</h3>
+                <ul>
+                    <li>速度ベース移動: <span class="inline-code">speed = distance / time</span></li>
+                    <li>State遷移のタイミングに関係なく移動完遂</li>
+                    <li>MaterialPropertyBlockで透明度制御（共有マテリアル変更回避）</li>
+                    <li>親Transformを移動、子（Animator）はlocalPosition固定</li>
+                </ul>
+            </section>
+
+            <section id="section2">
+                <h2>2. 直面した技術的制約</h2>
+
+                <h3>制約1: StateMachineBehaviourはMonoBehaviourではない</h3>
+                <pre><code>public class FadingMovementSMB : StateMachineBehaviour // MonoBehaviourではない
+{
+    // StartCoroutine()が使えない！
+}</code></pre>
+                <div class="highlight-box error">
+                    <p>問題: Coroutineを直接実行できない</p>
+                </div>
+
+                <h3>制約2: State遷移を外部から制御できない</h3>
+                <ul>
+                    <li>StateMachineBehaviourはAnimatorのStateライフサイクルに従属</li>
+                    <li>遷移タイミングは<span class="inline-code">Has Exit Time</span>または<span class="inline-code">Conditions</span>でのみ制御可能</li>
+                    <li>非同期処理の完了を待ってState遷移させる手段がない</li>
+                </ul>
+
+                <h3>制約3: Apply Root Motionによる位置上書き</h3>
+                <ul>
+                    <li>Apply Root Motion = ONの場合、AnimationがTransformを強制的に動かす</li>
+                    <li>スクリプトでの位置変更が毎フレーム上書きされる</li>
+                </ul>
+
+                <div class="highlight-box warning">
+                    <p>要件の本質的矛盾</p>
+                    <ul>
+                        <li><strong>要件A</strong>: State滞在時間に依存せず移動を保証</li>
+                        <li><strong>要件B</strong>: Animatorパラメータを追加したくない</li>
+                        <li><strong>技術的事実</strong>: 通常の方法ではAとBは両立不可能</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="section3">
+                <h2>3. 失敗したアプローチ</h2>
+
+                <div class="comparison-grid">
+                    <div class="comparison-card bad">
+                        <h4><span class="crossmark">❌</span> 失敗1: OnStateUpdateでの直接移動</h4>
+                        <pre><code>public override void OnStateUpdate(...)
+{
+    UpdateMovement();
+    UpdateFade();
+}</code></pre>
+                        <p><strong>問題:</strong></p>
+                        <ul>
+                            <li>State遷移時にOnStateUpdateが呼ばれなくなる</li>
+                            <li>Has Exit TimeでState強制終了 → 移動が中断</li>
+                            <li>OnStateExitで強制移動 → <strong>瞬間移動</strong></li>
+                        </ul>
+                    </div>
+
+                    <div class="comparison-card bad">
+                        <h4><span class="crossmark">❌</span> 失敗2: Has Exit Timeで調整</h4>
+                        <p><strong>問題:</strong></p>
+                        <ul>
+                            <li>Animation再生時間と移動完了時間が一致しない</li>
+                            <li>移動途中でStateが切り替わる</li>
+                            <li>結局OnStateExitでのワープが発生</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="comparison-card bad">
+                    <h4><span class="crossmark">❌</span> 失敗3: Animatorパラメータが必要</h4>
+                    <p><strong>問題:</strong></p>
+                    <ul>
+                        <li>ユーザー要件を無視した妥協案</li>
+                        <li>制約を理由に諦めている</li>
+                        <li>オブジェクト指向的発想の欠如</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="section4">
+                <h2>4. オブジェクト指向による解決</h2>
+
+                <div class="story-section">
+                    <div class="story-title">🎭 オブジェクトたちの物語</div>
+
+                    <div class="philosophy-quote">
+                        「一人で抱え込まず、適切な仲間に頼る」
+                    </div>
+
+                    <div class="character-dialog left">
+                        <div class="character-avatar smb">🎬</div>
+                        <div class="character-content">
+                            <div class="character-name smb">FadingMovementSMB（制約に縛られた主人公）</div>
+                            <div class="character-bubble">
+                                うぅ...困った...😰<br>
+                                私はState遷移のタイミングが読めない...<br>
+                                OnStateExitで強制完了すると瞬間移動しちゃう...<br>
+                                それに私にはCoroutineが使えない...<br>
+                                MonoBehaviourじゃないから...
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="character-dialog right">
+                        <div class="character-avatar executor">⚡</div>
+                        <div class="character-content">
+                            <div class="character-name executor">MovementExecutor（頼れる相棒）</div>
+                            <div class="character-bubble">
+                                呼んだ？😎<br>
+                                私はMonoBehaviourだからCoroutine使えるよ！<br>
+                                しかもDontDestroyOnLoadだから永遠に生きられる！<br>
+                                State遷移？関係ないね、私は独立してるから！
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="character-dialog left">
+                        <div class="character-avatar smb">🎬</div>
+                        <div class="character-content">
+                            <div class="character-name smb">FadingMovementSMB</div>
+                            <div class="character-bubble">
+                                完璧だ！✨<br>
+                                君に移動を任せる！<br>
+                                私はOnStateEnterで君を呼ぶだけでいいんだね！
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="character-dialog right">
+                        <div class="character-avatar executor">⚡</div>
+                        <div class="character-content">
+                            <div class="character-name executor">MovementExecutor</div>
+                            <div class="character-bubble">
+                                任せて！💪<br>
+                                完了まで責任持つから！<br>
+                                君がどのStateに遷移しようと関係ない！<br>
+                                僕は最後まで魚を運ぶよ！
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="character-dialog left">
+                        <div class="character-avatar animator">🎞️</div>
+                        <div class="character-content">
+                            <div class="character-name animator">Animator（黒幕）</div>
+                            <div class="character-bubble">
+                                私はAnimationを再生するだけ〜 🎵<br>
+                                State遷移のタイミングも管理するよ〜<br>
+                                でも移動処理には関与しないから好きにやって〜
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="team-illustration">
+                        <div class="team-member">
+                            <div class="team-avatar smb">🎬</div>
+                            <div class="team-role" style="color: #667eea;">FadingMovementSMB</div>
+                            <div class="team-description">
+                                <strong>役割:</strong> 起動担当<br>
+                                <strong>得意:</strong> State進入検知<br>
+                                <strong>苦手:</strong> Coroutine実行<br>
+                                <strong>制約:</strong> State遷移に従属
+                            </div>
+                        </div>
+
+                        <div style="font-size: 3em; color: #667eea;">🤝</div>
+
+                        <div class="team-member">
+                            <div class="team-avatar executor">⚡</div>
+                            <div class="team-role" style="color: #11998e;">MovementExecutor</div>
+                            <div class="team-description">
+                                <strong>役割:</strong> 実行担当<br>
+                                <strong>得意:</strong> Coroutine管理<br>
+                                <strong>特性:</strong> 完全独立<br>
+                                <strong>制約:</strong> なし！
+                            </div>
+                        </div>
+
+                        <div style="font-size: 3em; color: #667eea;">🤝</div>
+
+                        <div class="team-member">
+                            <div class="team-avatar animator">🎞️</div>
+                            <div class="team-role" style="color: #f093fb;">Animator</div>
+                            <div class="team-description">
+                                <strong>役割:</strong> Animation再生<br>
+                                <strong>得意:</strong> State管理<br>
+                                <strong>特性:</strong> 遷移制御<br>
+                                <strong>制約:</strong> なし
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="highlight-box success">
+                        <p><strong>チームの力</strong></p>
+                        <p>各オブジェクトが得意なことに集中し、できないことは他のオブジェクトに頼る。</p>
+                        <p>これが「責任の分離」であり、オブジェクト指向設計の真髄。</p>
+                        <p style="margin-top: 15px; font-size: 1.2em; text-align: center;">
+                            <strong>オブジェクト指向は孤独な戦いではなく、<br>複数のオブジェクトたちによる協調作業である。</strong>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="highlight-box success">
+                    <p>発想の転換</p>
+                    <p><strong>従来の思考</strong>: State遷移を制御して移動完了を待つ</p>
+                    <p><strong>新しい思考</strong>: State遷移に依存しない独立した実行機構を作る</p>
+                </div>
+
+                <blockquote>
+                    「制御できないなら依存しない」
+                </blockquote>
+
+                <h3>設計方針</h3>
+
+                <h4>責任の分離</h4>
+                <ul>
+                    <li><strong>StateMachineBehaviour</strong>: 移動処理の「起動」のみ</li>
+                    <li><strong>MovementExecutor</strong>: 移動処理の「実行」を担当</li>
+                </ul>
+
+                <h4>独立したライフサイクル</h4>
+                <ul>
+                    <li>StateMachineBehaviourはStateに従属</li>
+                    <li>MovementExecutorは独立したGameObjectとして存在</li>
+                    <li><span class="inline-code">DontDestroyOnLoad</span>でシーン遷移でも破棄されない</li>
+                </ul>
+
+                <h4>シングルトンパターン</h4>
+                <ul>
+                    <li>複数StateでExecutorを共有</li>
+                    <li>無駄なGameObject生成を防ぐ</li>
+                    <li>実行中のCoroutineを確実に管理</li>
+                </ul>
+            </section>
+
+            <section id="section5">
+                <h2>5. 実装</h2>
+
+                <h3>MovementExecutor (シングルトンMonoBehaviour)</h3>
+                <pre><code>/// &lt;summary&gt;
+/// 非同期移動処理を実行するシングルトンMonoBehaviour
+/// State遷移に依存せず、移動完了まで処理を継続する
+/// &lt;/summary&gt;
+class MovementExecutor : MonoBehaviour
+{
+    static MovementExecutor instance;
+    Coroutine currentCoroutine;
+
+    public static MovementExecutor GetInstance()
+    {
+        if (instance == null)
+        {
+            GameObject obj = new GameObject("FadingMovementExecutor");
+            instance = obj.AddComponent&lt;MovementExecutor&gt;();
+            DontDestroyOnLoad(obj); // シーン遷移でも破棄されない
+        }
+        return instance;
+    }
+
+    public void StartMovement(Transform target, Transform destination,
+        Renderer renderer, MaterialPropertyBlock propertyBlock,
+        float moveSpeed, float fadeSpeed, float targetAlpha, int opacityID)
+    {
+        // 既存のCoroutineを停止（State遷移時の重複実行を防ぐ）
+        if (currentCoroutine != null)
+        {
+            StopCoroutine(currentCoroutine);
+        }
+
+        currentCoroutine = StartCoroutine(
+            ExecuteMovement(target, destination, renderer, propertyBlock,
+                          moveSpeed, fadeSpeed, targetAlpha, opacityID)
+        );
+    }
+
+    IEnumerator ExecuteMovement(/* パラメータ */)
+    {
+        bool isCompleted = false;
+
+        while (!isCompleted)
+        {
+            // 移動処理
+            // 透明度処理
+            // 完了判定
+
+            if (positionReached && alphaReached)
+            {
+                isCompleted = true;
+                break; // 完了したら即座にループ終了
+            }
+
+            yield return null;
+        }
+
+        currentCoroutine = null;
+    }
+}</code></pre>
+
+                <h3>StateMachineBehaviour側の実装</h3>
+                <pre><code>public class FadingMovementSMB : StateMachineBehaviour
+{
+    [SerializeField] string targetPointName;
+    [SerializeField] float moveDuration = 2f;
+    [SerializeField] float targetAlpha = 0.3f;
+
+    public override void OnStateEnter(Animator animator,
+                                     AnimatorStateInfo stateInfo,
+                                     int layerIndex)
+    {
+        InitializeComponents(animator);
+        FindTargetPoint();
+        InitializeStartValues();
+
+        // シングルトンExecutorで非同期移動を開始
+        // この後Stateが遷移してもCoroutineは継続実行される
+        MovementExecutor executor = MovementExecutor.GetInstance();
+        executor.StartMovement(targetTransform, targetPoint,
+                              targetRenderer, propertyBlock,
+                              moveSpeed, fadeSpeed,
+                              targetAlpha, OpacityAddID);
+    }
+
+    public override void OnStateMove(Animator animator,
+                                    AnimatorStateInfo stateInfo,
+                                    int layerIndex)
+    {
+        // Apply Root Motionによる子の移動を打ち消す
+        animatorTransform.localPosition = Vector3.zero;
+    }
+}</code></pre>
+            </section>
+
+            <section id="section6">
+                <h2>6. 実装のポイント</h2>
+
+                <div class="lesson-card">
+                    <span class="lesson-number">1</span>
+                    <strong>シングルトンの正当性</strong>
+                    <p>StateMachineBehaviourはインスタンス生成を制御できず、複数StateでExecutorを共有する必要がある。リソース効率と実行中のCoroutine管理のため、シングルトンが適切。</p>
+                </div>
+
+                <div class="lesson-card">
+                    <span class="lesson-number">2</span>
+                    <strong>DontDestroyOnLoad</strong>
+                    <p>シーン遷移でもGameObjectが破棄されず、MovementExecutorが永続的に存在。State遷移どころかシーン遷移でも処理が継続される。</p>
+                </div>
+
+                <div class="lesson-card">
+                    <span class="lesson-number">3</span>
+                    <strong>既存Coroutineの停止</strong>
+                    <p>State遷移時に新しい移動処理が開始される際、前の処理を停止してから新しい処理を開始。重複実行を防ぐ。</p>
+                </div>
+
+                <div class="lesson-card">
+                    <span class="lesson-number">4</span>
+                    <strong>完了時の即座break</strong>
+                    <p><span class="inline-code">yield return null</span>の後にループ終了すると次フレームまで待たされる。<span class="inline-code">break</span>で即座に終了し、<span class="inline-code">currentCoroutine = null</span>を実行。</p>
+                </div>
+
+                <div class="lesson-card">
+                    <span class="lesson-number">5</span>
+                    <strong>Apply Root Motionへの対応</strong>
+                    <p>親Transformを移動、子（Animator）は固定。<span class="inline-code">OnStateMove</span>で子のlocalPositionを毎フレーム(0,0,0)にリセット。</p>
+                </div>
+            </section>
+
+            <section id="section7">
+                <h2>7. 動作フロー</h2>
+
+                <h3>初回AsylumSwim State実行時</h3>
+                <div class="flow-diagram">
+                    <div class="flow-step">1. OnStateEnter呼び出し</div>
+                    <div style="text-align: center; color: #667eea; font-size: 1.5em;">↓</div>
+                    <div class="flow-step">2. MovementExecutor.GetInstance()<br>
+                    → 初回のみGameObject生成 + DontDestroyOnLoad</div>
+                    <div style="text-align: center; color: #667eea; font-size: 1.5em;">↓</div>
+                    <div class="flow-step">3. executor.StartMovement()<br>
+                    → Coroutine開始（避難地点への移動+半透明化）</div>
+                    <div style="text-align: center; color: #667eea; font-size: 1.5em;">↓</div>
+                    <div class="flow-step">4. State遷移（Has Exit Timeで自動遷移）</div>
+                    <div style="text-align: center; color: #667eea; font-size: 1.5em;">↓</div>
+                    <div class="flow-step">5. Coroutineは継続実行中（State遷移に影響されない）</div>
+                    <div style="text-align: center; color: #667eea; font-size: 1.5em;">↓</div>
+                    <div class="flow-step">6. 移動完了 → Coroutine終了</div>
+                </div>
+
+                <div class="highlight-box success">
+                    <p>重要な点</p>
+                    <ul>
+                        <li><strong>State遷移のタイミングと移動完了のタイミングは無関係</strong></li>
+                        <li>Stateが早く遷移しても、Coroutineは最後まで実行される</li>
+                        <li>瞬間移動（ワープ）が発生しない</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="section8">
+                <h2>8. 成果</h2>
+
+                <h3>実現できたこと</h3>
+                <ul>
+                    <li><span class="checkmark">✅</span> State滞在時間に完全非依存の移動保証</li>
+                    <li><span class="checkmark">✅</span> Animatorパラメータ追加なし</li>
+                    <li><span class="checkmark">✅</span> 瞬間移動（ワープ）の解消</li>
+                    <li><span class="checkmark">✅</span> Apply Root Motion = ONを維持</li>
+                    <li><span class="checkmark">✅</span> 複数Stateでの再利用可能な設計</li>
+                    <li><span class="checkmark">✅</span> シーン遷移でも処理継続（DontDestroyOnLoad）</li>
+                </ul>
+
+                <h3>パフォーマンス最適化</h3>
+                <ul>
+                    <li>GameObject.Findの結果をキャッシュ</li>
+                    <li>Shader.PropertyToIDを<span class="inline-code">static readonly</span>で事前計算</li>
+                    <li>MaterialPropertyBlockで共有マテリアル変更を回避</li>
+                    <li>シングルトンで無駄なGameObject生成を防止</li>
+                </ul>
+            </section>
+
+            <section id="section9">
+                <h2>9. 学ぶべき教訓</h2>
+
+                <div class="lesson-card">
+                    <span class="lesson-number">1</span>
+                    <strong>制約は設計の機会</strong>
+                    <blockquote style="margin-top: 10px;">
+                        「この制約があるから無理」ではなく<br>
+                        「制約を持つオブジェクトに依存しない別のオブジェクトを作る」
+                    </blockquote>
+                </div>
+
+                <div class="lesson-card">
+                    <span class="lesson-number">2</span>
+                    <strong>オブジェクト指向の本質</strong>
+                    <ul>
+                        <li><strong>責任の分離</strong>: 制約のあるオブジェクトは起動のみ、実行は別オブジェクトへ</li>
+                        <li><strong>ライフサイクルの独立</strong>: 制約に縛られない独自の生存期間</li>
+                        <li><strong>カプセル化</strong>: 複雑な処理を独立したオブジェクト内部に閉じ込める</li>
+                    </ul>
+                </div>
+
+                <div class="lesson-card">
+                    <span class="lesson-number">3</span>
+                    <strong>パターンは適材適所</strong>
+                    <p>シングルトンはアンチパターンとされることもあるが、ライフサイクル管理が特殊で他の手段がない状況では正当な選択。</p>
+                </div>
+
+                <div class="lesson-card">
+                    <span class="lesson-number">4</span>
+                    <strong>「制御できないなら依存しない」</strong>
+                    <p>これがオブジェクト指向による不可能の可能化。</p>
+                    <ul>
+                        <li>State遷移を制御できない → State遷移に依存しない設計</li>
+                        <li>MonoBehaviourでない → MonoBehaviourを別に作る</li>
+                        <li>ライフサイクルが制約される → 独立したライフサイクルを作る</li>
+                    </ul>
+                </div>
+
+                <div class="lesson-card">
+                    <span class="lesson-number">5</span>
+                    <strong>質問による解の誘導</strong>
+                    <p>「できない」で終わらず、自問自答:</p>
+                    <ul>
+                        <li>「内部で完結できないか？」</li>
+                        <li>「再利用できないか？」</li>
+                        <li>「非同期で継続できないか？」</li>
+                        <li>「別のオブジェクトに委譲できないか？」</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="section10">
+                <h2>10. 比較: 従来手法 vs オブジェクト指向手法</h2>
+
+                <div class="comparison-grid">
+                    <div class="comparison-card bad">
+                        <h4>従来手法（失敗）</h4>
+                        <pre><code>StateMachineBehaviour
+  ├─ OnStateUpdate()で移動
+  ├─ State遷移で処理中断
+  └─ OnStateExit()で強制ワープ</code></pre>
+                        <p><strong>問題:</strong></p>
+                        <ul>
+                            <li>State滞在時間に依存</li>
+                            <li>瞬間移動が発生</li>
+                            <li>要件を満たせない</li>
+                        </ul>
+                    </div>
+
+                    <div class="comparison-card good">
+                        <h4>オブジェクト指向手法（成功）</h4>
+                        <pre><code>StateMachineBehaviour (起動)
+  └─ MovementExecutor (実行)
+      ├─ 独立したGameObject
+      ├─ DontDestroyOnLoad
+      ├─ シングルトン
+      └─ Coroutineで完了まで実行</code></pre>
+                        <p><strong>利点:</strong></p>
+                        <ul>
+                            <li>State遷移に非依存</li>
+                            <li>瞬間移動なし</li>
+                            <li>要件を完全達成</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="section11">
+                <h2>11. まとめ</h2>
+
+                <h3>技術的成果</h3>
+                <p>FadingMovementSMBの実装により、Unity Animatorの制約を突破し、State滞在時間に依存しない移動保証システムを実現。</p>
+
+                <h3>設計思想の成果</h3>
+                <div class="highlight-box success">
+                    <p><strong>オブジェクト指向による制約突破:</strong></p>
+                    <ol>
+                        <li>制約の正確な理解</li>
+                        <li>発想の転換（制御 → 非依存）</li>
+                        <li>責任の分離</li>
+                        <li>独立したライフサイクル</li>
+                        <li>適切なパターン適用</li>
+                    </ol>
+                </div>
+
+                <h3>普遍的な価値</h3>
+                <p>この事例は、UnityやStateMachineBehaviourに限らず、あらゆる技術的制約に対する解決アプローチとして応用可能:</p>
+
+                <blockquote>
+                    「制約を持つシステムに依存しない独立したシステムを作る」
+                </blockquote>
+
+                <p>これがオブジェクト指向設計の真髄であり、不可能を可能にする思考法である。</p>
+            </section>
+        </main>
+
+        <footer>
+            <p>完全なソースコード: <code>C:\Users\Simna\KWS2 DynamicWaterAsset\Assets\Scripts\FadingMovementSMB.cs</code></p>
+            <p style="margin-top: 10px; opacity: 0.7;">© 2025 オブジェクト指向による制約突破 教材</p>
+        </footer>
+    </div>
+</body>
+</html>

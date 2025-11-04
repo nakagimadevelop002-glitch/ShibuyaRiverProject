@@ -1,0 +1,2399 @@
+fileFormatVersion: 2
+guid: 695685932a8681e488295643b52c002d
+timeCreated: 1552649528
+licenseType: Store
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: AnalFin.1.1
+    100002: AnalFin.1.2
+    100004: AnalFin.2
+    100006: //RootNode
+    100008: Bone
+    100010: CAudalFin.1.1
+    100012: CAudalFin.1.2
+    100014: CAudalFin.2.1
+    100016: CAudalFin.2.2
+    100018: Center
+    100020: DorsalFin.1
+    100022: DorsalFin.3
+    100024: DorsalFin.4
+    100026: DorsalFin.5
+    100028: DorsalFin.6
+    100030: Eye_L
+    100032: Eye_R
+    100034: Gill.1_L
+    100036: Gill.1_R
+    100038: Gill.2_L
+    100040: Gill.2_R
+    100042: Head
+    100044: Head_L
+    100046: Head_R
+    100048: KoiLowPoly
+    100050: LowerLip_L
+    100052: LowerLip_R
+    100054: LowerMouth
+    100056: LowerMouth_L
+    100058: LowerMouth_R
+    100060: PectralFin1.1_L
+    100062: PectralFin1.1_R
+    100064: PectralFin1.2_L
+    100066: PectralFin1.2_R
+    100068: PectralFin2_L
+    100070: PectralFin2_R
+    100072: PelvicFin1_L
+    100074: PelvicFin1_R
+    100076: PelvicFin2_L
+    100078: PelvicFin2_R
+    100080: Spine.1
+    100082: Spine.2
+    100084: Spine.3
+    100086: Spine.4
+    100088: Spine.5
+    100090: UpperLip
+    100092: UpperLip_L
+    100094: UpperLip_R
+    100096: UpperMouth_L
+    100098: UpperMouth_R
+    100100: Whisker_L
+    100102: Whisker_R
+    400000: AnalFin.1.1
+    400002: AnalFin.1.2
+    400004: AnalFin.2
+    400006: //RootNode
+    400008: Bone
+    400010: CAudalFin.1.1
+    400012: CAudalFin.1.2
+    400014: CAudalFin.2.1
+    400016: CAudalFin.2.2
+    400018: Center
+    400020: DorsalFin.1
+    400022: DorsalFin.3
+    400024: DorsalFin.4
+    400026: DorsalFin.5
+    400028: DorsalFin.6
+    400030: Eye_L
+    400032: Eye_R
+    400034: Gill.1_L
+    400036: Gill.1_R
+    400038: Gill.2_L
+    400040: Gill.2_R
+    400042: Head
+    400044: Head_L
+    400046: Head_R
+    400048: KoiLowPoly
+    400050: LowerLip_L
+    400052: LowerLip_R
+    400054: LowerMouth
+    400056: LowerMouth_L
+    400058: LowerMouth_R
+    400060: PectralFin1.1_L
+    400062: PectralFin1.1_R
+    400064: PectralFin1.2_L
+    400066: PectralFin1.2_R
+    400068: PectralFin2_L
+    400070: PectralFin2_R
+    400072: PelvicFin1_L
+    400074: PelvicFin1_R
+    400076: PelvicFin2_L
+    400078: PelvicFin2_R
+    400080: Spine.1
+    400082: Spine.2
+    400084: Spine.3
+    400086: Spine.4
+    400088: Spine.5
+    400090: UpperLip
+    400092: UpperLip_L
+    400094: UpperLip_R
+    400096: UpperMouth_L
+    400098: UpperMouth_R
+    400100: Whisker_L
+    400102: Whisker_R
+    4300000: KoiLowPoly
+    7400000: Idle
+    7400002: SwimForward
+    7400004: SwimRight
+    7400006: SwimLeft
+    7400008: SwimDown
+    7400010: SwimUp
+    7400012: Eat
+    7400014: EatRight
+    7400016: EatLeft
+    7400018: EatDown
+    7400020: EatUp
+    7400022: Hit
+    7400024: Death
+    7400026: Float
+    7400028: Rebirth
+    7400030: Stone
+    7400032: SwimStraight
+    9500000: //RootNode
+    13700000: KoiLowPoly
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Idle
+      takeName: Take 001
+      firstFrame: 10
+      lastFrame: 40
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Bone
+        weight: 1
+      - path: Bone/Center
+        weight: 1
+      - path: Bone/Center/Head
+        weight: 1
+      - path: Bone/Center/Head/Eye_L
+        weight: 1
+      - path: Bone/Center/Head/Eye_R
+        weight: 1
+      - path: Bone/Center/Head/Gill.1_L
+        weight: 1
+      - path: Bone/Center/Head/Gill.1_R
+        weight: 1
+      - path: Bone/Center/Head/Gill.2_L
+        weight: 1
+      - path: Bone/Center/Head/Gill.2_R
+        weight: 1
+      - path: Bone/Center/Head/Head_L
+        weight: 1
+      - path: Bone/Center/Head/Head_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_L/LowerLip_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_R/LowerLip_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_L/UpperLip_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_R/UpperLip_R
+        weight: 1
+      - path: Bone/Center/Head/Whisker_L
+        weight: 1
+      - path: Bone/Center/Head/Whisker_R
+        weight: 1
+      - path: Bone/Center/Spine.1
+        weight: 1
+      - path: Bone/Center/Spine.1/DorsalFin.1
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L/PectralFin1.2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L/PectralFin2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R/PectralFin1.2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R/PectralFin2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/DorsalFin.3
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_L
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_L/PelvicFin2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_R/PelvicFin2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/AnalFin.1.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/AnalFin.1.1/AnalFin.1.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/DorsalFin.4
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/DorsalFin.5
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/AnalFin.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/DorsalFin.6
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.1.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.1.1/CAudalFin.1.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.2.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.2.1/CAudalFin.2.2
+        weight: 1
+      - path: KoiLowPoly
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: SwimForward
+      takeName: Take 001
+      firstFrame: 50
+      lastFrame: 80
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Bone
+        weight: 1
+      - path: Bone/Center
+        weight: 1
+      - path: Bone/Center/Head
+        weight: 1
+      - path: Bone/Center/Head/Eye_L
+        weight: 1
+      - path: Bone/Center/Head/Eye_R
+        weight: 1
+      - path: Bone/Center/Head/Gill.1_L
+        weight: 1
+      - path: Bone/Center/Head/Gill.1_R
+        weight: 1
+      - path: Bone/Center/Head/Gill.2_L
+        weight: 1
+      - path: Bone/Center/Head/Gill.2_R
+        weight: 1
+      - path: Bone/Center/Head/Head_L
+        weight: 1
+      - path: Bone/Center/Head/Head_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_L/LowerLip_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_R/LowerLip_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_L/UpperLip_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_R/UpperLip_R
+        weight: 1
+      - path: Bone/Center/Head/Whisker_L
+        weight: 1
+      - path: Bone/Center/Head/Whisker_R
+        weight: 1
+      - path: Bone/Center/Spine.1
+        weight: 1
+      - path: Bone/Center/Spine.1/DorsalFin.1
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L/PectralFin1.2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L/PectralFin2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R/PectralFin1.2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R/PectralFin2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/DorsalFin.3
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_L
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_L/PelvicFin2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_R/PelvicFin2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/AnalFin.1.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/AnalFin.1.1/AnalFin.1.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/DorsalFin.4
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/DorsalFin.5
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/AnalFin.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/DorsalFin.6
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.1.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.1.1/CAudalFin.1.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.2.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.2.1/CAudalFin.2.2
+        weight: 1
+      - path: KoiLowPoly
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: SwimRight
+      takeName: Take 001
+      firstFrame: 90
+      lastFrame: 120
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Bone
+        weight: 1
+      - path: Bone/Center
+        weight: 1
+      - path: Bone/Center/Head
+        weight: 1
+      - path: Bone/Center/Head/Eye_L
+        weight: 1
+      - path: Bone/Center/Head/Eye_R
+        weight: 1
+      - path: Bone/Center/Head/Gill.1_L
+        weight: 1
+      - path: Bone/Center/Head/Gill.1_R
+        weight: 1
+      - path: Bone/Center/Head/Gill.2_L
+        weight: 1
+      - path: Bone/Center/Head/Gill.2_R
+        weight: 1
+      - path: Bone/Center/Head/Head_L
+        weight: 1
+      - path: Bone/Center/Head/Head_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_L/LowerLip_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_R/LowerLip_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_L/UpperLip_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_R/UpperLip_R
+        weight: 1
+      - path: Bone/Center/Head/Whisker_L
+        weight: 1
+      - path: Bone/Center/Head/Whisker_R
+        weight: 1
+      - path: Bone/Center/Spine.1
+        weight: 1
+      - path: Bone/Center/Spine.1/DorsalFin.1
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L/PectralFin1.2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L/PectralFin2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R/PectralFin1.2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R/PectralFin2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/DorsalFin.3
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_L
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_L/PelvicFin2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_R/PelvicFin2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/AnalFin.1.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/AnalFin.1.1/AnalFin.1.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/DorsalFin.4
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/DorsalFin.5
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/AnalFin.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/DorsalFin.6
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.1.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.1.1/CAudalFin.1.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.2.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.2.1/CAudalFin.2.2
+        weight: 1
+      - path: KoiLowPoly
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: SwimLeft
+      takeName: Take 001
+      firstFrame: 130
+      lastFrame: 160
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Bone
+        weight: 1
+      - path: Bone/Center
+        weight: 1
+      - path: Bone/Center/Head
+        weight: 1
+      - path: Bone/Center/Head/Eye_L
+        weight: 1
+      - path: Bone/Center/Head/Eye_R
+        weight: 1
+      - path: Bone/Center/Head/Gill.1_L
+        weight: 1
+      - path: Bone/Center/Head/Gill.1_R
+        weight: 1
+      - path: Bone/Center/Head/Gill.2_L
+        weight: 1
+      - path: Bone/Center/Head/Gill.2_R
+        weight: 1
+      - path: Bone/Center/Head/Head_L
+        weight: 1
+      - path: Bone/Center/Head/Head_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_L/LowerLip_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_R/LowerLip_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_L/UpperLip_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_R/UpperLip_R
+        weight: 1
+      - path: Bone/Center/Head/Whisker_L
+        weight: 1
+      - path: Bone/Center/Head/Whisker_R
+        weight: 1
+      - path: Bone/Center/Spine.1
+        weight: 1
+      - path: Bone/Center/Spine.1/DorsalFin.1
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L/PectralFin1.2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L/PectralFin2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R/PectralFin1.2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R/PectralFin2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/DorsalFin.3
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_L
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_L/PelvicFin2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_R/PelvicFin2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/AnalFin.1.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/AnalFin.1.1/AnalFin.1.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/DorsalFin.4
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/DorsalFin.5
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/AnalFin.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/DorsalFin.6
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.1.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.1.1/CAudalFin.1.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.2.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.2.1/CAudalFin.2.2
+        weight: 1
+      - path: KoiLowPoly
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: SwimDown
+      takeName: Take 001
+      firstFrame: 170
+      lastFrame: 200
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Bone
+        weight: 1
+      - path: Bone/Center
+        weight: 1
+      - path: Bone/Center/Head
+        weight: 1
+      - path: Bone/Center/Head/Eye_L
+        weight: 1
+      - path: Bone/Center/Head/Eye_R
+        weight: 1
+      - path: Bone/Center/Head/Gill.1_L
+        weight: 1
+      - path: Bone/Center/Head/Gill.1_R
+        weight: 1
+      - path: Bone/Center/Head/Gill.2_L
+        weight: 1
+      - path: Bone/Center/Head/Gill.2_R
+        weight: 1
+      - path: Bone/Center/Head/Head_L
+        weight: 1
+      - path: Bone/Center/Head/Head_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_L/LowerLip_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_R/LowerLip_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_L/UpperLip_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_R/UpperLip_R
+        weight: 1
+      - path: Bone/Center/Head/Whisker_L
+        weight: 1
+      - path: Bone/Center/Head/Whisker_R
+        weight: 1
+      - path: Bone/Center/Spine.1
+        weight: 1
+      - path: Bone/Center/Spine.1/DorsalFin.1
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L/PectralFin1.2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L/PectralFin2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R/PectralFin1.2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R/PectralFin2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/DorsalFin.3
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_L
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_L/PelvicFin2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_R/PelvicFin2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/AnalFin.1.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/AnalFin.1.1/AnalFin.1.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/DorsalFin.4
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/DorsalFin.5
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/AnalFin.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/DorsalFin.6
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.1.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.1.1/CAudalFin.1.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.2.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.2.1/CAudalFin.2.2
+        weight: 1
+      - path: KoiLowPoly
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: SwimUp
+      takeName: Take 001
+      firstFrame: 210
+      lastFrame: 240
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Bone
+        weight: 1
+      - path: Bone/Center
+        weight: 1
+      - path: Bone/Center/Head
+        weight: 1
+      - path: Bone/Center/Head/Eye_L
+        weight: 1
+      - path: Bone/Center/Head/Eye_R
+        weight: 1
+      - path: Bone/Center/Head/Gill.1_L
+        weight: 1
+      - path: Bone/Center/Head/Gill.1_R
+        weight: 1
+      - path: Bone/Center/Head/Gill.2_L
+        weight: 1
+      - path: Bone/Center/Head/Gill.2_R
+        weight: 1
+      - path: Bone/Center/Head/Head_L
+        weight: 1
+      - path: Bone/Center/Head/Head_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_L/LowerLip_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_R/LowerLip_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_L/UpperLip_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_R/UpperLip_R
+        weight: 1
+      - path: Bone/Center/Head/Whisker_L
+        weight: 1
+      - path: Bone/Center/Head/Whisker_R
+        weight: 1
+      - path: Bone/Center/Spine.1
+        weight: 1
+      - path: Bone/Center/Spine.1/DorsalFin.1
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L/PectralFin1.2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L/PectralFin2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R/PectralFin1.2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R/PectralFin2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/DorsalFin.3
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_L
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_L/PelvicFin2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_R/PelvicFin2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/AnalFin.1.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/AnalFin.1.1/AnalFin.1.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/DorsalFin.4
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/DorsalFin.5
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/AnalFin.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/DorsalFin.6
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.1.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.1.1/CAudalFin.1.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.2.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.2.1/CAudalFin.2.2
+        weight: 1
+      - path: KoiLowPoly
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Eat
+      takeName: Take 001
+      firstFrame: 250
+      lastFrame: 280
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Bone
+        weight: 1
+      - path: Bone/Center
+        weight: 1
+      - path: Bone/Center/Head
+        weight: 1
+      - path: Bone/Center/Head/Eye_L
+        weight: 1
+      - path: Bone/Center/Head/Eye_R
+        weight: 1
+      - path: Bone/Center/Head/Gill.1_L
+        weight: 1
+      - path: Bone/Center/Head/Gill.1_R
+        weight: 1
+      - path: Bone/Center/Head/Gill.2_L
+        weight: 1
+      - path: Bone/Center/Head/Gill.2_R
+        weight: 1
+      - path: Bone/Center/Head/Head_L
+        weight: 1
+      - path: Bone/Center/Head/Head_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_L/LowerLip_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_R/LowerLip_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_L/UpperLip_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_R/UpperLip_R
+        weight: 1
+      - path: Bone/Center/Head/Whisker_L
+        weight: 1
+      - path: Bone/Center/Head/Whisker_R
+        weight: 1
+      - path: Bone/Center/Spine.1
+        weight: 1
+      - path: Bone/Center/Spine.1/DorsalFin.1
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L/PectralFin1.2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L/PectralFin2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R/PectralFin1.2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R/PectralFin2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/DorsalFin.3
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_L
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_L/PelvicFin2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_R/PelvicFin2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/AnalFin.1.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/AnalFin.1.1/AnalFin.1.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/DorsalFin.4
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/DorsalFin.5
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/AnalFin.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/DorsalFin.6
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.1.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.1.1/CAudalFin.1.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.2.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.2.1/CAudalFin.2.2
+        weight: 1
+      - path: KoiLowPoly
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: EatRight
+      takeName: Take 001
+      firstFrame: 290
+      lastFrame: 320
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Bone
+        weight: 1
+      - path: Bone/Center
+        weight: 1
+      - path: Bone/Center/Head
+        weight: 1
+      - path: Bone/Center/Head/Eye_L
+        weight: 1
+      - path: Bone/Center/Head/Eye_R
+        weight: 1
+      - path: Bone/Center/Head/Gill.1_L
+        weight: 1
+      - path: Bone/Center/Head/Gill.1_R
+        weight: 1
+      - path: Bone/Center/Head/Gill.2_L
+        weight: 1
+      - path: Bone/Center/Head/Gill.2_R
+        weight: 1
+      - path: Bone/Center/Head/Head_L
+        weight: 1
+      - path: Bone/Center/Head/Head_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_L/LowerLip_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_R/LowerLip_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_L/UpperLip_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_R/UpperLip_R
+        weight: 1
+      - path: Bone/Center/Head/Whisker_L
+        weight: 1
+      - path: Bone/Center/Head/Whisker_R
+        weight: 1
+      - path: Bone/Center/Spine.1
+        weight: 1
+      - path: Bone/Center/Spine.1/DorsalFin.1
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L/PectralFin1.2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L/PectralFin2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R/PectralFin1.2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R/PectralFin2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/DorsalFin.3
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_L
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_L/PelvicFin2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_R/PelvicFin2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/AnalFin.1.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/AnalFin.1.1/AnalFin.1.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/DorsalFin.4
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/DorsalFin.5
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/AnalFin.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/DorsalFin.6
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.1.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.1.1/CAudalFin.1.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.2.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.2.1/CAudalFin.2.2
+        weight: 1
+      - path: KoiLowPoly
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: EatLeft
+      takeName: Take 001
+      firstFrame: 330
+      lastFrame: 360
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Bone
+        weight: 1
+      - path: Bone/Center
+        weight: 1
+      - path: Bone/Center/Head
+        weight: 1
+      - path: Bone/Center/Head/Eye_L
+        weight: 1
+      - path: Bone/Center/Head/Eye_R
+        weight: 1
+      - path: Bone/Center/Head/Gill.1_L
+        weight: 1
+      - path: Bone/Center/Head/Gill.1_R
+        weight: 1
+      - path: Bone/Center/Head/Gill.2_L
+        weight: 1
+      - path: Bone/Center/Head/Gill.2_R
+        weight: 1
+      - path: Bone/Center/Head/Head_L
+        weight: 1
+      - path: Bone/Center/Head/Head_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_L/LowerLip_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_R/LowerLip_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_L/UpperLip_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_R/UpperLip_R
+        weight: 1
+      - path: Bone/Center/Head/Whisker_L
+        weight: 1
+      - path: Bone/Center/Head/Whisker_R
+        weight: 1
+      - path: Bone/Center/Spine.1
+        weight: 1
+      - path: Bone/Center/Spine.1/DorsalFin.1
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L/PectralFin1.2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L/PectralFin2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R/PectralFin1.2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R/PectralFin2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/DorsalFin.3
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_L
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_L/PelvicFin2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_R/PelvicFin2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/AnalFin.1.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/AnalFin.1.1/AnalFin.1.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/DorsalFin.4
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/DorsalFin.5
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/AnalFin.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/DorsalFin.6
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.1.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.1.1/CAudalFin.1.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.2.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.2.1/CAudalFin.2.2
+        weight: 1
+      - path: KoiLowPoly
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: EatDown
+      takeName: Take 001
+      firstFrame: 370
+      lastFrame: 400
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Bone
+        weight: 1
+      - path: Bone/Center
+        weight: 1
+      - path: Bone/Center/Head
+        weight: 1
+      - path: Bone/Center/Head/Eye_L
+        weight: 1
+      - path: Bone/Center/Head/Eye_R
+        weight: 1
+      - path: Bone/Center/Head/Gill.1_L
+        weight: 1
+      - path: Bone/Center/Head/Gill.1_R
+        weight: 1
+      - path: Bone/Center/Head/Gill.2_L
+        weight: 1
+      - path: Bone/Center/Head/Gill.2_R
+        weight: 1
+      - path: Bone/Center/Head/Head_L
+        weight: 1
+      - path: Bone/Center/Head/Head_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_L/LowerLip_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_R/LowerLip_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_L/UpperLip_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_R/UpperLip_R
+        weight: 1
+      - path: Bone/Center/Head/Whisker_L
+        weight: 1
+      - path: Bone/Center/Head/Whisker_R
+        weight: 1
+      - path: Bone/Center/Spine.1
+        weight: 1
+      - path: Bone/Center/Spine.1/DorsalFin.1
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L/PectralFin1.2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L/PectralFin2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R/PectralFin1.2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R/PectralFin2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/DorsalFin.3
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_L
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_L/PelvicFin2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_R/PelvicFin2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/AnalFin.1.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/AnalFin.1.1/AnalFin.1.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/DorsalFin.4
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/DorsalFin.5
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/AnalFin.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/DorsalFin.6
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.1.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.1.1/CAudalFin.1.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.2.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.2.1/CAudalFin.2.2
+        weight: 1
+      - path: KoiLowPoly
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: EatUp
+      takeName: Take 001
+      firstFrame: 410
+      lastFrame: 440
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Bone
+        weight: 1
+      - path: Bone/Center
+        weight: 1
+      - path: Bone/Center/Head
+        weight: 1
+      - path: Bone/Center/Head/Eye_L
+        weight: 1
+      - path: Bone/Center/Head/Eye_R
+        weight: 1
+      - path: Bone/Center/Head/Gill.1_L
+        weight: 1
+      - path: Bone/Center/Head/Gill.1_R
+        weight: 1
+      - path: Bone/Center/Head/Gill.2_L
+        weight: 1
+      - path: Bone/Center/Head/Gill.2_R
+        weight: 1
+      - path: Bone/Center/Head/Head_L
+        weight: 1
+      - path: Bone/Center/Head/Head_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_L/LowerLip_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_R/LowerLip_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_L/UpperLip_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_R/UpperLip_R
+        weight: 1
+      - path: Bone/Center/Head/Whisker_L
+        weight: 1
+      - path: Bone/Center/Head/Whisker_R
+        weight: 1
+      - path: Bone/Center/Spine.1
+        weight: 1
+      - path: Bone/Center/Spine.1/DorsalFin.1
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L/PectralFin1.2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L/PectralFin2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R/PectralFin1.2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R/PectralFin2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/DorsalFin.3
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_L
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_L/PelvicFin2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_R/PelvicFin2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/AnalFin.1.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/AnalFin.1.1/AnalFin.1.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/DorsalFin.4
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/DorsalFin.5
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/AnalFin.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/DorsalFin.6
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.1.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.1.1/CAudalFin.1.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.2.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.2.1/CAudalFin.2.2
+        weight: 1
+      - path: KoiLowPoly
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Hit
+      takeName: Take 001
+      firstFrame: 450
+      lastFrame: 480
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Bone
+        weight: 1
+      - path: Bone/Center
+        weight: 1
+      - path: Bone/Center/Head
+        weight: 1
+      - path: Bone/Center/Head/Eye_L
+        weight: 1
+      - path: Bone/Center/Head/Eye_R
+        weight: 1
+      - path: Bone/Center/Head/Gill.1_L
+        weight: 1
+      - path: Bone/Center/Head/Gill.1_R
+        weight: 1
+      - path: Bone/Center/Head/Gill.2_L
+        weight: 1
+      - path: Bone/Center/Head/Gill.2_R
+        weight: 1
+      - path: Bone/Center/Head/Head_L
+        weight: 1
+      - path: Bone/Center/Head/Head_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_L/LowerLip_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_R/LowerLip_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_L/UpperLip_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_R/UpperLip_R
+        weight: 1
+      - path: Bone/Center/Head/Whisker_L
+        weight: 1
+      - path: Bone/Center/Head/Whisker_R
+        weight: 1
+      - path: Bone/Center/Spine.1
+        weight: 1
+      - path: Bone/Center/Spine.1/DorsalFin.1
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L/PectralFin1.2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L/PectralFin2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R/PectralFin1.2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R/PectralFin2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/DorsalFin.3
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_L
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_L/PelvicFin2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_R/PelvicFin2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/AnalFin.1.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/AnalFin.1.1/AnalFin.1.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/DorsalFin.4
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/DorsalFin.5
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/AnalFin.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/DorsalFin.6
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.1.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.1.1/CAudalFin.1.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.2.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.2.1/CAudalFin.2.2
+        weight: 1
+      - path: KoiLowPoly
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Death
+      takeName: Take 001
+      firstFrame: 490
+      lastFrame: 540
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Bone
+        weight: 1
+      - path: Bone/Center
+        weight: 1
+      - path: Bone/Center/Head
+        weight: 1
+      - path: Bone/Center/Head/Eye_L
+        weight: 1
+      - path: Bone/Center/Head/Eye_R
+        weight: 1
+      - path: Bone/Center/Head/Gill.1_L
+        weight: 1
+      - path: Bone/Center/Head/Gill.1_R
+        weight: 1
+      - path: Bone/Center/Head/Gill.2_L
+        weight: 1
+      - path: Bone/Center/Head/Gill.2_R
+        weight: 1
+      - path: Bone/Center/Head/Head_L
+        weight: 1
+      - path: Bone/Center/Head/Head_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_L/LowerLip_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_R/LowerLip_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_L/UpperLip_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_R/UpperLip_R
+        weight: 1
+      - path: Bone/Center/Head/Whisker_L
+        weight: 1
+      - path: Bone/Center/Head/Whisker_R
+        weight: 1
+      - path: Bone/Center/Spine.1
+        weight: 1
+      - path: Bone/Center/Spine.1/DorsalFin.1
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L/PectralFin1.2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L/PectralFin2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R/PectralFin1.2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R/PectralFin2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/DorsalFin.3
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_L
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_L/PelvicFin2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_R/PelvicFin2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/AnalFin.1.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/AnalFin.1.1/AnalFin.1.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/DorsalFin.4
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/DorsalFin.5
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/AnalFin.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/DorsalFin.6
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.1.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.1.1/CAudalFin.1.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.2.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.2.1/CAudalFin.2.2
+        weight: 1
+      - path: KoiLowPoly
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Float
+      takeName: Take 001
+      firstFrame: 550
+      lastFrame: 580
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Bone
+        weight: 1
+      - path: Bone/Center
+        weight: 1
+      - path: Bone/Center/Head
+        weight: 1
+      - path: Bone/Center/Head/Eye_L
+        weight: 1
+      - path: Bone/Center/Head/Eye_R
+        weight: 1
+      - path: Bone/Center/Head/Gill.1_L
+        weight: 1
+      - path: Bone/Center/Head/Gill.1_R
+        weight: 1
+      - path: Bone/Center/Head/Gill.2_L
+        weight: 1
+      - path: Bone/Center/Head/Gill.2_R
+        weight: 1
+      - path: Bone/Center/Head/Head_L
+        weight: 1
+      - path: Bone/Center/Head/Head_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_L/LowerLip_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_R/LowerLip_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_L/UpperLip_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_R/UpperLip_R
+        weight: 1
+      - path: Bone/Center/Head/Whisker_L
+        weight: 1
+      - path: Bone/Center/Head/Whisker_R
+        weight: 1
+      - path: Bone/Center/Spine.1
+        weight: 1
+      - path: Bone/Center/Spine.1/DorsalFin.1
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L/PectralFin1.2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L/PectralFin2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R/PectralFin1.2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R/PectralFin2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/DorsalFin.3
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_L
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_L/PelvicFin2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_R/PelvicFin2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/AnalFin.1.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/AnalFin.1.1/AnalFin.1.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/DorsalFin.4
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/DorsalFin.5
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/AnalFin.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/DorsalFin.6
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.1.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.1.1/CAudalFin.1.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.2.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.2.1/CAudalFin.2.2
+        weight: 1
+      - path: KoiLowPoly
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Rebirth
+      takeName: Take 001
+      firstFrame: 590
+      lastFrame: 640
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Bone
+        weight: 1
+      - path: Bone/Center
+        weight: 1
+      - path: Bone/Center/Head
+        weight: 1
+      - path: Bone/Center/Head/Eye_L
+        weight: 1
+      - path: Bone/Center/Head/Eye_R
+        weight: 1
+      - path: Bone/Center/Head/Gill.1_L
+        weight: 1
+      - path: Bone/Center/Head/Gill.1_R
+        weight: 1
+      - path: Bone/Center/Head/Gill.2_L
+        weight: 1
+      - path: Bone/Center/Head/Gill.2_R
+        weight: 1
+      - path: Bone/Center/Head/Head_L
+        weight: 1
+      - path: Bone/Center/Head/Head_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_L/LowerLip_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_R/LowerLip_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_L/UpperLip_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_R/UpperLip_R
+        weight: 1
+      - path: Bone/Center/Head/Whisker_L
+        weight: 1
+      - path: Bone/Center/Head/Whisker_R
+        weight: 1
+      - path: Bone/Center/Spine.1
+        weight: 1
+      - path: Bone/Center/Spine.1/DorsalFin.1
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L/PectralFin1.2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L/PectralFin2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R/PectralFin1.2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R/PectralFin2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/DorsalFin.3
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_L
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_L/PelvicFin2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_R/PelvicFin2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/AnalFin.1.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/AnalFin.1.1/AnalFin.1.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/DorsalFin.4
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/DorsalFin.5
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/AnalFin.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/DorsalFin.6
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.1.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.1.1/CAudalFin.1.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.2.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.2.1/CAudalFin.2.2
+        weight: 1
+      - path: KoiLowPoly
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Stone
+      takeName: Take 001
+      firstFrame: 650
+      lastFrame: 680
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Bone
+        weight: 1
+      - path: Bone/Center
+        weight: 1
+      - path: Bone/Center/Head
+        weight: 1
+      - path: Bone/Center/Head/Eye_L
+        weight: 1
+      - path: Bone/Center/Head/Eye_R
+        weight: 1
+      - path: Bone/Center/Head/Gill.1_L
+        weight: 1
+      - path: Bone/Center/Head/Gill.1_R
+        weight: 1
+      - path: Bone/Center/Head/Gill.2_L
+        weight: 1
+      - path: Bone/Center/Head/Gill.2_R
+        weight: 1
+      - path: Bone/Center/Head/Head_L
+        weight: 1
+      - path: Bone/Center/Head/Head_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_L/LowerLip_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_R/LowerLip_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_L/UpperLip_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_R/UpperLip_R
+        weight: 1
+      - path: Bone/Center/Head/Whisker_L
+        weight: 1
+      - path: Bone/Center/Head/Whisker_R
+        weight: 1
+      - path: Bone/Center/Spine.1
+        weight: 1
+      - path: Bone/Center/Spine.1/DorsalFin.1
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L/PectralFin1.2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L/PectralFin2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R/PectralFin1.2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R/PectralFin2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/DorsalFin.3
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_L
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_L/PelvicFin2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_R/PelvicFin2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/AnalFin.1.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/AnalFin.1.1/AnalFin.1.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/DorsalFin.4
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/DorsalFin.5
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/AnalFin.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/DorsalFin.6
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.1.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.1.1/CAudalFin.1.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.2.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.2.1/CAudalFin.2.2
+        weight: 1
+      - path: KoiLowPoly
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: SwimStraight
+      takeName: Take 001
+      firstFrame: 690
+      lastFrame: 720
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Bone
+        weight: 1
+      - path: Bone/Center
+        weight: 1
+      - path: Bone/Center/Head
+        weight: 1
+      - path: Bone/Center/Head/Eye_L
+        weight: 1
+      - path: Bone/Center/Head/Eye_R
+        weight: 1
+      - path: Bone/Center/Head/Gill.1_L
+        weight: 1
+      - path: Bone/Center/Head/Gill.1_R
+        weight: 1
+      - path: Bone/Center/Head/Gill.2_L
+        weight: 1
+      - path: Bone/Center/Head/Gill.2_R
+        weight: 1
+      - path: Bone/Center/Head/Head_L
+        weight: 1
+      - path: Bone/Center/Head/Head_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_L/LowerLip_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/LowerMouth_R/LowerLip_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_L/UpperLip_L
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_R
+        weight: 1
+      - path: Bone/Center/Head/UpperLip/UpperMouth_R/UpperLip_R
+        weight: 1
+      - path: Bone/Center/Head/Whisker_L
+        weight: 1
+      - path: Bone/Center/Head/Whisker_R
+        weight: 1
+      - path: Bone/Center/Spine.1
+        weight: 1
+      - path: Bone/Center/Spine.1/DorsalFin.1
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L/PectralFin1.2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_L/PectralFin2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R/PectralFin1.2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/PectralFin1.1_R/PectralFin2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/DorsalFin.3
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_L
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_L/PelvicFin2_L
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/PelvicFin1_R/PelvicFin2_R
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/AnalFin.1.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/AnalFin.1.1/AnalFin.1.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/DorsalFin.4
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/DorsalFin.5
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/AnalFin.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/DorsalFin.6
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.1.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.1.1/CAudalFin.1.2
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.2.1
+        weight: 1
+      - path: Bone/Center/Spine.1/Spine.2/Spine.3/Spine.4/Spine.5/CAudalFin.2.1/CAudalFin.2.2
+        weight: 1
+      - path: KoiLowPoly
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: Bone
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
