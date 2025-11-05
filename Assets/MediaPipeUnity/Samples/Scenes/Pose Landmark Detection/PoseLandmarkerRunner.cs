@@ -11,6 +11,7 @@ using UnityEngine.Rendering;
 
 namespace Mediapipe.Unity.Sample.PoseLandmarkDetection
 {
+  [DefaultExecutionOrder(200)] // MediaPipeCameraIntegrationより後に実行
   public class PoseLandmarkerRunner : VisionTaskApiRunner<PoseLandmarker>
   {
     [SerializeField] private PoseLandmarkerResultAnnotationController _poseLandmarkerResultAnnotationController;
@@ -37,6 +38,9 @@ namespace Mediapipe.Unity.Sample.PoseLandmarkDetection
       // Debug.Log($"MinPosePresenceConfidence = {config.MinPosePresenceConfidence}");
       // Debug.Log($"MinTrackingConfidence = {config.MinTrackingConfidence}");
       // Debug.Log($"OutputSegmentationMasks = {config.OutputSegmentationMasks}");
+
+      // MediaPipeCameraIntegration完了を待機（ImageSource上書き完了まで）
+      yield return new WaitUntil(() => MediaPipeCameraIntegration.IsReady);
 
       yield return AssetLoader.PrepareAssetAsync(config.ModelPath);
 

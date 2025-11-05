@@ -124,4 +124,61 @@ public class CameraViewController : MonoBehaviour
     {
         return currentLookAtCoroutine != null;
     }
+
+    /// <summary>
+    /// カメラを指定回転に復帰
+    /// 意図: 注視演出後、移動方向へスムーズに復帰（「見上げたまま」問題の解決）
+    /// </summary>
+    /// <param name="targetRotation">復帰先の回転</param>
+    /// <param name="duration">復帰にかける時間（秒）</param>
+    /// <param name="onComplete">復帰完了時のコールバック</param>
+    public void RestoreRotation(Quaternion targetRotation, float duration, System.Action onComplete)
+    {
+        if (controlledCamera == null)
+        {
+            Debug.LogError("[CameraViewController] Controlled camera is not assigned!");
+            return;
+        }
+
+        // 既存のコルーチンを停止
+        if (currentLookAtCoroutine != null)
+        {
+            StopCoroutine(currentLookAtCoroutine);
+        }
+
+        onCompleted = onComplete;
+        currentLookAtCoroutine = StartCoroutine(RestoreRotationCoroutine(targetRotation, duration));
+    }
+
+    /// <summary>
+    /// カメラ復帰のコルーチン実装
+    /// 意図: 滑らかな補間で自然な復帰
+    /// </summary>
+    private IEnumerator RestoreRotationCoroutine(Quaternion targetRotation, float duration)
+    {
+        float elapsed = 0f;
+        Quaternion startRotation = controlledCamera.rotation;
+
+        Debug.Log("[CameraViewController] Starting rotation restore...");
+
+        while (elapsed < duration)
+        {
+            controlledCamera.rotation = Quaternion.Slerp(
+                startRotation,
+                targetRotation,
+                elapsed / duration
+            );
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        controlledCamera.rotation = targetRotation;
+
+        Debug.Log("[CameraViewController] Rotation restore completed.");
+
+        // 完了通知
+        onCompleted?.Invoke();
+
+        currentLookAtCoroutine = null;
+    }
 }

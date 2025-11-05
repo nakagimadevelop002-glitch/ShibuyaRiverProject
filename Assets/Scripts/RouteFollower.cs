@@ -23,6 +23,16 @@ public class WaypointEvent
 }
 
 /// <summary>
+/// ルートモード
+/// </summary>
+public enum RouteMode
+{
+    OneWay,     // 一方通行（終端で停止）
+    Loop,       // 循環（終端から始点へループ）
+    PingPong    // 往復（終端で反転）
+}
+
+/// <summary>
 /// 腕振り検知に応じて設定されたルートを自動的にたどる移動システム
 /// リングフィットアドベンチャー方式：腕を振ると前進、停止すると待機
 /// ウェイポイントの回転設定に応じてカメラ向きを制御（自動/手動両対応）
@@ -35,6 +45,9 @@ public class RouteFollower : MonoBehaviour
 
     [Tooltip("各Waypoint到達時に発火するイベント（演出設定用）")]
     [SerializeField] private WaypointEvent[] waypointEvents;
+
+    [Tooltip("ルートモード（OneWay=一方通行、Loop=循環、PingPong=往復）")]
+    [SerializeField] private RouteMode routeMode = RouteMode.OneWay;
 
     [Header("Movement Settings")]
     [Tooltip("前進速度（m/s）")]
@@ -64,6 +77,12 @@ public class RouteFollower : MonoBehaviour
     // 前進中フラグ（腕振り検知状態と連動）
     private bool isMoving = false;
 
+    // PingPongモード用の逆走フラグ
+    private bool isReversing = false;
+
+    // カメラ演出実行中フラグ（注視→復帰が完全終了するまでtrue）
+    private bool isPerformingEvent = false;
+
     private void Start()
     {
         ValidateSetup();
@@ -77,7 +96,8 @@ public class RouteFollower : MonoBehaviour
 
     private void Update()
     {
-        if (isMoving && HasNextWaypoint())
+        // 意図: イベント実行中は入力を受け付けず、演出完了まで待機
+        if (isMoving && !isPerformingEvent && HasNextWaypoint())
         {
             MoveTowardsCurrentWaypoint();
             RotateTowardsTarget();
@@ -163,11 +183,18 @@ public class RouteFollower : MonoBehaviour
 
     /// <summary>
     /// 次のウェイポイントが存在するか確認
-    /// 意図: ルート終端での配列外アクセスを防ぐ
+    /// 意図: ルート終端での配列外アクセスを防ぐ（PingPongモード対応）
     /// </summary>
     private bool HasNextWaypoint()
     {
-        return currentWaypointIndex < waypoints.Length;
+        if (isReversing)
+        {
+            return currentWaypointIndex >= 0;
+        }
+        else
+        {
+            return currentWaypointIndex < waypoints.Length;
+        }
     }
 
     /// <summary>
@@ -178,7 +205,6 @@ public class RouteFollower : MonoBehaviour
     {
         GameObject targetWaypoint = waypoints[currentWaypointIndex];
         Vector3 targetPosition = targetWaypoint.transform.position;
-        targetPosition.y = transform.position.y;
 
         transform.position = Vector3.MoveTowards(
             transform.position,
@@ -195,7 +221,7 @@ public class RouteFollower : MonoBehaviour
 
     /// <summary>
     /// 次のウェイポイントへインデックスを進める
-    /// 意図: ルート上の進行を管理、演出の自動実行、終端到達時は完了処理
+    /// 意図: ルート上の進行を管理、演出の自動実行、終端到達時は完了処理（Loop/PingPong対応）
     /// </summary>
     private void AdvanceToNextWaypoint()
     {
@@ -215,7 +241,15 @@ public class RouteFollower : MonoBehaviour
             }
         }
 
-        currentWaypointIndex++;
+        // インデックス更新（PingPongモード対応）
+        if (isReversing)
+        {
+            currentWaypointIndex--;
+        }
+        else
+        {
+            currentWaypointIndex++;
+        }
 
         if (!HasNextWaypoint())
         {
@@ -305,13 +339,37 @@ public class RouteFollower : MonoBehaviour
 
     /// <summary>
     /// ルート完走時の処理
-    /// 意図: ルート終了時の拡張ポイント（今後UnityEvent等を追加可能）
+    /// 意図: ルートモードに応じた終端処理（OneWay=停止、Loop=ループ、PingPong=反転）
     /// </summary>
     private void OnRouteCompleted()
     {
-        isMoving = false;
-        Debug.Log("[RouteFollower] Route completed!");
-        // 今後の拡張: UnityEvent等でルート完走イベントを発火し、次のシーンへ遷移等
+        switch (routeMode)
+        {
+            case RouteMode.OneWay:
+                isMoving = false;
+                Debug.Log("[RouteFollower] Route completed!");
+                break;
+
+            case RouteMode.Loop:
+                currentWaypointIndex = 0;
+                Debug.Log("[RouteFollower] Route looping to start...");
+                break;
+
+            case RouteMode.PingPong:
+                isReversing = !isReversing;
+                if (isReversing)
+                {
+                    // 前進終了→逆走開始（最後から2番目へ）
+                    currentWaypointIndex = waypoints.Length - 2;
+                }
+                else
+                {
+                    // 逆走終了→前進開始（最初から2番目へ）
+                    currentWaypointIndex = 1;
+                }
+                Debug.Log($"[RouteFollower] Route reversing... Direction={( isReversing ? "Backward" : "Forward" )}");
+                break;
+        }
     }
 
     /// <summary>
@@ -325,12 +383,13 @@ public class RouteFollower : MonoBehaviour
 
     /// <summary>
     /// ルートをリセットして最初から再開
-    /// 意図: リトライ機能の実装を容易にする
+    /// 意図: リトライ機能の実装を容易にする（PingPongモード対応）
     /// </summary>
     public void ResetRoute()
     {
         currentWaypointIndex = 0;
         isMoving = false;
+        isReversing = false;
     }
 
     /// <summary>
@@ -362,8 +421,9 @@ public class RouteFollower : MonoBehaviour
     }
 
     /// <summary>
-    /// カメラ注視演出を実行（移動停止→注視→自動再開を一括処理）
+    /// カメラ注視演出を実行（移動停止→注視→カメラ復帰→自動再開を一括処理）
     /// 意図: カプセル化により複雑な処理を隠蔽、WaypointEventから自動呼び出し
+    /// イベント完全終了まで入力を受け付けない（isPerformingEvent制御）
     /// </summary>
     private void LookAtWithPause(Transform target, float duration)
     {
@@ -379,8 +439,29 @@ public class RouteFollower : MonoBehaviour
             return;
         }
 
+        // イベント開始：入力受付停止
+        isPerformingEvent = true;
         PauseMovement();
-        cameraViewController.LookAt(target, duration, ResumeMovement);
+
+        // 注視演出後のコールバック：カメラを次のWaypointへの向きに復帰→移動再開
+        cameraViewController.LookAt(target, duration, () => {
+            // 次のWaypointが存在する場合、カメラを移動方向に復帰
+            if (HasNextWaypoint())
+            {
+                Quaternion nextRotation = DetermineTargetRotation(waypoints[currentWaypointIndex]);
+                cameraViewController.RestoreRotation(nextRotation, 1.0f, () => {
+                    // イベント完全終了：入力受付再開→移動再開
+                    isPerformingEvent = false;
+                    ResumeMovement();
+                });
+            }
+            else
+            {
+                // 次のWaypointがない場合（OneWayモード終端）は、そのまま再開
+                isPerformingEvent = false;
+                ResumeMovement();
+            }
+        });
 
         Debug.Log($"[RouteFollower] LookAtWithPause started: Target={target.name}, Duration={duration}s");
     }
