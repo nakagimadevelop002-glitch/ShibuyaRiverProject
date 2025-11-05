@@ -119,7 +119,6 @@ public class FadingMovementSMB : StateMachineBehaviour
     float startAlpha;
     float moveSpeed;           // 移動速度（単位/秒）
     float fadeSpeed;           // 透明化速度（alpha/秒）
-    bool isCompleted;          // 到達完了フラグ
 
     static readonly int OpacityAddID = Shader.PropertyToID("_OpacityAdd");
 
@@ -196,7 +195,6 @@ public class FadingMovementSMB : StateMachineBehaviour
 
         startPosition = targetTransform.position;
         startAlpha = GetCurrentAlpha();
-        isCompleted = false;
 
         // 速度 = 距離 / 時間
         float distance = Vector3.Distance(startPosition, targetPoint.position);

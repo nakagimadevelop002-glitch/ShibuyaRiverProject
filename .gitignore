@@ -82,7 +82,3 @@ $RECYCLE.BIN/
 *.msm
 *.msp
 *.lnk
-
-# Large test scenes (>100MB)
-Assets/Scenes/MurkyRiverTestScene.unity
-Assets/Scenes/TestRiverScene.unity

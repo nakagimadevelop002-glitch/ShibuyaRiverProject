@@ -1,4 +1,26 @@
 using UnityEngine;
+using UnityEngine.Events;
+
+/// <summary>
+/// Waypoint到達時に発火するイベント
+/// </summary>
+[System.Serializable]
+public class WaypointEvent
+{
+    [Tooltip("イベントを発火するWaypoint番号（0始まり）")]
+    public int waypointIndex;
+
+    [Header("Camera Look At Settings")]
+    [Tooltip("注視対象Transform（設定時に自動的にカメラ注視演出を実行）")]
+    public Transform lookAtTarget;
+
+    [Tooltip("注視継続時間（秒）")]
+    public float lookDuration = 3.0f;
+
+    [Header("Additional Events")]
+    [Tooltip("追加の演出イベント（パーティクル、音等）無い場合は空でOK")]
+    public UnityEvent onReached;
+}
 
 /// <summary>
 /// 腕振り検知に応じて設定されたルートを自動的にたどる移動システム
@@ -10,6 +32,9 @@ public class RouteFollower : MonoBehaviour
     [Header("Route Settings")]
     [Tooltip("ルート上の通過点を順番に配置（位置＝移動先、回転＝カメラ向き）")]
     [SerializeField] private GameObject[] waypoints;
+
+    [Tooltip("各Waypoint到達時に発火するイベント（演出設定用）")]
+    [SerializeField] private WaypointEvent[] waypointEvents;
 
     [Header("Movement Settings")]
     [Tooltip("前進速度（m/s）")]
@@ -28,6 +53,10 @@ public class RouteFollower : MonoBehaviour
     [Header("Detection")]
     [Tooltip("腕振り検知システム（前進/停止トリガー）")]
     [SerializeField] private ArmSwingDetector armSwingDetector;
+
+    [Header("Camera Effects")]
+    [Tooltip("カメラ演出制御（注視演出用）")]
+    [SerializeField] private CameraViewController cameraViewController;
 
     // 現在向かっているウェイポイントのインデックス
     private int currentWaypointIndex = 0;
@@ -74,6 +103,17 @@ public class RouteFollower : MonoBehaviour
         if (armSwingDetector == null)
         {
             Debug.LogError("[RouteFollower] ArmSwingDetectorが未設定です。移動制御ができません。");
+        }
+
+        // CameraViewControllerの自動検索（Inspector未設定時）
+        if (cameraViewController == null)
+        {
+            cameraViewController = FindObjectOfType<CameraViewController>();
+
+            if (cameraViewController == null)
+            {
+                Debug.LogWarning("[RouteFollower] CameraViewControllerが見つかりません。カメラ注視演出を使用する場合は設定してください。");
+            }
         }
     }
 
@@ -138,18 +178,15 @@ public class RouteFollower : MonoBehaviour
     {
         GameObject targetWaypoint = waypoints[currentWaypointIndex];
         Vector3 targetPosition = targetWaypoint.transform.position;
-
-        // Y座標は固定（高さ維持、ユーザーが手動設定）
         targetPosition.y = transform.position.y;
 
-        // 目標地点へ移動（MoveTowardsで一定速度）
         transform.position = Vector3.MoveTowards(
             transform.position,
             targetPosition,
             moveSpeed * Time.deltaTime
         );
 
-        // 到達判定（0.1m以内）
+        // 意図: 完全一致(==)は浮動小数点誤差で永遠に到達できないため許容範囲を設定
         if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
         {
             AdvanceToNextWaypoint();
@@ -158,10 +195,26 @@ public class RouteFollower : MonoBehaviour
 
     /// <summary>
     /// 次のウェイポイントへインデックスを進める
-    /// 意図: ルート上の進行を管理、終端到達時は完了処理
+    /// 意図: ルート上の進行を管理、演出の自動実行、終端到達時は完了処理
     /// </summary>
     private void AdvanceToNextWaypoint()
     {
+        if (waypointEvents != null)
+        {
+            foreach (var evt in waypointEvents)
+            {
+                if (evt != null && evt.waypointIndex == currentWaypointIndex)
+                {
+                    if (evt.lookAtTarget != null)
+                    {
+                        LookAtWithPause(evt.lookAtTarget, evt.lookDuration);
+                    }
+
+                    evt.onReached?.Invoke();
+                }
+            }
+        }
+
         currentWaypointIndex++;
 
         if (!HasNextWaypoint())
@@ -278,5 +331,57 @@ public class RouteFollower : MonoBehaviour
     {
         currentWaypointIndex = 0;
         isMoving = false;
+    }
+
+    /// <summary>
+    /// 移動を一時停止
+    /// 意図: 演出中の停止に使用（Tell, Don't Ask原則）
+    /// </summary>
+    private void PauseMovement()
+    {
+        isMoving = false;
+        Debug.Log("[RouteFollower] Movement paused.");
+    }
+
+    /// <summary>
+    /// 移動を再開（演出完了後の再開に使用）
+    /// 意図: 腕振り検知状態を確認してから再開（Tell, Don't Ask原則）
+    /// </summary>
+    public void ResumeMovement()
+    {
+        if (armSwingDetector != null)
+        {
+            isMoving = armSwingDetector.IsWalking;
+            Debug.Log($"[RouteFollower] Movement resumed. IsWalking={armSwingDetector.IsWalking}");
+        }
+        else
+        {
+            isMoving = true;
+            Debug.Log("[RouteFollower] Movement resumed (no ArmSwingDetector check).");
+        }
+    }
+
+    /// <summary>
+    /// カメラ注視演出を実行（移動停止→注視→自動再開を一括処理）
+    /// 意図: カプセル化により複雑な処理を隠蔽、WaypointEventから自動呼び出し
+    /// </summary>
+    private void LookAtWithPause(Transform target, float duration)
+    {
+        if (cameraViewController == null)
+        {
+            Debug.LogError("[RouteFollower] CameraViewControllerが未設定です。カメラ注視演出を使用できません。");
+            return;
+        }
+
+        if (target == null)
+        {
+            Debug.LogWarning("[RouteFollower] LookAt target is null!");
+            return;
+        }
+
+        PauseMovement();
+        cameraViewController.LookAt(target, duration, ResumeMovement);
+
+        Debug.Log($"[RouteFollower] LookAtWithPause started: Target={target.name}, Duration={duration}s");
     }
 }
