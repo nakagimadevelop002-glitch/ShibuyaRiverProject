@@ -47,7 +47,7 @@ public class RiverFishCharacter : MonoBehaviour {
     {
         riverFishRigid.AddForce(transform.forward * forwardAcceleration * forwardAccelerationMultiplier + transform.up * upDownAcceleration * upDownAccelerationMultiplier + waterFlow);
         riverFishRigid.AddTorque(transform.up * turnAcceleration * turnAccelerationMultiplier);
-        forwardSpeed = riverFishRigid.velocity.magnitude;
+        forwardSpeed = riverFishRigid.linearVelocity.magnitude;
         riverFishAnimator.speed = forwardAcceleration + minAnimatorSpeed;
         riverFishAnimator.SetFloat("ForwardSpeed", forwardSpeed);
         riverFishAnimator.SetFloat("ForwardAcceleration", forwardAcceleration);

@@ -61,7 +61,7 @@ public class FishCharacter : MonoBehaviour {
 
 	public void Move(){
 		if (isLived) {
-			fishRigid.velocity = transform.forward * forwardSpeed * maxForwardSpeed + transform.up * upDownSpeed * maxUpDownSpeed;
+			fishRigid.linearVelocity = transform.forward * forwardSpeed * maxForwardSpeed + transform.up * upDownSpeed * maxUpDownSpeed;
 			transform.RotateAround (transform.position, Vector3.up, turnSpeed * Time.deltaTime * maxTurnSpeed);
 
 			fishAnimator.SetFloat ("Forward", forwardSpeed);

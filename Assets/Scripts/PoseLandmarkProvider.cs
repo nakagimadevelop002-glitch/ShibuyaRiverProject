@@ -41,7 +41,7 @@ public class PoseLandmarkProvider : MonoBehaviour
         // CustomAnnotationControllerの自動検索（Inspector未設定時）
         if (customAnnotationController == null)
         {
-            customAnnotationController = FindObjectOfType<Mediapipe.Unity.CustomPoseLandmarkerAnnotationController>();
+            customAnnotationController = FindFirstObjectByType<Mediapipe.Unity.CustomPoseLandmarkerAnnotationController>();
 
             if (customAnnotationController == null)
             {

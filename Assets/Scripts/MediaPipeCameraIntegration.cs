@@ -27,7 +27,7 @@ public class MediaPipeCameraIntegration : MonoBehaviour
     private IEnumerator InitializeSharedCamera()
     {
         // CameraInputを自動検索
-        cameraInput = FindObjectOfType<CameraInput>();
+        cameraInput = FindFirstObjectByType<CameraInput>();
         if (cameraInput == null)
         {
             Debug.LogError("[MediaPipeCameraIntegration] CameraInput not found! Please add CameraInput to the scene.");
@@ -39,7 +39,7 @@ public class MediaPipeCameraIntegration : MonoBehaviour
         float timeout = 10f;
         while (bootstrap == null && timeout > 0)
         {
-            bootstrap = FindObjectOfType<Bootstrap>();
+            bootstrap = FindFirstObjectByType<Bootstrap>();
             if (bootstrap == null)
             {
                 yield return new WaitForSeconds(0.2f);

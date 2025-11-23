@@ -59,7 +59,7 @@ public class PersonDetector : MonoBehaviour
         // CameraInputの自動検索
         if (cameraInput == null)
         {
-            cameraInput = FindObjectOfType<CameraInput>();
+            cameraInput = FindFirstObjectByType<CameraInput>();
         }
 
         LoadModel();

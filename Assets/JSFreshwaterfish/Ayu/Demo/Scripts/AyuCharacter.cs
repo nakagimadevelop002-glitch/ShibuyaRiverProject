@@ -47,7 +47,7 @@ public class AyuCharacter : MonoBehaviour {
     {
         ayuRigid.AddForce(transform.forward * forwardAcceleration * forwardAccelerationMultiplier + transform.up * upDownAcceleration * upDownAccelerationMultiplier+waterFlow);
         ayuRigid.AddTorque(transform.up * turnAcceleration * turnAccelerationMultiplier);
-        forwardSpeed = ayuRigid.velocity.magnitude;
+        forwardSpeed = ayuRigid.linearVelocity.magnitude;
         ayuAnimator.speed = forwardAcceleration + minAnimatorSpeed;
         ayuAnimator.SetFloat("ForwardSpeed", forwardSpeed);
         ayuAnimator.SetFloat("ForwardAcceleration", forwardAcceleration);

@@ -128,7 +128,7 @@ public class RouteFollower : MonoBehaviour
         // CameraViewControllerの自動検索（Inspector未設定時）
         if (cameraViewController == null)
         {
-            cameraViewController = FindObjectOfType<CameraViewController>();
+            cameraViewController = FindFirstObjectByType<CameraViewController>();
 
             if (cameraViewController == null)
             {

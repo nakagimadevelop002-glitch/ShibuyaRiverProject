@@ -35,7 +35,7 @@ public class ShipDemo : MonoBehaviour
         //if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
          //   currentTurnInput = 0;
         
-        Vector3 localVelocity = transform.InverseTransformDirection(RigidBody.velocity);
+        Vector3 localVelocity = transform.InverseTransformDirection(RigidBody.linearVelocity);
         float targetSpeed = 0;
 
         targetSpeed = MaxForwardSpeed;
@@ -49,7 +49,7 @@ public class ShipDemo : MonoBehaviour
         localVelocity.y *= 1 - VerticalDrag * Time.fixedDeltaTime;
         localVelocity.z *= 1 - ForwardDrag * Time.fixedDeltaTime;
 
-        RigidBody.velocity = transform.TransformDirection(localVelocity);
+        RigidBody.linearVelocity = transform.TransformDirection(localVelocity);
 
      
         float input = 0;

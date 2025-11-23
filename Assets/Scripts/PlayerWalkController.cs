@@ -27,7 +27,7 @@ public class PlayerWalkController : MonoBehaviour
         // ArmSwingDetectorの自動検索（Inspector未設定時）
         if (armSwingDetector == null)
         {
-            armSwingDetector = FindObjectOfType<ArmSwingDetector>();
+            armSwingDetector = FindFirstObjectByType<ArmSwingDetector>();
 
             if (armSwingDetector == null)
             {

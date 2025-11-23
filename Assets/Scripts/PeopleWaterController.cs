@@ -111,22 +111,22 @@ public class PeopleWaterController : MonoBehaviour
         // 自動検索
         if (personDetector == null)
         {
-            personDetector = FindObjectOfType<PersonDetector>();
+            personDetector = FindFirstObjectByType<PersonDetector>();
         }
 
         if (weatherSystem == null)
         {
-            weatherSystem = FindObjectOfType<WeatherSystem>();
+            weatherSystem = FindFirstObjectByType<WeatherSystem>();
         }
 
         if (waterSystem == null)
         {
-            waterSystem = FindObjectOfType<WaterSystem>();
+            waterSystem = FindFirstObjectByType<WaterSystem>();
         }
 
         if (riverController == null)
         {
-            riverController = FindObjectOfType<RiverController>();
+            riverController = FindFirstObjectByType<RiverController>();
         }
 
         // 屈折モードを有効化（透明感に必須）

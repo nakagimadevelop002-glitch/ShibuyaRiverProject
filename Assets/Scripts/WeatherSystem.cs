@@ -72,17 +72,17 @@ public class WeatherSystem : MonoBehaviour
         // 参照の自動検索
         if (riverController == null)
         {
-            riverController = FindObjectOfType<RiverController>();
+            riverController = FindFirstObjectByType<RiverController>();
         }
 
         if (waterSystem == null)
         {
-            waterSystem = FindObjectOfType<WaterSystem>();
+            waterSystem = FindFirstObjectByType<WaterSystem>();
         }
 
         if (weatherAmbience == null)
         {
-            weatherAmbience = FindObjectOfType<WeatherAmbience>();
+            weatherAmbience = FindFirstObjectByType<WeatherAmbience>();
         }
 
         // 初期天候を設定

@@ -37,12 +37,12 @@ public class RiverController : MonoBehaviour
         // 参照が設定されていない場合は自動検索
         if (simulationZone == null)
         {
-            simulationZone = FindObjectOfType<KWS_DynamicWavesSimulationZone>();
+            simulationZone = FindFirstObjectByType<KWS_DynamicWavesSimulationZone>();
         }
 
         if (waterSource == null || waterDrain == null)
         {
-            var dynamicWavesObjects = FindObjectsOfType<KWS_DynamicWavesObject>();
+            var dynamicWavesObjects = FindObjectsByType<KWS_DynamicWavesObject>(FindObjectsSortMode.None);
             foreach (var obj in dynamicWavesObjects)
             {
                 if (obj.InteractionType == KWS_DynamicWavesObject.InteractionTypeEnum.WaterSource && waterSource == null)
