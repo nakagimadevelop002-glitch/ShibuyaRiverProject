@@ -5,6 +5,8 @@ using UnityEngine;
 /// </summary>
 public class CameraInput : MonoBehaviour
 {
+    public static CameraInput Instance { get; private set; }
+
     [Header("Camera Settings")]
     [Tooltip("使用するカメラデバイスのインデックス（0 = デフォルト）")]
     public int cameraIndex = 0;
@@ -28,6 +30,22 @@ public class CameraInput : MonoBehaviour
     public bool IsInitialized => isInitialized;
     public int Width => webCamTexture != null ? webCamTexture.width : 0;
     public int Height => webCamTexture != null ? webCamTexture.height : 0;
+
+    void Awake()
+    {
+        // Singleton初期化
+        if (Instance == null)
+        {
+            Instance = this;
+            // 親からの独立: ルートGameObjectに移動してDontDestroyOnLoadを機能させる
+            transform.SetParent(null);
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     void Start()
     {
@@ -126,4 +144,17 @@ public class CameraInput : MonoBehaviour
     {
         return webCamTexture != null && webCamTexture.didUpdateThisFrame;
     }
+
+    /// <summary>
+    /// エディタテスト用にインスタンスをリセット
+    /// 意図: PlayMode終了時やシーン単体テスト時の初期化
+    /// </summary>
+#if UNITY_EDITOR
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetInstance()
+    {
+        Instance = null;
+        Debug.Log("[CameraInput] Instance reset for editor.");
+    }
+#endif
 }

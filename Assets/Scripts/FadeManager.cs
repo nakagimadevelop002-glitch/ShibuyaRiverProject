@@ -1,42 +1,55 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 /// <summary>
-/// 画面フェード演出を管理するシングルトン
-/// 責任: 画面暗転・明転演出のみに専念
-/// 用途: シーン遷移、カットシーン、演出等、アプリ全体で使用可能
+/// 画面フェード演出を管理するコンポーネント
+/// 責任: 画面暗転・明転演出、シーン遷移制御
+/// 設計方針: 各シーンに配置、DontDestroyOnLoad不使用、シーン開始時に自動フェードイン
 /// </summary>
 public class FadeManager : MonoBehaviour
 {
-    public static FadeManager Instance { get; private set; }
-
     [Header("Fade Settings")]
     [Tooltip("フェード時間（秒）")]
     [SerializeField] private float fadeDuration = 1.0f;
 
-    // Fade用UI
-    private Canvas fadeCanvas;
-    private Image fadeImage;
+    [Tooltip("シーン開始時に自動的にフェードインするか")]
+    [SerializeField] private bool autoFadeInOnStart = true;
+
+    [Header("UI References")]
+    [Tooltip("フェード用Image（シーンに配置済みのものを参照）")]
+    [SerializeField] private Image fadeImage;
+
+    /// <summary>
+    /// フェード中かどうか（外部から参照可能）
+    /// </summary>
+    public static bool IsFading { get; private set; } = false;
 
     private void Awake()
     {
-        // Singleton初期化
-        if (Instance == null)
+        // fadeImageが未設定の場合は自動生成
+        if (fadeImage == null)
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
             InitializeFadeUI();
         }
-        else
+    }
+
+    private void Start()
+    {
+        // シーン開始時に自動フェードイン
+        if (autoFadeInOnStart && fadeImage != null)
         {
-            Destroy(gameObject);
+            // 初期状態を完全暗転に設定
+            SetFadeBlack();
+            // フェードイン開始
+            StartCoroutine(FadeIn());
         }
     }
 
     /// <summary>
-    /// Fade用UIを初期化
-    /// 意図: Canvas + Imageを自動生成、全画面黒パネルを用意
+    /// Fade用UIを初期化（自動生成）
+    /// 意図: fadeImage未設定時、Canvas + Imageを自動生成して全画面黒パネルを用意
     /// </summary>
     private void InitializeFadeUI()
     {
@@ -44,13 +57,14 @@ public class FadeManager : MonoBehaviour
         GameObject canvasObj = new GameObject("FadeCanvas");
         canvasObj.transform.SetParent(transform, false);
 
-        fadeCanvas = canvasObj.AddComponent<Canvas>();
+        Canvas fadeCanvas = canvasObj.AddComponent<Canvas>();
         fadeCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
         fadeCanvas.sortingOrder = 9999; // 最前面
 
         CanvasScaler scaler = canvasObj.AddComponent<CanvasScaler>();
         scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
         scaler.referenceResolution = new Vector2(1920, 1080);
+        scaler.matchWidthOrHeight = 0.5f;
 
         canvasObj.AddComponent<GraphicRaycaster>();
 
@@ -64,23 +78,54 @@ public class FadeManager : MonoBehaviour
         RectTransform rt = imageObj.GetComponent<RectTransform>();
         rt.anchorMin = Vector2.zero;
         rt.anchorMax = Vector2.one;
-        rt.sizeDelta = Vector2.zero;
+        rt.offsetMin = Vector2.zero; // left, bottom
+        rt.offsetMax = Vector2.zero; // right, top
 
-        Debug.Log("[FadeManager] Fade UI initialized.");
+        Debug.Log("[FadeManager] Fade UI auto-generated.");
+    }
+
+    /// <summary>
+    /// フェード付きシーン遷移（FadeOut → LoadScene）
+    /// 意図: フェードアウト完了まで待機してからシーンロード
+    /// 次シーンのFadeManagerが自動的にフェードインを実行
+    /// </summary>
+    /// <param name="sceneName">遷移先シーン名</param>
+    /// <param name="fadeOutDuration">フェードアウト時間（秒）。-1でデフォルト値使用</param>
+    public void LoadSceneWithFade(string sceneName, float fadeOutDuration = -1f)
+    {
+        StartCoroutine(LoadSceneWithFadeCoroutine(sceneName, fadeOutDuration));
+    }
+
+    private IEnumerator LoadSceneWithFadeCoroutine(string sceneName, float fadeOutDuration)
+    {
+        // フェード中は重複実行を防止
+        if (IsFading)
+        {
+            Debug.LogWarning("[FadeManager] Already fading. Ignoring request.");
+            yield break;
+        }
+
+        // 1. フェードアウト完了まで待機
+        yield return StartCoroutine(FadeOut(fadeOutDuration));
+
+        // 2. シーンロード（次シーンのFadeManagerが自動的にフェードイン）
+        SceneManager.LoadScene(sceneName);
     }
 
     /// <summary>
     /// フェードアウト（画面を暗く）
     /// 意図: 滑らかな補間で画面を黒に変化
     /// </summary>
-    /// <param name="duration">フェード時間（秒）。省略時はデフォルト値使用</param>
+    /// <param name="duration">フェード時間（秒）。-1でデフォルト値使用</param>
     public IEnumerator FadeOut(float duration = -1f)
     {
         if (fadeImage == null)
         {
-            Debug.LogError("[FadeManager] Fade image is null!");
+            Debug.LogError("[FadeManager] Fade image is not assigned!");
             yield break;
         }
+
+        IsFading = true;
 
         // duration省略時はデフォルト値使用
         if (duration < 0f)
@@ -102,20 +147,24 @@ public class FadeManager : MonoBehaviour
         // 完全に不透明
         color.a = 1f;
         fadeImage.color = color;
+
+        // フェードアウト完了時はIsFadingをtrueのまま維持（シーン遷移中）
     }
 
     /// <summary>
     /// フェードイン（画面を明るく）
     /// 意図: 滑らかな補間で画面を透明に変化
     /// </summary>
-    /// <param name="duration">フェード時間（秒）。省略時はデフォルト値使用</param>
+    /// <param name="duration">フェード時間（秒）。-1でデフォルト値使用</param>
     public IEnumerator FadeIn(float duration = -1f)
     {
         if (fadeImage == null)
         {
-            Debug.LogError("[FadeManager] Fade image is null!");
+            Debug.LogError("[FadeManager] Fade image is not assigned!");
             yield break;
         }
+
+        IsFading = true;
 
         // duration省略時はデフォルト値使用
         if (duration < 0f)
@@ -137,6 +186,9 @@ public class FadeManager : MonoBehaviour
         // 完全に透明
         color.a = 0f;
         fadeImage.color = color;
+
+        // フェードイン完了 - プレイヤー操作再開可能
+        IsFading = false;
     }
 
     /// <summary>
@@ -166,17 +218,4 @@ public class FadeManager : MonoBehaviour
             fadeImage.color = color;
         }
     }
-
-    /// <summary>
-    /// エディタテスト用にインスタンスをリセット
-    /// 意図: PlayMode終了時やシーン単体テスト時の初期化
-    /// </summary>
-#if UNITY_EDITOR
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-    private static void ResetInstance()
-    {
-        Instance = null;
-        Debug.Log("[FadeManager] Instance reset for editor.");
-    }
-#endif
 }

@@ -110,6 +110,12 @@ public class RouteFollower : MonoBehaviour
 
     private void Update()
     {
+        // フェード中はプレイヤーの動きを停止
+        if (FadeManager.IsFading)
+        {
+            return;
+        }
+
         // テスト用自動前進モード（腕振り検知を無視して強制的に前進）
         if (autoMoveEnabled)
         {
