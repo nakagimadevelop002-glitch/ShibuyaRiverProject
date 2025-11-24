@@ -5,33 +5,21 @@ using System.Collections;
 /// <summary>
 /// シーン間のポータル（入口/出口）
 /// 各シーンに1つ配置し、Waypoint到達時にEnter()を呼び出すことでシーン遷移を実行
+/// 円環状一方通行接続のため、各シーンには固定の開始位置が1つのみ存在
 /// 責任: シーン遷移管理とスポーン地点管理（Fade演出はFadeManagerに委譲）
 /// </summary>
 public class ScenePortal : MonoBehaviour
 {
-    /// <summary>
-    /// スポーン地点情報
-    /// </summary>
-    [System.Serializable]
-    public class SpawnPoint
-    {
-        [Tooltip("ポータルID（遷移元から指定される識別子）")]
-        public string portalID;
-
-        [Tooltip("スポーン位置・回転")]
-        public Transform position;
-    }
-
-    [Header("Spawn Points")]
-    [Tooltip("このシーンのスポーン地点一覧")]
-    [SerializeField] private SpawnPoint[] spawnPoints;
+    [Header("Start Position")]
+    [Tooltip("このシーンの開始位置（Playerのスポーン地点）")]
+    [SerializeField] private Transform startPosition;
 
     [Header("References")]
     [Tooltip("スポーン対象のPlayer（自動検索可能）")]
     [SerializeField] private Transform player;
 
-    // シーン間で受け渡すポータルID
-    private static string s_nextPortalID = "";
+    // シーン遷移実行フラグ（シーン間で保持）
+    private static bool s_shouldSpawn = false;
 
     private void Start()
     {
@@ -40,11 +28,10 @@ public class ScenePortal : MonoBehaviour
 
     /// <summary>
     /// ポータルに入る（シーン遷移実行）
-    /// WaypointEventのonReachedから呼び出される
+    /// WaypointEventのonSceneTransitionから呼び出される
     /// </summary>
     /// <param name="targetSceneName">遷移先シーン名</param>
-    /// <param name="destinationPortalID">遷移先でのスポーン地点ID</param>
-    public void Enter(string targetSceneName, string destinationPortalID)
+    public void Enter(string targetSceneName)
     {
         if (string.IsNullOrEmpty(targetSceneName))
         {
@@ -52,10 +39,10 @@ public class ScenePortal : MonoBehaviour
             return;
         }
 
-        Debug.Log($"[ScenePortal] Entering portal: Target={targetSceneName}, SpawnID={destinationPortalID}");
+        Debug.Log($"[ScenePortal] Entering portal: Target={targetSceneName}");
 
-        // 次シーンのスポーン地点IDを保存
-        s_nextPortalID = destinationPortalID;
+        // スポーン実行フラグを立てる
+        s_shouldSpawn = true;
 
         // Fade + シーン遷移実行
         StartCoroutine(TransitionCoroutine(targetSceneName));
@@ -90,14 +77,14 @@ public class ScenePortal : MonoBehaviour
 
     /// <summary>
     /// シーン開始時のPlayerスポーン処理
-    /// 意図: 保存されたポータルIDに対応する位置にPlayerを配置
+    /// 意図: シーン遷移後、固定の開始位置にPlayerを配置
     /// </summary>
     private void CheckAndSpawnPlayer()
     {
-        // ポータルID指定がない場合はスキップ（初回起動等）
-        if (string.IsNullOrEmpty(s_nextPortalID))
+        // スポーン実行フラグが立っていない場合はスキップ（初回起動等）
+        if (!s_shouldSpawn)
         {
-            Debug.Log("[ScenePortal] No portal ID specified. Skipping spawn.");
+            Debug.Log("[ScenePortal] No spawn flag. Skipping spawn.");
             return;
         }
 
@@ -112,29 +99,27 @@ public class ScenePortal : MonoBehaviour
             else
             {
                 Debug.LogWarning("[ScenePortal] Player not found! Please assign or tag Player object.");
-                s_nextPortalID = ""; // クリア
+                s_shouldSpawn = false; // クリア
                 return;
             }
         }
 
-        // スポーン地点を検索
-        SpawnPoint spawnPoint = System.Array.Find(spawnPoints, sp => sp.portalID == s_nextPortalID);
-
-        if (spawnPoint != null && spawnPoint.position != null)
+        // 開始位置チェック
+        if (startPosition == null)
         {
-            // Playerを配置
-            player.position = spawnPoint.position.position;
-            player.rotation = spawnPoint.position.rotation;
+            Debug.LogWarning("[ScenePortal] Start position is not set!");
+            s_shouldSpawn = false; // クリア
+            return;
+        }
 
-            Debug.Log($"[ScenePortal] Player spawned at: {s_nextPortalID}");
-        }
-        else
-        {
-            Debug.LogWarning($"[ScenePortal] Spawn point not found: {s_nextPortalID}");
-        }
+        // Playerを開始位置に配置
+        player.position = startPosition.position;
+        player.rotation = startPosition.rotation;
+
+        Debug.Log($"[ScenePortal] Player spawned at start position: {startPosition.name}");
 
         // 使用済みフラグをクリア
-        s_nextPortalID = "";
+        s_shouldSpawn = false;
     }
 
     /// <summary>
@@ -145,7 +130,7 @@ public class ScenePortal : MonoBehaviour
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     private static void ResetStatics()
     {
-        s_nextPortalID = "";
+        s_shouldSpawn = false;
         Debug.Log("[ScenePortal] Static variables reset for editor.");
     }
 #endif

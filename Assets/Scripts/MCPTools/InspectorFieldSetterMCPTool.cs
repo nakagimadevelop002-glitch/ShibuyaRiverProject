@@ -382,8 +382,8 @@ public class InspectorFieldSetterMCPTool
                 return $"ERROR: Component '{componentTypeName}' not found on '{objectName}'";
             }
 
-            // Try to find as field first
-            FieldInfo field = componentType.GetField(fieldName, BindingFlags.Public | BindingFlags.Instance);
+            // Try to find as field first (support both public and private [SerializeField])
+            FieldInfo field = componentType.GetField(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
             PropertyInfo property = null;
             Type memberType = null;
 

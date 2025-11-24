@@ -20,6 +20,16 @@ public class WaypointEvent
     [Header("Additional Events")]
     [Tooltip("追加の演出イベント（パーティクル、音等）無い場合は空でOK")]
     public UnityEvent onReached;
+
+    [Header("Scene Transition")]
+    [Tooltip("シーン遷移を実行する場合はチェック")]
+    public bool enableSceneTransition = false;
+
+    [Tooltip("遷移先シーン名")]
+    public string targetSceneName = "";
+
+    [Tooltip("シーン遷移用イベント（ScenePortal.Enter用）")]
+    public UnityEvent<string> onSceneTransition;
 }
 
 /// <summary>
@@ -71,6 +81,10 @@ public class RouteFollower : MonoBehaviour
     [Tooltip("カメラ演出制御（注視演出用）")]
     [SerializeField] private CameraViewController cameraViewController;
 
+    [Header("Debug/Testing")]
+    [Tooltip("自動前進モード（テスト用：腕振り検知を無視して自動的に前進）")]
+    [SerializeField] private bool autoMoveEnabled = false;
+
     // 現在向かっているウェイポイントのインデックス
     private int currentWaypointIndex = 0;
 
@@ -96,6 +110,12 @@ public class RouteFollower : MonoBehaviour
 
     private void Update()
     {
+        // テスト用自動前進モード（腕振り検知を無視して強制的に前進）
+        if (autoMoveEnabled)
+        {
+            isMoving = true;
+        }
+
         // 意図: イベント実行中は入力を受け付けず、演出完了まで待機
         if (isMoving && !isPerformingEvent && HasNextWaypoint())
         {
@@ -237,6 +257,12 @@ public class RouteFollower : MonoBehaviour
                     }
 
                     evt.onReached?.Invoke();
+
+                    // シーン遷移イベント発火
+                    if (evt.enableSceneTransition && evt.onSceneTransition != null)
+                    {
+                        evt.onSceneTransition.Invoke(evt.targetSceneName);
+                    }
                 }
             }
         }
