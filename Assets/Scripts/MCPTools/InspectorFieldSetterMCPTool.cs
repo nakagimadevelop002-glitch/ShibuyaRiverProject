@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using ModelContextProtocol.Server;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 [McpServerToolType, Description("Set Inspector field values on GameObjects with reflection")]
 public class InspectorFieldSetterMCPTool
@@ -349,11 +350,11 @@ public class InspectorFieldSetterMCPTool
 #endif
     }
 
-    [McpServerTool, Description("Set any field value on a component (auto-parses primitives, string, enum, Color, Vector2/3/4)")]
+    [McpServerTool, Description("Set any field value on a component (auto-parses primitives, string, enum, Color, Vector2/3/4, supports nested fields with dot notation)")]
     public async ValueTask<string> SetFieldValue(
         [Description("Target GameObject name")] string objectName,
         [Description("Component type name (e.g., ModalSystem)")] string componentTypeName,
-        [Description("Field name to set")] string fieldName,
+        [Description("Field name to set (supports nested fields like 'profile.intensity.value' or 'components[0].fixedExposure')")] string fieldName,
         [Description("Value as string (will be parsed to appropriate type)")] string value)
     {
 #if UNITY_EDITOR
@@ -382,47 +383,45 @@ public class InspectorFieldSetterMCPTool
                 return $"ERROR: Component '{componentTypeName}' not found on '{objectName}'";
             }
 
-            // Try to find as field first (support both public and private [SerializeField])
-            FieldInfo field = componentType.GetField(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-            PropertyInfo property = null;
-            Type memberType = null;
-
-            if (field != null)
+            // ネストされたフィールドパスを解析
+            var pathResult = ResolveNestedFieldPath(component, componentType, fieldName);
+            if (pathResult.errorMessage != null)
             {
-                memberType = field.FieldType;
-            }
-            else
-            {
-                // Try to find as property
-                property = componentType.GetProperty(fieldName, BindingFlags.Public | BindingFlags.Instance);
-                if (property == null)
-                {
-                    return $"ERROR: Field or property '{fieldName}' not found on '{componentTypeName}'";
-                }
-                memberType = property.PropertyType;
+                return pathResult.errorMessage;
             }
 
             // Parse value based on member type
-            object parsedValue = ParseValue(memberType, value);
+            object parsedValue = ParseValue(pathResult.finalType, value);
             if (parsedValue == null && !string.IsNullOrEmpty(value))
             {
-                return $"ERROR: Failed to parse '{value}' as {memberType.Name}";
+                return $"ERROR: Failed to parse '{value}' as {pathResult.finalType.Name}";
             }
 
             // Set value
-            if (field != null)
+            if (pathResult.finalField != null)
             {
-                field.SetValue(component, parsedValue);
+                pathResult.finalField.SetValue(pathResult.finalObject, parsedValue);
             }
-            else
+            else if (pathResult.finalProperty != null)
             {
-                property.SetValue(component, parsedValue);
+                pathResult.finalProperty.SetValue(pathResult.finalObject, parsedValue);
             }
+
+            // ScriptableObjectへの変更を検知して保存
+            // ネストされたパスの途中にScriptableObjectがあればそれもDirtyにする
+            MarkDirtyAlongPath(component, componentType, fieldName);
 
             // Mark scene dirty and save
             var scene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
             UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(scene);
             UnityEditor.SceneManagement.EditorSceneManager.SaveScene(scene);
+
+            // ScriptableObjectアセットを保存
+            UnityEditor.AssetDatabase.SaveAssets();
+
+            // アセットデータベースをリフレッシュ（変更を確実に反映）
+            UnityEditor.AssetDatabase.Refresh();
+
             Debug.Log($"Scene '{scene.name}' saved after setting {componentTypeName}.{fieldName} = {parsedValue}");
 
             return $"SUCCESS: Set {objectName}.{componentTypeName}.{fieldName} = {parsedValue}";
@@ -436,6 +435,229 @@ public class InspectorFieldSetterMCPTool
         await UniTask.Yield();
         return "ERROR: Field value setting only available in Unity Editor";
 #endif
+    }
+
+    /// <summary>
+    /// ネストされたパスを辿ってScriptableObjectをDirtyマークする
+    /// </summary>
+    private void MarkDirtyAlongPath(object rootObject, Type rootType, string path)
+    {
+        object currentObject = rootObject;
+        Type currentType = rootType;
+
+        // ルートオブジェクトがScriptableObjectならDirtyマーク
+        if (currentObject is ScriptableObject)
+        {
+            UnityEditor.EditorUtility.SetDirty((ScriptableObject)currentObject);
+        }
+
+        string[] pathParts = path.Split('.');
+
+        for (int i = 0; i < pathParts.Length - 1; i++) // 最後の要素は除く
+        {
+            string part = pathParts[i];
+            string fieldName = part;
+            int arrayIndex = -1;
+
+            if (part.Contains("[") && part.EndsWith("]"))
+            {
+                int bracketStart = part.IndexOf('[');
+                fieldName = part.Substring(0, bracketStart);
+                string indexStr = part.Substring(bracketStart + 1, part.Length - bracketStart - 2);
+                int.TryParse(indexStr, out arrayIndex);
+            }
+
+            FieldInfo field = currentType.GetField(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            PropertyInfo property = null;
+            object nextObject = null;
+
+            if (field != null)
+            {
+                nextObject = field.GetValue(currentObject);
+            }
+            else
+            {
+                property = currentType.GetProperty(fieldName, BindingFlags.Public | BindingFlags.Instance);
+                if (property != null && property.CanRead)
+                {
+                    nextObject = property.GetValue(currentObject);
+                }
+            }
+
+            if (nextObject == null) break;
+
+            // 配列/リストの場合
+            if (arrayIndex >= 0)
+            {
+                if (nextObject is Array)
+                {
+                    Array array = (Array)nextObject;
+                    if (arrayIndex >= 0 && arrayIndex < array.Length)
+                    {
+                        nextObject = array.GetValue(arrayIndex);
+                    }
+                }
+                else if (nextObject is System.Collections.IList)
+                {
+                    var list = nextObject as System.Collections.IList;
+                    if (arrayIndex >= 0 && arrayIndex < list.Count)
+                    {
+                        nextObject = list[arrayIndex];
+                    }
+                }
+            }
+
+            // ScriptableObjectならDirtyマーク
+            if (nextObject is ScriptableObject)
+            {
+                UnityEditor.EditorUtility.SetDirty((ScriptableObject)nextObject);
+            }
+
+            currentObject = nextObject;
+            currentType = nextObject?.GetType();
+            if (currentType == null) break;
+        }
+    }
+
+    /// <summary>
+    /// ネストされたフィールドパスを解析して最終的なフィールド/プロパティを取得
+    /// 例: "profile.intensity.value" や "components[0].fixedExposure"
+    /// </summary>
+    private (object finalObject, FieldInfo finalField, PropertyInfo finalProperty, Type finalType, string errorMessage)
+        ResolveNestedFieldPath(object rootObject, Type rootType, string path)
+    {
+        object currentObject = rootObject;
+        Type currentType = rootType;
+
+        // パスをドットで分割（配列インデックスは保持）
+        string[] pathParts = path.Split('.');
+
+        for (int i = 0; i < pathParts.Length; i++)
+        {
+            string part = pathParts[i];
+            bool isLastPart = (i == pathParts.Length - 1);
+
+            // 配列/リストインデックスアクセスを処理（例: "components[0]"）
+            string fieldName = part;
+            int arrayIndex = -1;
+
+            if (part.Contains("[") && part.EndsWith("]"))
+            {
+                int bracketStart = part.IndexOf('[');
+                fieldName = part.Substring(0, bracketStart);
+                string indexStr = part.Substring(bracketStart + 1, part.Length - bracketStart - 2);
+                if (!int.TryParse(indexStr, out arrayIndex))
+                {
+                    return (null, null, null, null, $"ERROR: Invalid array index '{indexStr}' in '{part}'");
+                }
+            }
+
+            // フィールドまたはプロパティを取得
+            FieldInfo field = currentType.GetField(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            PropertyInfo property = null;
+            object nextObject = null;
+            Type nextType = null;
+
+            if (field != null)
+            {
+                nextType = field.FieldType;
+                if (!isLastPart || arrayIndex >= 0)
+                {
+                    nextObject = field.GetValue(currentObject);
+                }
+            }
+            else
+            {
+                property = currentType.GetProperty(fieldName, BindingFlags.Public | BindingFlags.Instance);
+                if (property == null)
+                {
+                    return (null, null, null, null, $"ERROR: Field or property '{fieldName}' not found on '{currentType.Name}'");
+                }
+                nextType = property.PropertyType;
+                if (!isLastPart || arrayIndex >= 0)
+                {
+                    if (!property.CanRead)
+                    {
+                        return (null, null, null, null, $"ERROR: Property '{fieldName}' is write-only");
+                    }
+                    nextObject = property.GetValue(currentObject);
+                }
+            }
+
+            // 配列/リストインデックスアクセスを処理
+            if (arrayIndex >= 0)
+            {
+                if (nextObject == null)
+                {
+                    return (null, null, null, null, $"ERROR: Field '{fieldName}' is null, cannot access index [{arrayIndex}]");
+                }
+
+                // 配列の場合
+                if (nextType.IsArray)
+                {
+                    Array array = (Array)nextObject;
+                    if (arrayIndex < 0 || arrayIndex >= array.Length)
+                    {
+                        return (null, null, null, null, $"ERROR: Array index {arrayIndex} out of range (length: {array.Length})");
+                    }
+
+                    if (isLastPart)
+                    {
+                        // 最後の要素の場合、配列要素自体を設定対象とする
+                        // 特殊処理：配列要素への直接設定
+                        return (array, null, null, nextType.GetElementType(), null);
+                    }
+                    else
+                    {
+                        nextObject = array.GetValue(arrayIndex);
+                        // 実際のランタイム型を使用（重要：基底クラスではなく派生クラスの型）
+                        nextType = nextObject != null ? nextObject.GetType() : nextType.GetElementType();
+                    }
+                }
+                // Listの場合
+                else if (nextType.IsGenericType && nextType.GetGenericTypeDefinition() == typeof(System.Collections.Generic.List<>))
+                {
+                    var list = nextObject as System.Collections.IList;
+                    if (arrayIndex < 0 || arrayIndex >= list.Count)
+                    {
+                        return (null, null, null, null, $"ERROR: List index {arrayIndex} out of range (count: {list.Count})");
+                    }
+
+                    if (isLastPart)
+                    {
+                        // 最後の要素の場合、リスト要素自体を設定対象とする
+                        return (list, null, null, nextType.GetGenericArguments()[0], null);
+                    }
+                    else
+                    {
+                        nextObject = list[arrayIndex];
+                        // 実際のランタイム型を使用（重要：基底クラスではなく派生クラスの型）
+                        nextType = nextObject != null ? nextObject.GetType() : nextType.GetGenericArguments()[0];
+                    }
+                }
+                else
+                {
+                    return (null, null, null, null, $"ERROR: Field '{fieldName}' is not an array or list");
+                }
+            }
+
+            // 最後の要素の場合、フィールド/プロパティ情報を返す
+            if (isLastPart && arrayIndex < 0)
+            {
+                return (currentObject, field, property, nextType, null);
+            }
+
+            // 次の階層へ
+            if (nextObject == null)
+            {
+                return (null, null, null, null, $"ERROR: Field '{fieldName}' is null, cannot access nested path");
+            }
+
+            currentObject = nextObject;
+            currentType = nextType;
+        }
+
+        return (null, null, null, null, "ERROR: Unexpected end of path resolution");
     }
 
     /// <summary>
@@ -1141,6 +1363,138 @@ public class InspectorFieldSetterMCPTool
 #else
         await UniTask.Yield();
         return "ERROR: AddUnityEventListener only available in Unity Editor";
+#endif
+    }
+
+    [McpServerTool, Description("Add Volume Override to Volume Profile (e.g., Vignette, FilmGrain, ChromaticAberration)")]
+    public async ValueTask<string> AddVolumeOverride(
+        [Description("Target GameObject name with Volume component")] string objectName,
+        [Description("Volume Override type name (e.g., Vignette, FilmGrain, ChromaticAberration, LensDistortion)")] string overrideTypeName)
+    {
+#if UNITY_EDITOR
+        try
+        {
+            await UniTask.SwitchToMainThread();
+
+            // Find target GameObject
+            GameObject targetObject = GameObject.Find(objectName);
+            if (targetObject == null)
+            {
+                return $"ERROR: GameObject '{objectName}' not found";
+            }
+
+            // Get Volume component via reflection
+            var volumeType = System.AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(a => a.GetTypes())
+                .FirstOrDefault(t => t.Name == "Volume" && typeof(UnityEngine.Component).IsAssignableFrom(t));
+
+            if (volumeType == null)
+            {
+                return $"ERROR: Volume type not found";
+            }
+
+            var volume = targetObject.GetComponent(volumeType);
+            if (volume == null)
+            {
+                return $"ERROR: Volume component not found on '{objectName}'";
+            }
+
+            // Get sharedProfile via reflection (it's a field, not property)
+            var sharedProfileField = volumeType.GetField("sharedProfile", BindingFlags.Public | BindingFlags.Instance);
+            if (sharedProfileField == null)
+            {
+                return $"ERROR: sharedProfile field not found on Volume";
+            }
+
+            var profile = sharedProfileField.GetValue(volume);
+            if (profile == null)
+            {
+                return $"ERROR: Volume Profile not found on '{objectName}'";
+            }
+
+            // Cast profile to UnityEngine.Object for later use
+            var profileObj = profile as UnityEngine.Object;
+            if (profileObj == null)
+            {
+                return $"ERROR: Volume Profile is not a UnityEngine.Object";
+            }
+
+            // Find VolumeComponent base type
+            var volumeComponentBaseType = System.AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(a => a.GetTypes())
+                .FirstOrDefault(t => t.Name == "VolumeComponent");
+
+            if (volumeComponentBaseType == null)
+            {
+                return $"ERROR: VolumeComponent base type not found";
+            }
+
+            // Find VolumeComponent type
+            var overrideType = System.AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(a => a.GetTypes())
+                .FirstOrDefault(t => t.Name == overrideTypeName && t.IsSubclassOf(volumeComponentBaseType));
+
+            if (overrideType == null)
+            {
+                return $"ERROR: VolumeComponent type '{overrideTypeName}' not found";
+            }
+
+            // Get components list via reflection
+            var componentsField = profile.GetType().GetField("components", BindingFlags.Public | BindingFlags.Instance);
+            if (componentsField == null)
+            {
+                return $"ERROR: components field not found on Volume Profile";
+            }
+
+            var componentsList = componentsField.GetValue(profile) as System.Collections.IList;
+            if (componentsList == null)
+            {
+                return $"ERROR: components list is null";
+            }
+
+            // Check if already exists
+            foreach (var existingComponent in componentsList)
+            {
+                if (existingComponent.GetType() == overrideType)
+                {
+                    return $"INFO: '{overrideTypeName}' already exists in Volume Profile";
+                }
+            }
+
+            // Create new VolumeComponent instance
+            var newComponent = ScriptableObject.CreateInstance(overrideType);
+            if (newComponent == null)
+            {
+                return $"ERROR: Failed to create instance of '{overrideTypeName}'";
+            }
+
+            newComponent.name = overrideTypeName;
+
+            // Add to profile's components list
+            componentsList.Add(newComponent);
+
+            // Add as sub-asset to the profile asset
+            string assetPath = UnityEditor.AssetDatabase.GetAssetPath(profileObj);
+            UnityEditor.AssetDatabase.AddObjectToAsset(newComponent, assetPath);
+
+            // Mark dirty and save
+            UnityEditor.EditorUtility.SetDirty(newComponent);
+            UnityEditor.EditorUtility.SetDirty(profileObj);
+            UnityEditor.AssetDatabase.SaveAssets();
+            UnityEditor.AssetDatabase.Refresh();
+
+            Debug.Log($"Added '{overrideTypeName}' to Volume Profile: {profileObj.name}");
+
+            return $"SUCCESS: Added '{overrideTypeName}' to Volume Profile on '{objectName}'";
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Failed to add Volume Override: {e.Message}\nStack: {e.StackTrace}");
+            return $"ERROR: {e.Message}";
+        }
+#else
+        await UniTask.Yield();
+        return "ERROR: AddVolumeOverride only available in Unity Editor";
 #endif
     }
 }
