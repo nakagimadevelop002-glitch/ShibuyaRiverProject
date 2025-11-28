@@ -1,18 +1,23 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using System.Collections;
 
 /// <summary>
 /// 画面フェード演出を管理するコンポーネント
-/// 責任: 画面暗転・明転演出、シーン遷移制御
+/// 責任: 画面暗転・明転演出のみ（シーン遷移はScenePortalの責任）
 /// 設計方針: 各シーンに配置、DontDestroyOnLoad不使用、シーン開始時に自動フェードイン
 /// </summary>
 public class FadeManager : MonoBehaviour
 {
     [Header("Fade Settings")]
-    [Tooltip("フェード時間（秒）")]
-    [SerializeField] private float fadeDuration = 1.0f;
+    [Tooltip("フェードイン開始前の待機時間（秒）")]
+    [SerializeField] private float fadeInDelay = 0f;
+
+    [Tooltip("フェードアウト開始前の待機時間（秒）")]
+    [SerializeField] private float fadeOutDelay = 0f;
+
+    [Tooltip("実際のフェード演出時間（秒）")]
+    [SerializeField] private float fadeDuration = 2.0f;
 
     [Tooltip("シーン開始時に自動的にフェードインするか")]
     [SerializeField] private bool autoFadeInOnStart = true;
@@ -20,6 +25,13 @@ public class FadeManager : MonoBehaviour
     [Header("UI References")]
     [Tooltip("フェード用Image（シーンに配置済みのものを参照）")]
     [SerializeField] private Image fadeImage;
+
+    [Header("Game Events")]
+    [Tooltip("FadeIn待機完了時に発火するGameEvent（任意）")]
+    [SerializeField] private GameEvent onFadeInDelayComplete;
+
+    [Tooltip("FadeOut待機完了時に発火するGameEvent（任意）")]
+    [SerializeField] private GameEvent onFadeOutDelayComplete;
 
     /// <summary>
     /// フェード中かどうか（外部から参照可能）
@@ -81,22 +93,22 @@ public class FadeManager : MonoBehaviour
         rt.offsetMin = Vector2.zero; // left, bottom
         rt.offsetMax = Vector2.zero; // right, top
 
-        Debug.Log("[FadeManager] Fade UI auto-generated.");
+        // Debug.Log("[FadeManager] Fade UI auto-generated.");
     }
 
     /// <summary>
-    /// フェード付きシーン遷移（FadeOut → LoadScene）
-    /// 意図: フェードアウト完了まで待機してからシーンロード
-    /// 次シーンのFadeManagerが自動的にフェードインを実行
+    /// フェードアウトしてコールバック実行
+    /// 意図: フェード完了後の処理を呼び出し側に委譲（責任分離）
     /// </summary>
-    /// <param name="sceneName">遷移先シーン名</param>
-    /// <param name="fadeOutDuration">フェードアウト時間（秒）。-1でデフォルト値使用</param>
-    public void LoadSceneWithFade(string sceneName, float fadeOutDuration = -1f)
+    /// <param name="onComplete">フェード完了時に実行するコールバック</param>
+    /// <param name="delayOverride">待機時間（秒）。-1でデフォルト値使用</param>
+    /// <param name="durationOverride">フェード時間（秒）。-1でデフォルト値使用</param>
+    public void FadeOutWithCallback(System.Action onComplete, float delayOverride = -1f, float durationOverride = -1f)
     {
-        StartCoroutine(LoadSceneWithFadeCoroutine(sceneName, fadeOutDuration));
+        StartCoroutine(FadeOutWithCallbackCoroutine(onComplete, delayOverride, durationOverride));
     }
 
-    private IEnumerator LoadSceneWithFadeCoroutine(string sceneName, float fadeOutDuration)
+    private IEnumerator FadeOutWithCallbackCoroutine(System.Action onComplete, float delayOverride, float durationOverride)
     {
         // フェード中は重複実行を防止
         if (IsFading)
@@ -105,19 +117,20 @@ public class FadeManager : MonoBehaviour
             yield break;
         }
 
-        // 1. フェードアウト完了まで待機
-        yield return StartCoroutine(FadeOut(fadeOutDuration));
+        // フェードアウト完了まで待機
+        yield return StartCoroutine(FadeOut(delayOverride, durationOverride));
 
-        // 2. シーンロード（次シーンのFadeManagerが自動的にフェードイン）
-        SceneManager.LoadScene(sceneName);
+        // コールバック実行（シーン遷移などの処理は呼び出し側の責任）
+        onComplete?.Invoke();
     }
 
     /// <summary>
     /// フェードアウト（画面を暗く）
-    /// 意図: 滑らかな補間で画面を黒に変化
+    /// 意図: 待機時間後、滑らかな補間で画面を黒に変化
     /// </summary>
-    /// <param name="duration">フェード時間（秒）。-1でデフォルト値使用</param>
-    public IEnumerator FadeOut(float duration = -1f)
+    /// <param name="delayOverride">待機時間（秒）。-1でデフォルト値使用</param>
+    /// <param name="durationOverride">フェード時間（秒）。-1でデフォルト値使用</param>
+    public IEnumerator FadeOut(float delayOverride = -1f, float durationOverride = -1f)
     {
         if (fadeImage == null)
         {
@@ -127,12 +140,21 @@ public class FadeManager : MonoBehaviour
 
         IsFading = true;
 
+        // delay省略時はデフォルト値使用（フェードアウト用）
+        float delay = delayOverride < 0f ? fadeOutDelay : delayOverride;
         // duration省略時はデフォルト値使用
-        if (duration < 0f)
+        float duration = durationOverride < 0f ? fadeDuration : durationOverride;
+
+        // 待機時間
+        if (delay > 0f)
         {
-            duration = fadeDuration;
+            yield return new WaitForSeconds(delay);
         }
 
+        // 待機完了時にGameEvent発火
+        onFadeOutDelayComplete?.Raise();
+
+        // 実際のフェード演出
         float elapsed = 0f;
         Color color = fadeImage.color;
 
@@ -153,10 +175,11 @@ public class FadeManager : MonoBehaviour
 
     /// <summary>
     /// フェードイン（画面を明るく）
-    /// 意図: 滑らかな補間で画面を透明に変化
+    /// 意図: 待機時間後、滑らかな補間で画面を透明に変化
     /// </summary>
-    /// <param name="duration">フェード時間（秒）。-1でデフォルト値使用</param>
-    public IEnumerator FadeIn(float duration = -1f)
+    /// <param name="delayOverride">待機時間（秒）。-1でデフォルト値使用</param>
+    /// <param name="durationOverride">フェード時間（秒）。-1でデフォルト値使用</param>
+    public IEnumerator FadeIn(float delayOverride = -1f, float durationOverride = -1f)
     {
         if (fadeImage == null)
         {
@@ -166,12 +189,21 @@ public class FadeManager : MonoBehaviour
 
         IsFading = true;
 
+        // delay省略時はデフォルト値使用（フェードイン用）
+        float delay = delayOverride < 0f ? fadeInDelay : delayOverride;
         // duration省略時はデフォルト値使用
-        if (duration < 0f)
+        float duration = durationOverride < 0f ? fadeDuration : durationOverride;
+
+        // 待機時間
+        if (delay > 0f)
         {
-            duration = fadeDuration;
+            yield return new WaitForSeconds(delay);
         }
 
+        // 待機完了時にGameEvent発火
+        onFadeInDelayComplete?.Raise();
+
+        // 実際のフェード演出
         float elapsed = 0f;
         Color color = fadeImage.color;
 
