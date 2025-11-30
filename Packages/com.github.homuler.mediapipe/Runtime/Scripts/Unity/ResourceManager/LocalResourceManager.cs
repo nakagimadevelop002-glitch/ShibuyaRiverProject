@@ -36,7 +36,7 @@ namespace Mediapipe.Unity
 
       if (File.Exists(destFilePath) && !overwriteDestination)
       {
-        Logger.LogInfo(_TAG, $"{name} will not be copied to {destFilePath} because it already exists");
+        // Logger.LogInfo(_TAG, $"{name} will not be copied to {destFilePath} because it already exists");
         yield break;
       }
 

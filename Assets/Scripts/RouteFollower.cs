@@ -27,9 +27,6 @@ public class WaypointEvent
 
     [Tooltip("遷移先シーン名")]
     public string targetSceneName = "";
-
-    [Tooltip("シーン遷移用イベント（ScenePortal.Enter用）")]
-    public UnityEvent<string> onSceneTransition;
 }
 
 /// <summary>
@@ -257,17 +254,29 @@ public class RouteFollower : MonoBehaviour
             {
                 if (evt != null && evt.waypointIndex == currentWaypointIndex)
                 {
+                    // 全ての演出後に実行する処理をまとめる
+                    System.Action executeAfterEffects = () =>
+                    {
+                        // 追加イベント実行
+                        evt.onReached?.Invoke();
+
+                        // シーン遷移処理（最後に実行）
+                        if (evt.enableSceneTransition && !string.IsNullOrEmpty(evt.targetSceneName))
+                        {
+                            ScenePortal portal = new ScenePortal();
+                            portal.Enter(evt.targetSceneName);
+                        }
+                    };
+
+                    // LookAt演出がある場合は、完了後に他の処理を実行
                     if (evt.lookAtTarget != null)
                     {
-                        LookAtWithPause(evt.lookAtTarget, evt.lookDuration);
+                        LookAtWithPause(evt.lookAtTarget, evt.lookDuration, executeAfterEffects);
                     }
-
-                    evt.onReached?.Invoke();
-
-                    // シーン遷移イベント発火
-                    if (evt.enableSceneTransition && evt.onSceneTransition != null)
+                    else
                     {
-                        evt.onSceneTransition.Invoke(evt.targetSceneName);
+                        // LookAt演出がない場合は即座に実行
+                        executeAfterEffects();
                     }
                 }
             }
@@ -379,12 +388,12 @@ public class RouteFollower : MonoBehaviour
         {
             case RouteMode.OneWay:
                 isMoving = false;
-                Debug.Log("[RouteFollower] Route completed!");
+                // Debug.Log("[RouteFollower] Route completed!");
                 break;
 
             case RouteMode.Loop:
                 currentWaypointIndex = 0;
-                Debug.Log("[RouteFollower] Route looping to start...");
+                // Debug.Log("[RouteFollower] Route looping to start...");
                 break;
 
             case RouteMode.PingPong:
@@ -399,7 +408,7 @@ public class RouteFollower : MonoBehaviour
                     // 逆走終了→前進開始（最初から2番目へ）
                     currentWaypointIndex = 1;
                 }
-                Debug.Log($"[RouteFollower] Route reversing... Direction={( isReversing ? "Backward" : "Forward" )}");
+                // Debug.Log($"[RouteFollower] Route reversing... Direction={( isReversing ? "Backward" : "Forward" )}");
                 break;
         }
     }
@@ -431,7 +440,7 @@ public class RouteFollower : MonoBehaviour
     private void PauseMovement()
     {
         isMoving = false;
-        Debug.Log("[RouteFollower] Movement paused.");
+        // Debug.Log("[RouteFollower] Movement paused.");
     }
 
     /// <summary>
@@ -443,12 +452,12 @@ public class RouteFollower : MonoBehaviour
         if (armSwingDetector != null)
         {
             isMoving = armSwingDetector.IsWalking;
-            Debug.Log($"[RouteFollower] Movement resumed. IsWalking={armSwingDetector.IsWalking}");
+            // Debug.Log($"[RouteFollower] Movement resumed. IsWalking={armSwingDetector.IsWalking}");
         }
         else
         {
             isMoving = true;
-            Debug.Log("[RouteFollower] Movement resumed (no ArmSwingDetector check).");
+            // Debug.Log("[RouteFollower] Movement resumed (no ArmSwingDetector check).");
         }
     }
 
@@ -457,17 +466,22 @@ public class RouteFollower : MonoBehaviour
     /// 意図: カプセル化により複雑な処理を隠蔽、WaypointEventから自動呼び出し
     /// イベント完全終了まで入力を受け付けない（isPerformingEvent制御）
     /// </summary>
-    private void LookAtWithPause(Transform target, float duration)
+    /// <param name="target">注視対象</param>
+    /// <param name="duration">注視時間</param>
+    /// <param name="onComplete">演出完了後に実行するコールバック</param>
+    private void LookAtWithPause(Transform target, float duration, System.Action onComplete = null)
     {
         if (cameraViewController == null)
         {
             Debug.LogError("[RouteFollower] CameraViewControllerが未設定です。カメラ注視演出を使用できません。");
+            onComplete?.Invoke();  // 演出できなくても後続処理は実行
             return;
         }
 
         if (target == null)
         {
             Debug.LogWarning("[RouteFollower] LookAt target is null!");
+            onComplete?.Invoke();  // 演出できなくても後続処理は実行
             return;
         }
 
@@ -485,6 +499,9 @@ public class RouteFollower : MonoBehaviour
                     // イベント完全終了：入力受付再開→移動再開
                     isPerformingEvent = false;
                     ResumeMovement();
+
+                    // 演出完了後の追加処理を実行
+                    onComplete?.Invoke();
                 });
             }
             else
@@ -492,9 +509,12 @@ public class RouteFollower : MonoBehaviour
                 // 次のWaypointがない場合（OneWayモード終端）は、そのまま再開
                 isPerformingEvent = false;
                 ResumeMovement();
+
+                // 演出完了後の追加処理を実行
+                onComplete?.Invoke();
             }
         });
 
-        Debug.Log($"[RouteFollower] LookAtWithPause started: Target={target.name}, Duration={duration}s");
+        // Debug.Log($"[RouteFollower] LookAtWithPause started: Target={target.name}, Duration={duration}s");
     }
 }

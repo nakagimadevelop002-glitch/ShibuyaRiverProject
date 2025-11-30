@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4824607403121819800}
   - component: {fileID: 951188820020140928}
-  - component: {fileID: 5916733368556757117}
   - component: {fileID: 1174084328352118123}
   m_Layer: 0
   m_Name: Main Camera
@@ -85,14 +84,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &5916733368556757117
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6767611317143000402}
-  m_Enabled: 1
 --- !u!114 &1174084328352118123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -150,7 +141,7 @@ GameObject:
   - component: {fileID: 7520884904628306246}
   m_Layer: 0
   m_Name: RiverWalker
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -193,13 +184,16 @@ MonoBehaviour:
     onReached:
       m_PersistentCalls:
         m_Calls: []
+    enableSceneTransition: 1
+    targetSceneName: RiverHoleTonnnelMap
   routeMode: 2
-  moveSpeed: 2
+  moveSpeed: 3
   rotationSpeed: 5
   playerCamera: {fileID: 4824607403121819800}
   autoRotateToMoveDirection: 1
   armSwingDetector: {fileID: 0}
-  cameraViewController: {fileID: 0}
+  cameraViewController: {fileID: 7520884904628306246}
+  autoMoveEnabled: 1
 --- !u!114 &7520884904628306246
 MonoBehaviour:
   m_ObjectHideFlags: 0

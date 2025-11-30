@@ -5,11 +5,27 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
+  - enabled: 0
+    path: Assets/Scenes/TestScenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/IdoMap.unity
+    guid: cf16374e58979a949b5965f00ca17a24
+  - enabled: 1
+    path: Assets/Scenes/MiddleRiverMap.unity
+    guid: 1ebd40590c96c9f4e858e0bb5a5ac95b
+  - enabled: 1
+    path: Assets/Scenes/MurkyBigRiverMap.unity
+    guid: 4598327df46ebf645a50e6c48458ac93
+  - enabled: 1
+    path: Assets/Scenes/RiverHoleTonnnelMap.unity
+    guid: 90e4270fa568ccc46bae1c18f6174ed2
+  - enabled: 1
+    path: Assets/Scenes/RiverTonnnelMap.unity
+    guid: 3855e3cad5388d84bb6f45e284189ab4
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 37be76a51da5e3d40ba714f2aa538636,
       type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 73749641246ecd24da862776e58e8af2,
       type: 2}
+  m_UseUCBPForAssetBundles: 0

@@ -16,24 +16,34 @@ public class MediaPipeCameraIntegration : MonoBehaviour
     private SharedCameraImageSource sharedSource;
     private Bootstrap bootstrap;
 
+    /// <summary>
+    /// SharedCameraImageSourceへのアクセサ（PoseLandmarkerRunnerがシーン遷移後に参照するため）
+    /// </summary>
+    public SharedCameraImageSource SharedSource => sharedSource;
+
     private void Awake()
     {
+        Debug.Log($"[🟢 MediaPipeCameraIntegration] Awake() called - InstanceID: {GetInstanceID()}");
         // Singleton初期化
         if (Instance == null)
         {
             Instance = this;
+            Debug.Log($"[🟢 MediaPipeCameraIntegration] Singleton initialized - InstanceID: {GetInstanceID()}");
             // 親からの独立: ルートGameObjectに移動してDontDestroyOnLoadを機能させる
             transform.SetParent(null);
             DontDestroyOnLoad(gameObject);
+            Debug.Log($"[🟢 MediaPipeCameraIntegration] DontDestroyOnLoad applied");
         }
         else
         {
+            Debug.Log($"[🟢 MediaPipeCameraIntegration] Duplicate instance detected, destroying - InstanceID: {GetInstanceID()}");
             Destroy(gameObject);
         }
     }
 
     private void Start()
     {
+        Debug.Log($"[🟢 MediaPipeCameraIntegration] Start() called - InstanceID: {GetInstanceID()}");
         StartCoroutine(InitializeSharedCamera());
     }
 
@@ -78,8 +88,9 @@ public class MediaPipeCameraIntegration : MonoBehaviour
         }
 
         // Bootstrap完了を待機
-        Debug.Log("[MediaPipeCameraIntegration] Waiting for Bootstrap to finish...");
+        Debug.Log($"[🟢 MediaPipeCameraIntegration] Waiting for Bootstrap to finish... Bootstrap InstanceID: {bootstrap.GetInstanceID()}");
         yield return new WaitUntil(() => bootstrap.isFinished);
+        Debug.Log($"[🟢 MediaPipeCameraIntegration] Bootstrap finished!");
 
         // CameraInput初期化を待機
         Debug.Log("[MediaPipeCameraIntegration] Waiting for CameraInput to initialize...");
@@ -90,6 +101,7 @@ public class MediaPipeCameraIntegration : MonoBehaviour
         Debug.Log("[MediaPipeCameraIntegration] SharedCameraImageSource created.");
 
         // ImageSourceProviderをリフレクション経由で上書き（private setterを強制的に呼び出す）
+        Debug.Log($"[🟢 MediaPipeCameraIntegration] About to overwrite ImageSourceProvider.ImageSource - Current type: {ImageSourceProvider.ImageSource?.GetType().Name}");
         var imageSourceProperty = typeof(ImageSourceProvider).GetProperty("ImageSource");
         if (imageSourceProperty != null)
         {
@@ -97,7 +109,7 @@ public class MediaPipeCameraIntegration : MonoBehaviour
             if (setMethod != null)
             {
                 setMethod.Invoke(null, new object[] { sharedSource });
-                Debug.Log("[MediaPipeCameraIntegration] ImageSourceProvider.ImageSource overwritten with SharedCameraImageSource.");
+                Debug.Log($"[🟢 MediaPipeCameraIntegration] ✅ ImageSourceProvider.ImageSource overwritten with SharedCameraImageSource - New type: {ImageSourceProvider.ImageSource?.GetType().Name}");
             }
             else
             {

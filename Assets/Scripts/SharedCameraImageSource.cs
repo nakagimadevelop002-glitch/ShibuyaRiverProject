@@ -65,7 +65,7 @@ public class SharedCameraImageSource : ImageSource
         _isPrepared = true;
         _isPlaying = true;
 
-        Debug.Log($"[SharedCameraImageSource] Prepared: {cameraInput.Width}x{cameraInput.Height}");
+        // Debug.Log($"[SharedCameraImageSource] Prepared: {cameraInput.Width}x{cameraInput.Height}");
     }
 
     public override IEnumerator Resume()

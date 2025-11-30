@@ -22,9 +22,31 @@ namespace Mediapipe.Unity.Sample.PoseLandmarkDetection
 
     public override void Stop()
     {
-      base.Stop();
+      // SharedCameraImageSourceを停止しないため、base.Stop()を呼ばない
+      // 代わりに必要最小限の処理のみ実行
+
+      isPaused = true;
+
+      // SharedCameraImageSourceの場合はStop()をスキップ
+      if (ImageSourceProvider.ImageSource is SharedCameraImageSource)
+      {
+        Debug.Log("[PoseLandmarkerRunner] SharedCameraImageSource detected - skipping ImageSource.Stop()");
+      }
+      else
+      {
+        ImageSourceProvider.ImageSource?.Stop();
+      }
+
+      // taskApiのクローズ（VisionTaskApiRunnerのStop()処理）
+      taskApi?.Close();
+      taskApi = null;
+
+      // PoseLandmarkerRunner固有の処理
       _textureFramePool?.Dispose();
       _textureFramePool = null;
+
+      // Note: _coroutineはprivateのためアクセス不可
+      // GameObjectが破棄されればコルーチンも自動停止するため問題なし
     }
 
     protected override IEnumerator Run()
@@ -41,6 +63,24 @@ namespace Mediapipe.Unity.Sample.PoseLandmarkDetection
 
       // MediaPipeCameraIntegration完了を待機（ImageSource上書き完了まで）
       yield return new WaitUntil(() => MediaPipeCameraIntegration.IsReady);
+      Debug.Log("[PoseLandmarkerRunner] MediaPipeCameraIntegration.IsReady confirmed");
+
+      // シーン遷移後も初回と同じ処理を実行：SharedCameraImageSourceを作成してImageSourceに設定
+      Debug.Log("[PoseLandmarkerRunner] Creating new SharedCameraImageSource...");
+      var cameraInput = CameraInput.Instance;
+      if (cameraInput != null && cameraInput.IsInitialized)
+      {
+        // シーン遷移後にWebCamTextureが停止している場合は再起動
+        cameraInput.EnsureCameraIsPlaying();
+
+        var sharedSource = new SharedCameraImageSource(cameraInput);
+        yield return sharedSource.Play();
+
+        var imageSourceProperty = typeof(ImageSourceProvider).GetProperty("ImageSource");
+        var setMethod = imageSourceProperty?.GetSetMethod(nonPublic: true);
+        setMethod?.Invoke(null, new object[] { sharedSource });
+        Debug.Log($"[PoseLandmarkerRunner] ✅ SharedCameraImageSource created and set to ImageSourceProvider");
+      }
 
       yield return AssetLoader.PrepareAssetAsync(config.ModelPath);
 
@@ -61,7 +101,11 @@ namespace Mediapipe.Unity.Sample.PoseLandmarkDetection
       _textureFramePool = new Experimental.TextureFramePool(imageSource.textureWidth, imageSource.textureHeight, TextureFormat.RGBA32, 10);
 
       // NOTE: The screen will be resized later, keeping the aspect ratio.
+      Debug.Log($"[PoseLandmarkerRunner] About to call screen.Initialize() - ImageSource type: {imageSource?.GetType().Name}");
+      Debug.Log($"[PoseLandmarkerRunner] CameraInput.currentFrame InstanceID: {cameraInput?.currentFrame?.GetInstanceID()}");
       screen.Initialize(imageSource);
+      Debug.Log($"[PoseLandmarkerRunner] screen.Initialize() completed - screen.texture type: {screen.texture?.GetType().Name}");
+      Debug.Log($"[PoseLandmarkerRunner] screen.texture InstanceID: {screen.texture?.GetInstanceID()}");
 
       SetupAnnotationController(_poseLandmarkerResultAnnotationController, imageSource);
       _poseLandmarkerResultAnnotationController.InitScreen(imageSource.textureWidth, imageSource.textureHeight);

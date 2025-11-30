@@ -103,17 +103,31 @@ public class CameraInput : MonoBehaviour
         }
     }
 
+    private int updateCount = 0;
     void Update()
     {
         if (!isInitialized || !webCamTexture.isPlaying)
+        {
+            if (updateCount % 300 == 0) // 10秒に1回ログ出力（30FPSの場合）
+            {
+                Debug.Log($"[CameraInput] Update() - Not updating: isInitialized={isInitialized}, webCamTexture.isPlaying={webCamTexture?.isPlaying}");
+            }
+            updateCount++;
             return;
+        }
 
         // WebCamTextureからTexture2Dにコピー
         if (webCamTexture.didUpdateThisFrame)
         {
             currentFrame.SetPixels(webCamTexture.GetPixels());
             currentFrame.Apply();
+
+            if (updateCount % 300 == 0) // 10秒に1回ログ出力
+            {
+                Debug.Log($"[CameraInput] Update() - Frame updated. Count: {updateCount}");
+            }
         }
+        updateCount++;
     }
 
     void OnDestroy()
@@ -126,6 +140,18 @@ public class CameraInput : MonoBehaviour
         if (currentFrame != null)
         {
             Destroy(currentFrame);
+        }
+    }
+
+    /// <summary>
+    /// WebCamTextureが停止している場合は再起動
+    /// </summary>
+    public void EnsureCameraIsPlaying()
+    {
+        if (webCamTexture != null && !webCamTexture.isPlaying)
+        {
+            Debug.Log("[CameraInput] WebCamTexture was stopped, restarting...");
+            webCamTexture.Play();
         }
     }
 

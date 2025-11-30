@@ -19,11 +19,13 @@ namespace Mediapipe.Unity.Sample
 
     private void OnEnable()
     {
+      Debug.Log($"[🔵 Bootstrap] OnEnable() called - GameObject: {gameObject.name}, InstanceID: {GetInstanceID()}");
       var _ = StartCoroutine(Init());
     }
 
     private IEnumerator Init()
     {
+      Debug.Log($"[🔵 Bootstrap] Init() started - InstanceID: {GetInstanceID()}");
       // Debug.Log("The configuration for the sample app can be modified using AppSettings.asset.");
 #if !DEBUG && !DEVELOPMENT_BUILD
       Debug.LogWarning("Logging for the MediaPipeUnityPlugin will be suppressed. To enable logging, please check the 'Development Build' option and build.");
@@ -82,11 +84,17 @@ namespace Mediapipe.Unity.Sample
       }
 
       // Debug.Log("Preparing ImageSource...");
+      Debug.Log($"[🔵 Bootstrap] About to call ImageSourceProvider.Initialize() - InstanceID: {GetInstanceID()}");
       ImageSourceProvider.Initialize(
         _appSettings.BuildWebCamSource(), _appSettings.BuildStaticImageSource(), _appSettings.BuildVideoSource());
+      Debug.Log($"[🔵 Bootstrap] ImageSourceProvider.Initialize() completed");
+
+      Debug.Log($"[🔵 Bootstrap] About to call ImageSourceProvider.Switch({_appSettings.defaultImageSource})");
       ImageSourceProvider.Switch(_appSettings.defaultImageSource);
+      Debug.Log($"[🔵 Bootstrap] ImageSourceProvider.Switch() completed - Current ImageSource: {ImageSourceProvider.ImageSource?.GetType().Name}");
 
       isFinished = true;
+      Debug.Log($"[🔵 Bootstrap] Init() finished - InstanceID: {GetInstanceID()}");
     }
 
     private void DecideInferenceMode()

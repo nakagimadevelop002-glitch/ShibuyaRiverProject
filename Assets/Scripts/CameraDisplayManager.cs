@@ -37,7 +37,7 @@ public class CameraDisplayManager : MonoBehaviour
             if (resizeMethod != null)
             {
                 resizeMethod.Invoke(screenComponent, new object[] { (int)screenSize.x, (int)screenSize.y });
-                Debug.Log($"[CameraDisplayManager] MediaPipe初期化後に再度Screen.Resize({screenSize.x}, {screenSize.y})を実行しました。");
+                // Debug.Log($"[CameraDisplayManager] MediaPipe初期化後に再度Screen.Resize({screenSize.x}, {screenSize.y})を実行しました。");
             }
         }
     }
@@ -64,7 +64,7 @@ public class CameraDisplayManager : MonoBehaviour
                 if (autoFitComponent != null)
                 {
                     autoFitComponent.enabled = false;
-                    Debug.Log("[CameraDisplayManager] AutoFitを無効化しました。");
+                    // Debug.Log("[CameraDisplayManager] AutoFitを無効化しました。");
                 }
             }
 
@@ -79,7 +79,7 @@ public class CameraDisplayManager : MonoBehaviour
                     if (resizeMethod != null)
                     {
                         resizeMethod.Invoke(screenComponent, new object[] { (int)screenSize.x, (int)screenSize.y });
-                        Debug.Log($"[CameraDisplayManager] Screen.Resize({screenSize.x}, {screenSize.y})を実行しました。");
+                        // Debug.Log($"[CameraDisplayManager] Screen.Resize({screenSize.x}, {screenSize.y})を実行しました。");
                     }
                 }
             }
@@ -93,7 +93,7 @@ public class CameraDisplayManager : MonoBehaviour
                 rectTransform.pivot = new Vector2(1, 0);
                 rectTransform.anchoredPosition = new Vector2(-10, 10);
 
-                Debug.Log("[CameraDisplayManager] Annotatable Screenを右下に配置しました。");
+                // Debug.Log("[CameraDisplayManager] Annotatable Screenを右下に配置しました。");
             }
         }
         else

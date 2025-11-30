@@ -9,7 +9,7 @@ public class AllMCPToolsBuilder : McpBuilderScriptableObject
     public override void Build(IMcpServerBuilder builder)
     {
         // Register all MCP tools here
-        builder.WithTools<CubeCreatorMCPTool>();
+        builder.WithTools<GameObjectCreatorMCPTool>();
         builder.WithTools<SeaweedCreatorMCPTool>();
         builder.WithTools<SeaweedCarpetMCPTool>();
         builder.WithTools<RefreshMCPToolsMCPTool>();
