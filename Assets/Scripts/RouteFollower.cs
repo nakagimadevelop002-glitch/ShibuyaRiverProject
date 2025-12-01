@@ -113,6 +113,20 @@ public class RouteFollower : MonoBehaviour
             return;
         }
 
+        // "Jump"ボタン（デフォルト: スペースキー）でautoMoveEnabledをトグル
+        if (Input.GetButtonDown("Jump"))
+        {
+            autoMoveEnabled = !autoMoveEnabled;
+
+            // 自動前進を無効化した時は、腕振り検知状態を反映
+            if (!autoMoveEnabled && armSwingDetector != null)
+            {
+                isMoving = armSwingDetector.IsWalking;
+            }
+
+            Debug.Log($"[RouteFollower] AutoMove toggled: {(autoMoveEnabled ? "Enabled" : "Disabled")}");
+        }
+
         // テスト用自動前進モード（腕振り検知を無視して強制的に前進）
         if (autoMoveEnabled)
         {
@@ -340,12 +354,11 @@ public class RouteFollower : MonoBehaviour
 
     /// <summary>
     /// ウェイポイント方向への回転を計算
-    /// 意図: 移動方向への自然な視点誘導
+    /// 意図: 移動方向への自然な視点誘導（上下方向も含む完全な方向）
     /// </summary>
     private Quaternion CalculateRotationTowardsWaypoint(GameObject targetWaypoint)
     {
         Vector3 direction = targetWaypoint.transform.position - transform.position;
-        direction.y = 0; // 水平方向のみ（上下は見ない）
 
         if (direction == Vector3.zero)
         {
