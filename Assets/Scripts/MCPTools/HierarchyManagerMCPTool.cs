@@ -54,4 +54,44 @@ public class HierarchyManagerMCPTool
 
         return $"SUCCESS: '{objectName}' sibling index: {siblingIndex} (total siblings: {totalSiblings})";
     }
+
+    [McpServerTool, Description("List all GameObjects in the scene hierarchy")]
+    public async ValueTask<string> ListGameObjects()
+    {
+        await UniTask.SwitchToMainThread();
+
+        GameObject[] allObjects = GameObject.FindObjectsByType<GameObject>(FindObjectsSortMode.None);
+
+        // ルートオブジェクトのみを抽出
+        var rootObjects = new System.Collections.Generic.List<GameObject>();
+        foreach (var obj in allObjects)
+        {
+            if (obj.transform.parent == null)
+            {
+                rootObjects.Add(obj);
+            }
+        }
+
+        var result = new System.Text.StringBuilder();
+        result.AppendLine($"Scene Hierarchy ({allObjects.Length} total objects):");
+        result.AppendLine("===================================");
+
+        foreach (var root in rootObjects)
+        {
+            AppendHierarchy(root.transform, result, 0);
+        }
+
+        return result.ToString();
+    }
+
+    private void AppendHierarchy(Transform transform, System.Text.StringBuilder sb, int depth)
+    {
+        string indent = new string(' ', depth * 2);
+        sb.AppendLine($"{indent}- {transform.name}");
+
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            AppendHierarchy(transform.GetChild(i), sb, depth + 1);
+        }
+    }
 }

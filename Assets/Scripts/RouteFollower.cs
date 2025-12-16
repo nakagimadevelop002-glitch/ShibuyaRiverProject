@@ -17,6 +17,13 @@ public class WaypointEvent
     [Tooltip("注視継続時間（秒）")]
     public float lookDuration = 3.0f;
 
+    [Header("Look While Moving (New Feature)")]
+    [Tooltip("移動を停止せず、注視しながら移動を継続するか（trueの場合、上記lookAtTargetが設定されていても停止しない）")]
+    public bool lookWhileMoving = false;
+
+    [Tooltip("注視を継続する終了WaypointIndex（このIndexに到達したら注視解除、-1で無効）")]
+    public int lookUntilWaypointIndex = -1;
+
     [Header("Additional Events")]
     [Tooltip("追加の演出イベント（パーティクル、音等）無い場合は空でOK")]
     public UnityEvent onReached;
@@ -93,6 +100,12 @@ public class RouteFollower : MonoBehaviour
 
     // カメラ演出実行中フラグ（注視→復帰が完全終了するまでtrue）
     private bool isPerformingEvent = false;
+
+    // 継続的注視の対象（移動しながら注視）
+    private Transform continuousLookAtTarget = null;
+
+    // 継続的注視の終了WaypointIndex
+    private int continuousLookAtEndIndex = -1;
 
     private void Start()
     {
@@ -252,6 +265,9 @@ public class RouteFollower : MonoBehaviour
         // 意図: 完全一致(==)は浮動小数点誤差で永遠に到達できないため許容範囲を設定
         if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
         {
+            // 継続的注視の終了判定（WayPoint到達時）
+            CheckContinuousLookAtEnd();
+
             AdvanceToNextWaypoint();
         }
     }
@@ -282,10 +298,21 @@ public class RouteFollower : MonoBehaviour
                         }
                     };
 
-                    // LookAt演出がある場合は、完了後に他の処理を実行
+                    // LookAt演出がある場合の処理分岐
                     if (evt.lookAtTarget != null)
                     {
-                        LookAtWithPause(evt.lookAtTarget, evt.lookDuration, executeAfterEffects);
+                        // 移動しながら注視モード（新機能）
+                        if (evt.lookWhileMoving)
+                        {
+                            StartContinuousLookAt(evt.lookAtTarget, evt.lookUntilWaypointIndex);
+                            // 移動は停止せず、追加イベントのみ実行
+                            executeAfterEffects();
+                        }
+                        else
+                        {
+                            // 既存の停止して注視モード
+                            LookAtWithPause(evt.lookAtTarget, evt.lookDuration, executeAfterEffects);
+                        }
                     }
                     else
                     {
@@ -315,13 +342,29 @@ public class RouteFollower : MonoBehaviour
     /// <summary>
     /// カメラを目標方向へ回転
     /// 意図: ウェイポイント設定に応じた柔軟な視点制御（自動/手動両対応）
+    /// 拡張: 継続的注視モード時は注視対象を優先的に見る
     /// </summary>
     private void RotateTowardsTarget()
     {
         if (playerCamera == null || !HasNextWaypoint()) return;
 
+        Quaternion targetRotation;
+
+        // 継続的注視モードが有効な場合、注視対象を優先
+        if (continuousLookAtTarget != null)
+        {
+            Vector3 direction = continuousLookAtTarget.position - playerCamera.position;
+            if (direction != Vector3.zero)
+            {
+                targetRotation = Quaternion.LookRotation(direction);
+                ApplySmoothRotation(targetRotation);
+            }
+            return; // 注視中は通常の回転処理をスキップ
+        }
+
+        // 通常のWaypoint回転制御
         GameObject targetWaypoint = waypoints[currentWaypointIndex];
-        Quaternion targetRotation = DetermineTargetRotation(targetWaypoint);
+        targetRotation = DetermineTargetRotation(targetWaypoint);
 
         // 回転が決定できた場合のみ実行
         if (targetRotation != Quaternion.identity || IsWaypointRotationSet(targetWaypoint))
@@ -529,5 +572,53 @@ public class RouteFollower : MonoBehaviour
         });
 
         // Debug.Log($"[RouteFollower] LookAtWithPause started: Target={target.name}, Duration={duration}s");
+    }
+
+    /// <summary>
+    /// 継続的注視モードを開始（移動しながら注視）
+    /// 意図: 指定WayPoint間で対象を注視し続ける（移動は停止しない）
+    /// </summary>
+    /// <param name="target">注視対象</param>
+    /// <param name="endWaypointIndex">注視終了WaypointIndex</param>
+    private void StartContinuousLookAt(Transform target, int endWaypointIndex)
+    {
+        if (target == null)
+        {
+            Debug.LogWarning("[RouteFollower] Continuous LookAt target is null!");
+            return;
+        }
+
+        continuousLookAtTarget = target;
+        continuousLookAtEndIndex = endWaypointIndex;
+
+        Debug.Log($"[RouteFollower] Continuous LookAt started: Target={target.name}, EndIndex={endWaypointIndex}");
+    }
+
+    /// <summary>
+    /// 継続的注視モードを終了
+    /// 意図: 指定Waypointに到達したら注視を解除
+    /// </summary>
+    private void StopContinuousLookAt()
+    {
+        if (continuousLookAtTarget != null)
+        {
+            Debug.Log($"[RouteFollower] Continuous LookAt stopped at WaypointIndex={currentWaypointIndex}");
+            continuousLookAtTarget = null;
+            continuousLookAtEndIndex = -1;
+        }
+    }
+
+    /// <summary>
+    /// 継続的注視の終了判定
+    /// 意図: 現在のWaypointIndexが終了Indexに到達したか確認
+    /// </summary>
+    private void CheckContinuousLookAtEnd()
+    {
+        if (continuousLookAtTarget != null &&
+            continuousLookAtEndIndex >= 0 &&
+            currentWaypointIndex >= continuousLookAtEndIndex)
+        {
+            StopContinuousLookAt();
+        }
     }
 }
