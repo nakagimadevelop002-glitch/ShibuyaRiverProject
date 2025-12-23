@@ -7,32 +7,34 @@ using UnityEngine.Events;
 [System.Serializable]
 public class WaypointEvent
 {
-    [Tooltip("イベントを発火するWaypoint番号（0始まり）")]
+    [Header("イベントを発火するWaypoint番号")]
     public int waypointIndex;
 
-    [Header("Camera Look At Settings")]
-    [Tooltip("注視対象Transform（設定時に自動的にカメラ注視演出を実行）")]
+    [Header("注視対象Transform（停止して注視 または 移動しながら注視）")]
     public Transform lookAtTarget;
 
-    [Tooltip("注視継続時間（秒）")]
+    [Header("停止して注視する場合の継続時間（秒）")]
     public float lookDuration = 3.0f;
 
-    [Header("Look While Moving (New Feature)")]
-    [Tooltip("移動を停止せず、注視しながら移動を継続するか（trueの場合、上記lookAtTargetが設定されていても停止しない）")]
+    [Header("移動しながら注視する場合はチェックON")]
     public bool lookWhileMoving = false;
 
-    [Tooltip("注視を継続する終了WaypointIndex（このIndexに到達したら注視解除、-1で無効）")]
+    [Header("移動しながら注視を終了するWaypoint番号（-1=無効）")]
     public int lookUntilWaypointIndex = -1;
 
-    [Header("Additional Events")]
-    [Tooltip("追加の演出イベント（パーティクル、音等）無い場合は空でOK")]
+    [Header("補間注視・視線開始地点（橋の根元など）最優先")]
+    public Transform lookAtStart;
+
+    [Header("補間注視・視線終了地点（橋の終端など）両方設定で有効")]
+    public Transform lookAtEnd;
+
+    [Header("追加イベント（パーティクル、音など）")]
     public UnityEvent onReached;
 
-    [Header("Scene Transition")]
-    [Tooltip("シーン遷移を実行する場合はチェック")]
+    [Header("シーン遷移を実行する場合はチェックON")]
     public bool enableSceneTransition = false;
 
-    [Tooltip("遷移先シーン名")]
+    [Header("遷移先シーン名")]
     public string targetSceneName = "";
 }
 
@@ -53,40 +55,34 @@ public enum RouteMode
 /// </summary>
 public class RouteFollower : MonoBehaviour
 {
-    [Header("Route Settings")]
-    [Tooltip("ルート上の通過点を順番に配置（位置＝移動先、回転＝カメラ向き）")]
+    [Header("ルート上の通過点（Waypoint）を順番に配置")]
     [SerializeField] private GameObject[] waypoints;
 
-    [Tooltip("各Waypoint到達時に発火するイベント（演出設定用）")]
+    [Header("各Waypoint到達時のイベント設定（カメラ注視、補間注視、シーン遷移など）")]
     [SerializeField] private WaypointEvent[] waypointEvents;
 
-    [Tooltip("ルートモード（OneWay=一方通行、Loop=循環、PingPong=往復）")]
+    [Header("ルートモード（OneWay=一方通行 / Loop=循環 / PingPong=往復）")]
     [SerializeField] private RouteMode routeMode = RouteMode.OneWay;
 
-    [Header("Movement Settings")]
-    [Tooltip("前進速度（m/s）")]
+    [Header("プレイヤーの前進速度（m/s）推奨：2.0〜5.0")]
     [SerializeField] private float moveSpeed = 2.0f;
 
-    [Tooltip("カメラ回転速度（滑らかさ）")]
+    [Header("カメラ回転速度（大きいほど素早く回転）推奨：3.0〜10.0")]
     [SerializeField] private float rotationSpeed = 5.0f;
 
-    [Header("Camera Settings")]
-    [Tooltip("プレイヤーカメラ（視点制御対象）")]
+    [Header("プレイヤーカメラ（Main Cameraを指定）")]
     [SerializeField] private Transform playerCamera;
 
-    [Tooltip("ウェイポイント回転未設定時に移動方向へ自動回転するか")]
+    [Header("Waypoint回転未設定時に進行方向へ自動回転するか")]
     [SerializeField] private bool autoRotateToMoveDirection = true;
 
-    [Header("Detection")]
-    [Tooltip("腕振り検知システム（前進/停止トリガー）")]
+    [Header("腕振り検知システム（ArmSwingDetector）")]
     [SerializeField] private ArmSwingDetector armSwingDetector;
 
-    [Header("Camera Effects")]
-    [Tooltip("カメラ演出制御（注視演出用）")]
+    [Header("カメラ演出制御（CameraViewController）")]
     [SerializeField] private CameraViewController cameraViewController;
 
-    [Header("Debug/Testing")]
-    [Tooltip("自動前進モード（テスト用：腕振り検知を無視して自動的に前進）")]
+    [Header("自動前進モード（テスト用）本番はOFF")]
     [SerializeField] private bool autoMoveEnabled = false;
 
     // 現在向かっているウェイポイントのインデックス
@@ -106,6 +102,12 @@ public class RouteFollower : MonoBehaviour
 
     // 継続的注視の終了WaypointIndex
     private int continuousLookAtEndIndex = -1;
+
+    // 補間注視用の状態管理（移動しながら2点間を補間注視）
+    private Transform interpolationLookAtStart = null;
+    private Transform interpolationLookAtEnd = null;
+    private Vector3 interpolationStartPosition = Vector3.zero;
+    private Vector3 interpolationEndPosition = Vector3.zero;
 
     private void Start()
     {
@@ -299,8 +301,34 @@ public class RouteFollower : MonoBehaviour
                     };
 
                     // LookAt演出がある場合の処理分岐
-                    if (evt.lookAtTarget != null)
+                    // 補間注視モード（最優先）
+                    if (evt.lookAtStart != null && evt.lookAtEnd != null)
                     {
+                        // 次のWaypointを取得（PingPongモード対応）
+                        int nextWaypointIndex = isReversing ? currentWaypointIndex - 1 : currentWaypointIndex + 1;
+
+                        // 配列外アクセス防止チェック
+                        if (nextWaypointIndex >= 0 && nextWaypointIndex < waypoints.Length)
+                        {
+                            GameObject nextWaypoint = waypoints[nextWaypointIndex];
+                            StartInterpolatedLookAt(
+                                evt.lookAtStart,
+                                evt.lookAtEnd,
+                                transform.position,  // 現在位置（到達したWaypoint）
+                                nextWaypoint.transform.position  // 次のWaypoint位置
+                            );
+                        }
+                        else
+                        {
+                            Debug.LogWarning("[RouteFollower] 次のWaypointが存在しないため補間注視をスキップ");
+                        }
+
+                        // 移動は停止せず、追加イベントのみ実行
+                        executeAfterEffects();
+                    }
+                    else if (evt.lookAtTarget != null)
+                    {
+                        // 既存の1点注視モード
                         // 移動しながら注視モード（新機能）
                         if (evt.lookWhileMoving)
                         {
@@ -342,13 +370,26 @@ public class RouteFollower : MonoBehaviour
     /// <summary>
     /// カメラを目標方向へ回転
     /// 意図: ウェイポイント設定に応じた柔軟な視点制御（自動/手動両対応）
-    /// 拡張: 継続的注視モード時は注視対象を優先的に見る
+    /// 拡張: 補間注視モード → 継続的注視モード → 通常回転の優先順位で処理
     /// </summary>
     private void RotateTowardsTarget()
     {
         if (playerCamera == null || !HasNextWaypoint()) return;
 
         Quaternion targetRotation;
+
+        // 補間注視モードが有効な場合、最優先で処理
+        Vector3? interpolatedPosition = UpdateInterpolatedLookAt();
+        if (interpolatedPosition.HasValue)
+        {
+            Vector3 direction = interpolatedPosition.Value - playerCamera.position;
+            if (direction != Vector3.zero)
+            {
+                targetRotation = Quaternion.LookRotation(direction);
+                ApplySmoothRotation(targetRotation);
+            }
+            return; // 補間注視中は他の回転処理をスキップ
+        }
 
         // 継続的注視モードが有効な場合、注視対象を優先
         if (continuousLookAtTarget != null)
@@ -609,16 +650,100 @@ public class RouteFollower : MonoBehaviour
     }
 
     /// <summary>
+    /// 補間注視モードを開始（移動しながら2点間を補間注視）
+    /// 意図: 移動進捗に応じてlookAtStartからlookAtEndへ視線を滑らかに移動
+    /// </summary>
+    /// <param name="lookAtStart">注視開始地点</param>
+    /// <param name="lookAtEnd">注視終了地点</param>
+    /// <param name="startPosition">移動開始位置（現在のプレイヤー位置）</param>
+    /// <param name="endPosition">移動終了位置（次のWaypoint位置）</param>
+    private void StartInterpolatedLookAt(Transform lookAtStart, Transform lookAtEnd, Vector3 startPosition, Vector3 endPosition)
+    {
+        if (lookAtStart == null || lookAtEnd == null)
+        {
+            Debug.LogWarning("[RouteFollower] Interpolated LookAt targets are null!");
+            return;
+        }
+
+        interpolationLookAtStart = lookAtStart;
+        interpolationLookAtEnd = lookAtEnd;
+        interpolationStartPosition = startPosition;
+        interpolationEndPosition = endPosition;
+
+        Debug.Log($"[RouteFollower] Interpolated LookAt started: Start={lookAtStart.name}, End={lookAtEnd.name}");
+    }
+
+    /// <summary>
+    /// 補間注視の更新（毎フレーム呼び出し）
+    /// 意図: 移動進捗に応じて目標視線位置を連続的に更新し、滑らかな視線移動を実現
+    /// </summary>
+    /// <returns>補間注視用の目標視線位置（nullの場合は補間注視モードが無効）</returns>
+    private Vector3? UpdateInterpolatedLookAt()
+    {
+        // 補間注視モードが無効な場合はnullを返す
+        if (interpolationLookAtStart == null || interpolationLookAtEnd == null)
+        {
+            return null;
+        }
+
+        // 移動進捗率を計算（0.0〜1.0）
+        // 注意: Waypointに沿った移動ではなく、開始地点→終了地点の直線距離ベースで計算
+        // Playerが曲線移動する場合も、視線補間は直線的に進行する（自然な視線移動を実現）
+        float totalDistance = Vector3.Distance(interpolationStartPosition, interpolationEndPosition);
+        if (totalDistance < 0.01f)
+        {
+            // 距離がほぼゼロの場合は終了地点を返す
+            return interpolationLookAtEnd.position;
+        }
+
+        float currentDistance = Vector3.Distance(interpolationStartPosition, transform.position);
+        float progress = Mathf.Clamp01(currentDistance / totalDistance);
+
+        // 進捗率に応じて注視対象位置を補間
+        Vector3 interpolatedLookAtPosition = Vector3.Lerp(
+            interpolationLookAtStart.position,
+            interpolationLookAtEnd.position,
+            progress
+        );
+
+        return interpolatedLookAtPosition;
+    }
+
+    /// <summary>
+    /// 補間注視モードを終了
+    /// 意図: WayPoint到達時に補間注視をクリア
+    /// </summary>
+    private void StopInterpolatedLookAt()
+    {
+        if (interpolationLookAtStart != null || interpolationLookAtEnd != null)
+        {
+            Debug.Log($"[RouteFollower] Interpolated LookAt stopped at WaypointIndex={currentWaypointIndex}");
+            interpolationLookAtStart = null;
+            interpolationLookAtEnd = null;
+            interpolationStartPosition = Vector3.zero;
+            interpolationEndPosition = Vector3.zero;
+        }
+    }
+
+    /// <summary>
     /// 継続的注視の終了判定
     /// 意図: 現在のWaypointIndexが終了Indexに到達したか確認
+    /// 拡張: 補間注視モードの終了判定も追加（Waypoint到達時に自動終了）
     /// </summary>
     private void CheckContinuousLookAtEnd()
     {
+        // 継続的注視モードの終了判定
         if (continuousLookAtTarget != null &&
             continuousLookAtEndIndex >= 0 &&
             currentWaypointIndex >= continuousLookAtEndIndex)
         {
             StopContinuousLookAt();
+        }
+
+        // 補間注視モードの終了判定（Waypoint到達時）
+        if (interpolationLookAtStart != null && interpolationLookAtEnd != null)
+        {
+            StopInterpolatedLookAt();
         }
     }
 }
