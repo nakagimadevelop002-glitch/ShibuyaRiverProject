@@ -107,6 +107,15 @@ public class RouteFollower : MonoBehaviour
     [Header("寄り道から中間地点へ復帰した後、通常ルート再開までの待機秒数")]
     [SerializeField] private float detourReturnWaitSeconds = 2.0f;
 
+    [Header("寄り道カット前の注視時間（秒）。移動前にNewWayPoint、復帰前にNewLookPointを少し見る")]
+    [SerializeField] private float detourGazeTime = 1.0f;
+
+    [Header("寄り道カット時のブラックアウト（フェード）秒数")]
+    [SerializeField] private float detourFadeDuration = 0.6f;
+
+    [Header("ブラックアウト用FadeManager（未設定時は自動検索）")]
+    [SerializeField] private FadeManager fadeManager;
+
     [Header("寄り道を発動するルート全長に対する進捗割合（0.5=空間的な真ん中）")]
     [Range(0f, 1f)]
     [SerializeField] private float detourTriggerProgress = 0.5f;
@@ -221,6 +230,12 @@ public class RouteFollower : MonoBehaviour
             {
                 Debug.LogWarning("[RouteFollower] CameraViewControllerが見つかりません。カメラ注視演出を使用する場合は設定してください。");
             }
+        }
+
+        // FadeManagerの自動検索（寄り道カットのブラックアウト用、Inspector未設定時）
+        if (fadeManager == null)
+        {
+            fadeManager = FindFirstObjectByType<FadeManager>();
         }
 
         // ルート全長を算出（隣接WayPoint間距離の総和）。寄り道を空間的な真ん中で発動させるため
@@ -871,24 +886,70 @@ public class RouteFollower : MonoBehaviour
     /// </summary>
     private IEnumerator DetourCoroutine(Vector3 startRigPos, Quaternion startCamRot, System.Action onDone)
     {
-        // フェーズ1: 移動開始点へ一瞬で切替（カット）。当たり判定無視の貫通移動を避けるため補間しない
-        // 視線も即座に注視開始点へ向ける
+        // 移動前: NewWayPointを少し注視 → ブラックアウト → NewWayPointへカット → フェードイン
+        yield return GazeAt(detourMoveStart.position, detourGazeTime);
+        yield return FadeOutBlackout();
+
+        // 移動開始点へ一瞬で切替（黒幕の下でカット）。視線も即座に注視開始点へ
         transform.position = detourMoveStart.position;
         SnapFaceTowards(detourLookStart.position);
-        yield return null; // カットを1フレーム反映
+
+        yield return FadeInClear();
 
         // フェーズ2: 移動開始点 → 移動終了点を直進しつつ、注視を開始点→終了点で進捗補間
         yield return MoveRigInterpolated(detourMoveStart.position, detourMoveEnd.position, detourLookStart, detourLookEnd);
 
-        // フェーズ3: 寄り道前のリグ位置・カメラ向きへ厳密に復元（同じ視界へ戻す）
+        // 復帰前: NewLookPoint(1)を少し注視 → ブラックアウト → 元の場所へカット → フェードイン
+        yield return GazeAt(detourLookEnd.position, detourGazeTime);
+        yield return FadeOutBlackout();
+
+        // 寄り道前のリグ位置・カメラ向きへ厳密に復元（黒幕の下でカット）
         transform.position = startRigPos;
         playerCamera.rotation = startCamRot;
+
+        yield return FadeInClear();
 
         // 復帰後すぐに動かず、少し待ってから通常ルートを再開する
         yield return new WaitForSeconds(detourReturnWaitSeconds);
 
         Debug.Log("[RouteFollower] Detour completed.");
         onDone?.Invoke();
+    }
+
+    /// <summary>
+    /// 指定ワールド座標を duration 秒かけて注視する（演出用、移動はしない）
+    /// </summary>
+    private IEnumerator GazeAt(Vector3 worldPosition, float duration)
+    {
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            FaceTowards(worldPosition);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    /// <summary>
+    /// ブラックアウト（フェードアウト）。FadeManagerが無ければ何もしない
+    /// </summary>
+    private IEnumerator FadeOutBlackout()
+    {
+        if (fadeManager != null)
+        {
+            yield return StartCoroutine(fadeManager.FadeOut(0f, detourFadeDuration));
+        }
+    }
+
+    /// <summary>
+    /// フェードイン（ブラックアウト解除）。FadeManagerが無ければ何もしない
+    /// </summary>
+    private IEnumerator FadeInClear()
+    {
+        if (fadeManager != null)
+        {
+            yield return StartCoroutine(fadeManager.FadeIn(0f, detourFadeDuration));
+        }
     }
 
     /// <summary>

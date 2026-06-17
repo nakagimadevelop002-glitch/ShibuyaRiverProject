@@ -38,6 +38,7 @@ public class AllMCPToolsBuilder : McpBuilderScriptableObject
         builder.WithTools<WebCamDeviceMCPTool>();
         builder.WithTools<BuildSettingsMCPTool>();
         builder.WithTools<TextFontMCPTool>();
+        builder.WithTools<AnimatorCleanupMCPTool>();
 
         // Add new MCP tools here in the future:
         // builder.WithTools<YourNewMCPTool>();

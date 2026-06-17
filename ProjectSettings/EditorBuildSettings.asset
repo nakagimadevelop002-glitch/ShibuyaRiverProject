@@ -21,7 +21,7 @@ EditorBuildSettings:
     path: Assets/Scenes/IdoMap.unity
     guid: cf16374e58979a949b5965f00ca17a24
   - enabled: 1
-    path: Assets/Scenes/TestScenes/ShinjukuJGixyoenRiverMapTest.unity
+    path: Assets/Scenes/ShinjukuGyoenMap.unity
     guid: 7e062db3df99f934f98b9bd02bbb36ee
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 37be76a51da5e3d40ba714f2aa538636,
