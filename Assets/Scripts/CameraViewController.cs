@@ -9,8 +9,8 @@ using UnityEngine.Events;
 /// </summary>
 public class CameraViewController : MonoBehaviour
 {
-    [Header("Camera Settings")]
-    [Tooltip("制御対象のカメラTransform")]
+    
+    [Header("制御対象のカメラTransform")]
     [SerializeField] private Transform controlledCamera;
 
     [Tooltip("カメラ回転速度（滑らかさ）")]

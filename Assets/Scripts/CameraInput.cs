@@ -11,6 +11,9 @@ public class CameraInput : MonoBehaviour
     [Tooltip("使用するカメラデバイスのインデックス（0 = デフォルト）")]
     public int cameraIndex = 0;
 
+    [Tooltip("優先して使うカメラのデバイス名キーワード（部分一致・大文字小文字無視）。一致デバイスがあればcameraIndexより優先。空なら無効")]
+    public string preferredDeviceNameKeyword = "eMeet C960";
+
     [Tooltip("カメラ解像度の幅")]
     public int requestedWidth = 640;
 
@@ -60,6 +63,20 @@ public class CameraInput : MonoBehaviour
         {
             Debug.LogError("CameraInput: カメラデバイスが見つかりません");
             return;
+        }
+
+        // 優先デバイス名キーワードに一致する外部カメラがあれば、それをcameraIndexより優先して選択
+        if (!string.IsNullOrEmpty(preferredDeviceNameKeyword))
+        {
+            for (int i = 0; i < devices.Length; i++)
+            {
+                if (devices[i].name.IndexOf(preferredDeviceNameKeyword, System.StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    cameraIndex = i;
+                    Debug.Log($"CameraInput: 優先デバイス '{devices[i].name}' を index {i} で選択");
+                    break;
+                }
+            }
         }
 
         if (cameraIndex >= devices.Length)

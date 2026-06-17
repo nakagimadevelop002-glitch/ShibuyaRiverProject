@@ -88,23 +88,46 @@ public class CreateSceneMCPTool
         {
             await UniTask.SwitchToMainThread();
 
-            // Add .unity extension if not present
-            if (!sceneName.EndsWith(".unity"))
-            {
-                sceneName += ".unity";
-            }
+            string scenePath;
 
-            string scenePath = $"Assets/_Project/Scenes/{sceneName}";
-            
-            if (!File.Exists(scenePath))
+            // フルパス指定（Assets/ から始まる）はそのまま使用
+            if (sceneName.Replace("\\", "/").StartsWith("Assets/"))
             {
-                throw new Exception($"Scene not found at {scenePath}");
+                scenePath = sceneName.EndsWith(".unity") ? sceneName : sceneName + ".unity";
+                if (!File.Exists(scenePath))
+                {
+                    throw new Exception($"Scene not found at {scenePath}");
+                }
+            }
+            else
+            {
+                // 名前のみ指定: プロジェクト全体からシーンを検索
+                string nameNoExt = sceneName.EndsWith(".unity")
+                    ? sceneName.Substring(0, sceneName.Length - ".unity".Length)
+                    : sceneName;
+
+                scenePath = null;
+                string[] guids = AssetDatabase.FindAssets($"{nameNoExt} t:Scene");
+                foreach (string g in guids)
+                {
+                    string p = AssetDatabase.GUIDToAssetPath(g);
+                    if (Path.GetFileNameWithoutExtension(p) == nameNoExt)
+                    {
+                        scenePath = p;
+                        break;
+                    }
+                }
+
+                if (scenePath == null)
+                {
+                    throw new Exception($"Scene '{sceneName}' not found in project");
+                }
             }
 
             EditorSceneManager.OpenScene(scenePath);
-            
-            Debug.Log($"Loaded scene: {sceneName}");
-            return $"Successfully loaded scene: {sceneName}";
+
+            Debug.Log($"Loaded scene: {scenePath}");
+            return $"Successfully loaded scene: {scenePath}";
         }
         catch (Exception e)
         {

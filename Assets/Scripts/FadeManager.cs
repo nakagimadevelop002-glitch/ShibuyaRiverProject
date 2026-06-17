@@ -45,6 +45,13 @@ public class FadeManager : MonoBehaviour
         {
             InitializeFadeUI();
         }
+
+        // フェード画像はクリックを遮らないようにする
+        // （全画面ImageはraycastTarget=trueだと透明でも最前面で全UIクリックをブロックするため）
+        if (fadeImage != null)
+        {
+            fadeImage.raycastTarget = false;
+        }
     }
 
     private void Start()

@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: acba06d2ab5b05041a171929a461c9ff
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 30264
+  packageName: Rats
+  packageVersion: 1.4.6
+  assetPath: Assets/Unluck Software/HerdSim/Scripts/HerdSimCore.cs
+  uploadId: 813936

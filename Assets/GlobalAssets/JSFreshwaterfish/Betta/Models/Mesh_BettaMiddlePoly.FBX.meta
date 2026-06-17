@@ -1,0 +1,166 @@
+fileFormatVersion: 2
+guid: ccf52b0714bba6945b0be39346cdce15
+timeCreated: 1552648792
+licenseType: Store
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: AnalFin.002
+    100002: AnalFin.003
+    100004: AnalFin.004
+    100006: AnalFin.005
+    100008: AnalFin.1
+    100010: AnalFin.2
+    100012: AnalFin.3
+    100014: AnalFin.4
+    100016: BettaMiddlePoly
+    100018: Bone
+    100020: Center
+    100022: DorsalFin.003
+    100024: DorsalFin.004
+    100026: DorsalFin.2
+    100028: DorsalFin.3
+    100030: Eye_L
+    100032: Eye_R
+    100034: Head
+    100036: Head_L
+    100038: Head_R
+    100040: Jaw.2_L
+    100042: Jaw.2_R
+    100044: Jaw.3_L
+    100046: Jaw.3_R
+    100048: Joe
+    100050: //RootNode
+    100052: PectoralFin.1_L
+    100054: PectoralFin.1_R
+    100056: PectoralFin.3_L
+    100058: PectoralFin.3_L.001
+    100060: PectoralFin.3_R
+    100062: PectoralFin.3_R.001
+    100064: PelvicFin_L
+    100066: PelvicFin_L.001
+    100068: PelvicFin_R
+    100070: PelvicFin_R.001
+    100072: Spine.003
+    100074: Spine.004
+    100076: Spine.005
+    100078: Spine.006
+    100080: Spine.007
+    100082: Spine.008
+    100084: Spine.010
+    100086: TailFin.002
+    100088: TailFin.003
+    100090: TailFin.004
+    100092: TailFin.005
+    100094: TailFin.006
+    100096: TailFin.1
+    400000: AnalFin.002
+    400002: AnalFin.003
+    400004: AnalFin.004
+    400006: AnalFin.005
+    400008: AnalFin.1
+    400010: AnalFin.2
+    400012: AnalFin.3
+    400014: AnalFin.4
+    400016: BettaMiddlePoly
+    400018: Bone
+    400020: Center
+    400022: DorsalFin.003
+    400024: DorsalFin.004
+    400026: DorsalFin.2
+    400028: DorsalFin.3
+    400030: Eye_L
+    400032: Eye_R
+    400034: Head
+    400036: Head_L
+    400038: Head_R
+    400040: Jaw.2_L
+    400042: Jaw.2_R
+    400044: Jaw.3_L
+    400046: Jaw.3_R
+    400048: Joe
+    400050: //RootNode
+    400052: PectoralFin.1_L
+    400054: PectoralFin.1_R
+    400056: PectoralFin.3_L
+    400058: PectoralFin.3_L.001
+    400060: PectoralFin.3_R
+    400062: PectoralFin.3_R.001
+    400064: PelvicFin_L
+    400066: PelvicFin_L.001
+    400068: PelvicFin_R
+    400070: PelvicFin_R.001
+    400072: Spine.003
+    400074: Spine.004
+    400076: Spine.005
+    400078: Spine.006
+    400080: Spine.007
+    400082: Spine.008
+    400084: Spine.010
+    400086: TailFin.002
+    400088: TailFin.003
+    400090: TailFin.004
+    400092: TailFin.005
+    400094: TailFin.006
+    400096: TailFin.1
+    4300000: BettaMiddlePoly
+    9500000: //RootNode
+    13700000: BettaMiddlePoly
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: Bone
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

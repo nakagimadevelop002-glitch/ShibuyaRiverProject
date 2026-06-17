@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 6b4c61aa44de4c447ba7f37b09b51e72
+timeCreated: 1517429525
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 14175
+  packageName: Bat fully rigged, animated and textured
+  packageVersion: 2.0
+  assetPath: Assets/Bat/Animations/Materials/bat_d.mat
+  uploadId: 227427

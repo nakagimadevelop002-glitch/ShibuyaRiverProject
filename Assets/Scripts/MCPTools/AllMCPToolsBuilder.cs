@@ -34,6 +34,10 @@ public class AllMCPToolsBuilder : McpBuilderScriptableObject
         builder.WithTools<GetChildrenMCPTool>();
         builder.WithTools<SetChildTextFontMCPTool>();
         builder.WithTools<InstantiatePrefabMCPTool>();
+        builder.WithTools<ExportPackageMCPTool>();
+        builder.WithTools<WebCamDeviceMCPTool>();
+        builder.WithTools<BuildSettingsMCPTool>();
+        builder.WithTools<TextFontMCPTool>();
 
         // Add new MCP tools here in the future:
         // builder.WithTools<YourNewMCPTool>();

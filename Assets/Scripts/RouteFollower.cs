@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -82,8 +83,42 @@ public class RouteFollower : MonoBehaviour
     [Header("カメラ演出制御（CameraViewController）")]
     [SerializeField] private CameraViewController cameraViewController;
 
+    [Header("最終地点での分岐選択（割当時はシーン自動遷移せずUIで選択）")]
+    [SerializeField] private RouteBranchChooser endBranchChooser;
+
     [Header("自動前進モード（テスト用）本番はOFF")]
     [SerializeField] private bool autoMoveEnabled = false;
+
+    [Header("寄り道・移動開始点（NewWayPoint）※移動2点＋注視2点が全て割当済みのときルート中央で寄り道発動")]
+    [SerializeField] private Transform detourMoveStart;
+
+    [Header("寄り道・移動終了点（NewWayPoint (1)）")]
+    [SerializeField] private Transform detourMoveEnd;
+
+    [Header("寄り道・注視開始点（NewLookPoint）")]
+    [SerializeField] private Transform detourLookStart;
+
+    [Header("寄り道・注視終了点（NewLookPoint (1)）")]
+    [SerializeField] private Transform detourLookEnd;
+
+    [Header("寄り道区間（NewWayPoint間）専用の移動速度。小さいほどゆっくり。本筋moveSpeedとは独立")]
+    [SerializeField] private float detourMoveSpeed = 0.5f;
+
+    [Header("寄り道から中間地点へ復帰した後、通常ルート再開までの待機秒数")]
+    [SerializeField] private float detourReturnWaitSeconds = 2.0f;
+
+    [Header("寄り道を発動するルート全長に対する進捗割合（0.5=空間的な真ん中）")]
+    [Range(0f, 1f)]
+    [SerializeField] private float detourTriggerProgress = 0.5f;
+
+    // ルート全長（始点から終点までのWayPoint間距離の総和）
+    private float routeTotalLength = 0f;
+
+    // これまでの累積移動距離（寄り道発動判定用）
+    private float traveledDistance = 0f;
+
+    // 寄り道を実行済みか（1ルート中1回のみ発動）
+    private bool detourDone = false;
 
     // 現在向かっているウェイポイントのインデックス
     private int currentWaypointIndex = 0;
@@ -187,6 +222,22 @@ public class RouteFollower : MonoBehaviour
                 Debug.LogWarning("[RouteFollower] CameraViewControllerが見つかりません。カメラ注視演出を使用する場合は設定してください。");
             }
         }
+
+        // ルート全長を算出（隣接WayPoint間距離の総和）。寄り道を空間的な真ん中で発動させるため
+        routeTotalLength = 0f;
+        if (waypoints != null)
+        {
+            for (int i = 0; i < waypoints.Length - 1; i++)
+            {
+                if (waypoints[i] != null && waypoints[i + 1] != null)
+                {
+                    routeTotalLength += Vector3.Distance(
+                        waypoints[i].transform.position,
+                        waypoints[i + 1].transform.position);
+                }
+            }
+        }
+        Debug.Log($"[RouteFollower] Route total length = {routeTotalLength:F1}, detour triggers at {detourTriggerProgress * 100f:F0}% (≒{routeTotalLength * detourTriggerProgress:F1})");
     }
 
     /// <summary>
@@ -258,11 +309,23 @@ public class RouteFollower : MonoBehaviour
         GameObject targetWaypoint = waypoints[currentWaypointIndex];
         Vector3 targetPosition = targetWaypoint.transform.position;
 
+        Vector3 beforePosition = transform.position;
         transform.position = Vector3.MoveTowards(
             transform.position,
             targetPosition,
             moveSpeed * Time.deltaTime
         );
+
+        // 累積移動距離を更新し、ルート全長の指定割合（空間的な真ん中）に到達したら寄り道を1回だけ発動
+        traveledDistance += Vector3.Distance(beforePosition, transform.position);
+        if (!detourDone && !isReversing && IsDetourConfigured() &&
+            routeTotalLength > 0f &&
+            traveledDistance >= detourTriggerProgress * routeTotalLength)
+        {
+            detourDone = true;
+            StartDetour();
+            return; // 寄り道発動中は以降の到達判定をスキップ（isPerformingEventで停止）
+        }
 
         // 意図: 完全一致(==)は浮動小数点誤差で永遠に到達できないため許容範囲を設定
         if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
@@ -272,6 +335,15 @@ public class RouteFollower : MonoBehaviour
 
             AdvanceToNextWaypoint();
         }
+    }
+
+    /// <summary>
+    /// 寄り道の4点（移動2＋注視2）が全て割当済みか
+    /// </summary>
+    private bool IsDetourConfigured()
+    {
+        return detourMoveStart != null && detourMoveEnd != null &&
+               detourLookStart != null && detourLookEnd != null;
     }
 
     /// <summary>
@@ -295,8 +367,19 @@ public class RouteFollower : MonoBehaviour
                         // シーン遷移処理（最後に実行）
                         if (evt.enableSceneTransition && !string.IsNullOrEmpty(evt.targetSceneName))
                         {
-                            ScenePortal portal = new ScenePortal();
-                            portal.Enter(evt.targetSceneName);
+                            if (endBranchChooser != null)
+                            {
+                                // 分岐選択あり: 自動遷移せず移動を止めてUIで選択させる
+                                // まっすぐ先 = このイベントの通常遷移先シーン
+                                isMoving = false;
+                                isPerformingEvent = true;
+                                endBranchChooser.ShowChoice(evt.targetSceneName);
+                            }
+                            else
+                            {
+                                ScenePortal portal = new ScenePortal();
+                                portal.Enter(evt.targetSceneName);
+                            }
                         }
                     };
 
@@ -528,6 +611,8 @@ public class RouteFollower : MonoBehaviour
         currentWaypointIndex = 0;
         isMoving = false;
         isReversing = false;
+        traveledDistance = 0f;
+        detourDone = false;
     }
 
     /// <summary>
@@ -744,6 +829,114 @@ public class RouteFollower : MonoBehaviour
         if (interpolationLookAtStart != null && interpolationLookAtEnd != null)
         {
             StopInterpolatedLookAt();
+        }
+    }
+
+    /// <summary>
+    /// 寄り道演出を開始（移動停止→別経路へ離脱→2点間を移動注視→元の中間地点へ復帰→通常ルート再開）
+    /// 意図: LookAtWithPauseと同様、isPerformingEventで通常移動を停止し、完了後に再開
+    /// </summary>
+    private void StartDetour(System.Action onComplete = null)
+    {
+        if (playerCamera == null)
+        {
+            Debug.LogError("[RouteFollower] Player Cameraが未設定です。寄り道演出を使用できません。");
+            onComplete?.Invoke();
+            return;
+        }
+
+        // 寄り道開始時のリグ位置とカメラの向きを厳密に記録し、復帰時に同じ視界へ完全復元する
+        // （WayPoint座標へ戻す＋出口方向へ向け直すと、寄り道前に見えていた対象が画角外になるため）
+        Vector3 startRigPos = transform.position;
+        Quaternion startCamRot = playerCamera.rotation;
+
+        // イベント開始：入力受付停止
+        isPerformingEvent = true;
+        PauseMovement();
+
+        StartCoroutine(DetourCoroutine(startRigPos, startCamRot, () =>
+        {
+            // イベント完全終了：入力受付再開→移動再開
+            isPerformingEvent = false;
+            ResumeMovement();
+            onComplete?.Invoke();
+        }));
+
+        Debug.Log($"[RouteFollower] Detour started at WaypointIndex={currentWaypointIndex}");
+    }
+
+    /// <summary>
+    /// 寄り道のコルーチン実装（3フェーズ：離脱→2点間移動注視→復帰）
+    /// 進行は本筋同様 isMoving（腕振り）連動でゲート。フェード中は停止
+    /// </summary>
+    private IEnumerator DetourCoroutine(Vector3 startRigPos, Quaternion startCamRot, System.Action onDone)
+    {
+        // フェーズ1: 移動開始点へ一瞬で切替（カット）。当たり判定無視の貫通移動を避けるため補間しない
+        // 視線も即座に注視開始点へ向ける
+        transform.position = detourMoveStart.position;
+        SnapFaceTowards(detourLookStart.position);
+        yield return null; // カットを1フレーム反映
+
+        // フェーズ2: 移動開始点 → 移動終了点を直進しつつ、注視を開始点→終了点で進捗補間
+        yield return MoveRigInterpolated(detourMoveStart.position, detourMoveEnd.position, detourLookStart, detourLookEnd);
+
+        // フェーズ3: 寄り道前のリグ位置・カメラ向きへ厳密に復元（同じ視界へ戻す）
+        transform.position = startRigPos;
+        playerCamera.rotation = startCamRot;
+
+        // 復帰後すぐに動かず、少し待ってから通常ルートを再開する
+        yield return new WaitForSeconds(detourReturnWaitSeconds);
+
+        Debug.Log("[RouteFollower] Detour completed.");
+        onDone?.Invoke();
+    }
+
+    /// <summary>
+    /// カメラを指定ワールド座標へ即座に向ける（カット切替用、補間なし）
+    /// </summary>
+    private void SnapFaceTowards(Vector3 worldPosition)
+    {
+        Vector3 direction = worldPosition - playerCamera.position;
+        if (direction.sqrMagnitude > 0.0001f)
+        {
+            playerCamera.rotation = Quaternion.LookRotation(direction);
+        }
+    }
+
+    /// <summary>
+    /// リグを2点間で直進させながら、注視対象を開始→終了で進捗補間
+    /// </summary>
+    private IEnumerator MoveRigInterpolated(Vector3 from, Vector3 to, Transform lookFrom, Transform lookTo)
+    {
+        float totalDistance = Vector3.Distance(from, to);
+
+        while (Vector3.Distance(transform.position, to) > 0.1f)
+        {
+            if (!FadeManager.IsFading && (isMoving || autoMoveEnabled))
+            {
+                transform.position = Vector3.MoveTowards(transform.position, to, detourMoveSpeed * Time.deltaTime);
+            }
+
+            float progress = totalDistance < 0.01f
+                ? 1f
+                : Mathf.Clamp01(Vector3.Distance(from, transform.position) / totalDistance);
+
+            Vector3 lookPosition = Vector3.Lerp(lookFrom.position, lookTo.position, progress);
+            FaceTowards(lookPosition);
+            yield return null;
+        }
+    }
+
+    /// <summary>
+    /// カメラを指定ワールド座標へ滑らかに向ける（rotationSpeedでSlerp）
+    /// </summary>
+    private void FaceTowards(Vector3 worldPosition)
+    {
+        Vector3 direction = worldPosition - playerCamera.position;
+        if (direction.sqrMagnitude > 0.0001f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            playerCamera.rotation = Quaternion.Slerp(playerCamera.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
     }
 }

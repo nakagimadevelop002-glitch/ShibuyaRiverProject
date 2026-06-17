@@ -1,0 +1,172 @@
+fileFormatVersion: 2
+guid: e385dcadecb6efc438eccc0c72b0b1a6
+timeCreated: 1552649543
+licenseType: Store
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: AnalFin.1.1
+    100002: AnalFin.1.2
+    100004: AnalFin.2
+    100006: Bone
+    100008: CAudalFin.1.1
+    100010: CAudalFin.1.2
+    100012: CAudalFin.2.1
+    100014: CAudalFin.2.2
+    100016: Center
+    100018: DorsalFin.1
+    100020: DorsalFin.3
+    100022: DorsalFin.4
+    100024: DorsalFin.5
+    100026: DorsalFin.6
+    100028: Eye_L
+    100030: Eye_R
+    100032: Gill.1_L
+    100034: Gill.1_R
+    100036: Gill.2_L
+    100038: Gill.2_R
+    100040: Head
+    100042: Head_L
+    100044: Head_R
+    100046: KoiMiddlePoly
+    100048: LowerLip_L
+    100050: LowerLip_R
+    100052: LowerMouth
+    100054: LowerMouth_L
+    100056: LowerMouth_R
+    100058: //RootNode
+    100060: PectralFin1.1_L
+    100062: PectralFin1.1_R
+    100064: PectralFin1.2_L
+    100066: PectralFin1.2_R
+    100068: PectralFin2_L
+    100070: PectralFin2_R
+    100072: PelvicFin1_L
+    100074: PelvicFin1_R
+    100076: PelvicFin2_L
+    100078: PelvicFin2_R
+    100080: Spine.1
+    100082: Spine.2
+    100084: Spine.3
+    100086: Spine.4
+    100088: Spine.5
+    100090: UpperLip
+    100092: UpperLip_L
+    100094: UpperLip_R
+    100096: UpperMouth_L
+    100098: UpperMouth_R
+    100100: Whisker_L
+    100102: Whisker_R
+    400000: AnalFin.1.1
+    400002: AnalFin.1.2
+    400004: AnalFin.2
+    400006: Bone
+    400008: CAudalFin.1.1
+    400010: CAudalFin.1.2
+    400012: CAudalFin.2.1
+    400014: CAudalFin.2.2
+    400016: Center
+    400018: DorsalFin.1
+    400020: DorsalFin.3
+    400022: DorsalFin.4
+    400024: DorsalFin.5
+    400026: DorsalFin.6
+    400028: Eye_L
+    400030: Eye_R
+    400032: Gill.1_L
+    400034: Gill.1_R
+    400036: Gill.2_L
+    400038: Gill.2_R
+    400040: Head
+    400042: Head_L
+    400044: Head_R
+    400046: KoiMiddlePoly
+    400048: LowerLip_L
+    400050: LowerLip_R
+    400052: LowerMouth
+    400054: LowerMouth_L
+    400056: LowerMouth_R
+    400058: //RootNode
+    400060: PectralFin1.1_L
+    400062: PectralFin1.1_R
+    400064: PectralFin1.2_L
+    400066: PectralFin1.2_R
+    400068: PectralFin2_L
+    400070: PectralFin2_R
+    400072: PelvicFin1_L
+    400074: PelvicFin1_R
+    400076: PelvicFin2_L
+    400078: PelvicFin2_R
+    400080: Spine.1
+    400082: Spine.2
+    400084: Spine.3
+    400086: Spine.4
+    400088: Spine.5
+    400090: UpperLip
+    400092: UpperLip_L
+    400094: UpperLip_R
+    400096: UpperMouth_L
+    400098: UpperMouth_R
+    400100: Whisker_L
+    400102: Whisker_R
+    4300000: KoiMiddlePoly
+    9500000: //RootNode
+    13700000: KoiMiddlePoly
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: Bone
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

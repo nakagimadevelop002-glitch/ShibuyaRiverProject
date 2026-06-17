@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 52d71a123c01cd946b8ba5017686c910
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 30264
+  packageName: Rats
+  packageVersion: 1.4.6
+  assetPath: Assets/Unluck Software/HerdSim/Scripts/Demo/SmoothCameraOrbit.cs
+  uploadId: 813936

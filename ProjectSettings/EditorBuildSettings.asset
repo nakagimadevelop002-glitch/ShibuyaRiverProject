@@ -5,18 +5,12 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/TestScenes/SampleScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
     path: Assets/Scenes/MurkyTileMap.unity
     guid: 8f0a4e3cc05b02f47be4c7652f0c785c
-  - enabled: 0
-    path: Assets/Scenes/MurkyBigRiverMap.unity
-    guid: 4598327df46ebf645a50e6c48458ac93
   - enabled: 1
     path: Assets/Scenes/RiverTonnnelMap.unity
-    guid: 3855e3cad5388d84bb6f45e284189ab4
+    guid: a62cc284830d7e74b88a20c8cd60b111
   - enabled: 1
     path: Assets/Scenes/RiverHoleTonnnelMap.unity
     guid: 2a7f5f6402b91f146bcc552ee7d5cbaf
@@ -26,6 +20,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/IdoMap.unity
     guid: cf16374e58979a949b5965f00ca17a24
+  - enabled: 1
+    path: Assets/Scenes/TestScenes/ShinjukuJGixyoenRiverMapTest.unity
+    guid: 7e062db3df99f934f98b9bd02bbb36ee
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 37be76a51da5e3d40ba714f2aa538636,
       type: 2}
