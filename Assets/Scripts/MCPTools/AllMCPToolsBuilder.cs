@@ -39,6 +39,7 @@ public class AllMCPToolsBuilder : McpBuilderScriptableObject
         builder.WithTools<BuildSettingsMCPTool>();
         builder.WithTools<TextFontMCPTool>();
         builder.WithTools<AnimatorCleanupMCPTool>();
+        builder.WithTools<WaterChannelBoxMCPTool>();
 
         // Add new MCP tools here in the future:
         // builder.WithTools<YourNewMCPTool>();
