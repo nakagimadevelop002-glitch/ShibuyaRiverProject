@@ -270,7 +270,7 @@ namespace KWS
                 var request = Resources.LoadAsync<TextAsset>(relativePathToFile);
                 await request.ReadAsync();
                 var bytes = ((TextAsset)request.asset).bytes;
-                Resources.UnloadUnusedAssets();
+                _ = Resources.UnloadUnusedAssets();
 
                 var dataRaw = new T[bytes.Length / Marshal.SizeOf(default(T))];
                 Buffer.BlockCopy(bytes, 0, dataRaw, 0, bytes.Length);

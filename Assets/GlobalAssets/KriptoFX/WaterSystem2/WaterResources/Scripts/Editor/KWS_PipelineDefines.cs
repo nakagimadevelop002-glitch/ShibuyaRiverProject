@@ -1,6 +1,7 @@
 #if UNITY_EDITOR
 using System;
 using UnityEditor;
+using UnityEditor.Build;
 using UnityEngine;
 
 
@@ -46,8 +47,8 @@ namespace KWS
 
         static void UpdatePipelineDefine(KWS_EditorUtils.UnityPipeline actualPipeline)
         {
-            var group = BuildTargetGroup.Standalone;
-            string defines = PlayerSettings.GetScriptingDefineSymbolsForGroup(group);
+            var group = NamedBuildTarget.Standalone;
+            string defines = PlayerSettings.GetScriptingDefineSymbols(group);
 
             defines = Remove(defines, "KWS_BUILTIN");
             defines = Remove(defines, "KWS_URP");
@@ -79,7 +80,7 @@ namespace KWS
                         Debug.Log("Water Pipeline: " + actualPipeline + "     defines "+  defines );
             #endif
 
-            PlayerSettings.SetScriptingDefineSymbolsForGroup(group, defines);
+            PlayerSettings.SetScriptingDefineSymbols(group, defines);
             AssetDatabase.Refresh();
         }
 

@@ -1,5 +1,6 @@
 ﻿#if KWS_URP
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
@@ -61,6 +62,7 @@ namespace KWS
             _waterContext = waterContext;
         }
 
+        [Obsolete("This rendering path is for compatibility mode only (when Render Graph is disabled). Use the Render Graph API instead.", false)]
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
         {
             //if (useStereoTarget && KWS_CoreUtils.SinglePassStereoEnabled) CoreUtils.SetRenderTarget(cmd, BuiltinRenderTextureType.CurrentActive);
